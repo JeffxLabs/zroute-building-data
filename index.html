@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Interactive Z Route Base leveling planner with prerequisite resources and parallel building workloads.">
+  <link rel="icon" href="data:,">
+  <title>Z Route Base Planner</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07101d;
+      --panel: rgba(15, 29, 49, .9);
+      --panel-2: #13243b;
+      --line: #243c5d;
+      --text: #f4f7fc;
+      --muted: #95a8c4;
+      --green: #5ee6a8;
+      --cyan: #5bcaf2;
+      --amber: #ffc857;
+      --red: #ff6b75;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .28);
+    }
+
+    * { box-sizing: border-box }
+    [hidden] { display: none !important }
+    html { scroll-behavior: smooth }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 88% -8%, rgba(46, 92, 148, .32), transparent 34rem),
+        radial-gradient(circle at 3% 92%, rgba(38, 126, 104, .15), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, select { font: inherit }
+    button { color: inherit }
+    a { color: var(--cyan) }
+    .shell { width: min(1480px, calc(100% - 36px)); margin: auto }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 26px 0 10px }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: .04em }
+    .mark { width: 34px; height: 34px; border: 1px solid #477090; border-radius: 10px; background: linear-gradient(135deg, var(--green), var(--cyan)); box-shadow: 0 0 26px rgba(91, 202, 242, .22) }
+    .source-link { color: var(--muted); font-size: .9rem; text-decoration: none }
+    .source-link:hover { color: var(--text) }
+
+    .hero { padding: 64px 0 38px; max-width: 940px }
+    .eyebrow { color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase }
+    h1 { margin: 12px 0 14px; max-width: 850px; font-size: clamp(2.35rem, 6vw, 5.4rem); line-height: .98; letter-spacing: -.055em }
+    .hero p { margin: 0; max-width: 720px; color: var(--muted); font-size: clamp(1rem, 2vw, 1.22rem) }
+
+    .planner { display: grid; grid-template-columns: minmax(280px, 370px) 1fr; gap: 22px; align-items: start; padding-bottom: 80px }
+    .panel { border: 1px solid var(--line); border-radius: 22px; background: var(--panel); box-shadow: var(--shadow); backdrop-filter: blur(16px) }
+    .controls { position: sticky; top: 18px; overflow: hidden }
+    .controls-inner { padding: 23px }
+    .controls h2, .results h2 { margin: 0; font-size: 1.15rem }
+    .hint { margin: 5px 0 20px; color: var(--muted); font-size: .88rem }
+    .mode { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 22px; padding: 5px; border: 1px solid var(--line); border-radius: 13px; background: #091525 }
+    .mode button { border: 0; border-radius: 9px; padding: 9px 7px; background: transparent; color: var(--muted); cursor: pointer }
+    .mode button[aria-pressed="true"] { background: var(--panel-2); color: var(--text); box-shadow: 0 6px 20px rgba(0,0,0,.22) }
+    .field { display: grid; gap: 7px; margin-top: 15px }
+    .field label { display: flex; justify-content: space-between; gap: 16px; color: #c9d5e7; font-size: .88rem; font-weight: 650 }
+    .field small { color: var(--muted); font-weight: 500 }
+    select { width: 100%; border: 1px solid #304b6c; border-radius: 11px; padding: 10px 38px 10px 12px; background: #0b1829; color: var(--text) }
+    select:focus, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px }
+    .advanced { display: none; margin-top: 20px; padding-top: 5px; border-top: 1px solid var(--line) }
+    .advanced.visible { display: block }
+    .building-inputs { display: grid; grid-template-columns: 1fr 82px; gap: 10px 12px; align-items: center }
+    .building-inputs label { color: #b9c8dc; font-size: .84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+    .building-inputs select { padding: 7px 28px 7px 9px; font-size: .86rem }
+    .advanced-note { color: var(--muted); font-size: .78rem; margin: 12px 0 0 }
+
+    .results { min-width: 0 }
+    .result-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin: 2px 2px 17px }
+    .route-label { color: var(--muted); font-size: .88rem }
+    .route-title { margin-top: 2px; font-size: clamp(1.55rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -.035em }
+    .version { color: var(--muted); font-size: .76rem; text-align: right }
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px }
+    .metric { min-height: 130px; padding: 18px; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(145deg, rgba(20, 39, 64, .95), rgba(12, 26, 45, .95)) }
+    .metric::before { content: ""; display: block; width: 30px; height: 3px; margin-bottom: 20px; border-radius: 3px; background: var(--green) }
+    .metric:nth-child(2)::before { background: var(--cyan) }
+    .metric:nth-child(3)::before { background: var(--amber) }
+    .metric:nth-child(4)::before { background: var(--red) }
+    .metric-label { color: var(--muted); font-size: .73rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase }
+    .metric-value { margin-top: 5px; font-size: clamp(1.15rem, 2vw, 1.62rem); font-weight: 800; line-height: 1.15 }
+    .metric-note { margin-top: 8px; color: var(--muted); font-size: .78rem }
+
+    .section { margin-top: 18px; padding: 21px }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 17px }
+    .section h3 { margin: 0; font-size: 1.08rem }
+    .section-note { color: var(--muted); font-size: .8rem }
+    .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px }
+    .work-card { position: relative; overflow: hidden; min-height: 142px; padding: 16px; border: 1px solid #294462; border-radius: 15px; background: #0d1b2e }
+    .work-card::after { content: ""; position: absolute; inset: auto 0 0; height: 3px; background: linear-gradient(90deg, var(--cyan), transparent) }
+    .work-name { font-size: .9rem; font-weight: 750 }
+    .work-level { margin-top: 5px; color: var(--cyan); font-size: 1.32rem; font-weight: 800 }
+    .work-time { margin-top: 12px; color: #dce6f4; font-weight: 700 }
+    .work-resources { margin-top: 5px; color: var(--muted); font-size: .74rem }
+    .empty { padding: 32px 20px; border: 1px dashed #34516f; border-radius: 15px; color: var(--muted); text-align: center }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 15px }
+    table { width: 100%; border-collapse: collapse; min-width: 790px; font-size: .84rem }
+    th { position: sticky; top: 0; padding: 12px 13px; background: #0a1728; color: var(--muted); font-size: .69rem; letter-spacing: .1em; text-align: left; text-transform: uppercase }
+    td { padding: 13px; border-top: 1px solid #1d344f; vertical-align: top }
+    tbody tr:hover { background: rgba(91, 202, 242, .035) }
+    .level-pill { display: inline-grid; min-width: 35px; height: 35px; place-items: center; border-radius: 10px; background: #17304a; color: var(--green); font-weight: 850 }
+    .resource-stack { white-space: nowrap; color: #c6d2e3 }
+    .resource-stack span { display: block }
+    .task { display: block; margin-bottom: 4px; color: #becde1 }
+    .task b { color: var(--cyan) }
+    .error { display: none; margin-bottom: 15px; padding: 13px 15px; border: 1px solid #713841; border-radius: 12px; background: #31171c; color: #ffb7bc }
+    .loading { display: grid; min-height: 420px; place-items: center; color: var(--muted) }
+    .spinner { width: 34px; height: 34px; margin: auto auto 12px; border: 3px solid #29435f; border-top-color: var(--green); border-radius: 50%; animation: spin .8s linear infinite }
+    @keyframes spin { to { transform: rotate(1turn) } }
+
+    footer { padding: 0 0 50px; color: var(--muted); font-size: .8rem }
+    footer p { max-width: 930px }
+
+    @media (max-width: 1050px) {
+      .planner { grid-template-columns: 1fr }
+      .controls { position: static }
+      .metrics { grid-template-columns: 1fr 1fr }
+      .work-grid { grid-template-columns: 1fr 1fr }
+    }
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 22px, 1480px) }
+      .topbar { padding-top: 16px }
+      .source-link { font-size: .82rem }
+      .hero { padding: 40px 2px 27px }
+      .planner { gap: 15px }
+      .controls-inner, .section { padding: 17px }
+      .metrics { grid-template-columns: 1fr }
+      .metric { min-height: 108px }
+      .metric::before { margin-bottom: 12px }
+      .work-grid { grid-template-columns: 1fr }
+      .result-head { align-items: start; flex-direction: column }
+      .version { text-align: left }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; animation: none !important } }
+  </style>
+</head>
+<body>
+  <header class="shell topbar">
+    <div class="brand"><span class="mark" aria-hidden="true"></span><span>Z Route Planner</span></div>
+    <a class="source-link" href="https://github.com/jfryton/zroute-building-data">GitHub ↗</a>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow">Base progression intelligence</div>
+      <h1>Know what the next Base levels really cost.</h1>
+      <p>Plan direct Base upgrades, recursive building requirements, and per-building construction workloads from your actual account state.</p>
+    </section>
+
+    <div class="planner">
+      <aside class="panel controls" aria-label="Planner inputs">
+        <div class="controls-inner">
+          <h2>Your progression</h2>
+          <p class="hint">Use Base-only for a quick estimate or enter every current building level.</p>
+          <div class="mode" role="group" aria-label="Input detail">
+            <button id="quick-mode" aria-pressed="true">Base only</button>
+            <button id="advanced-mode" aria-pressed="false">Building levels</button>
+          </div>
+          <div class="field">
+            <label for="current-base">Current Base level <small id="mode-hint">infer prerequisites</small></label>
+            <select id="current-base"></select>
+          </div>
+          <div class="field">
+            <label for="target-base">Target Base level</label>
+            <select id="target-base"></select>
+          </div>
+          <div id="advanced" class="advanced">
+            <p class="hint">Levels above your target are allowed and count as already complete.</p>
+            <div id="building-inputs" class="building-inputs"></div>
+            <p class="advanced-note">Any-of training gates choose the center needing the least remaining builder work.</p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="results" aria-live="polite">
+        <div id="loading" class="panel loading"><div><div class="spinner"></div>Loading verified client data…</div></div>
+        <div id="result-content" hidden>
+          <div id="error" class="error"></div>
+          <header class="result-head">
+            <div><div class="route-label">Remaining route</div><div id="route-title" class="route-title"></div></div>
+            <div class="version">Client v1.30.07<br>Unmodified base values</div>
+          </header>
+          <div class="metrics">
+            <article class="metric"><div class="metric-label">Direct Base time</div><div id="base-time" class="metric-value"></div><div class="metric-note">Prerequisite buildings can use other slots</div></article>
+            <article class="metric"><div class="metric-label">Food required</div><div id="food" class="metric-value"></div><div class="metric-note">Base + all missing prerequisites</div></article>
+            <article class="metric"><div class="metric-label">Metal required</div><div id="metal" class="metric-value"></div><div class="metric-note">Base + all missing prerequisites</div></article>
+            <article class="metric"><div class="metric-label">Oil required</div><div id="oil" class="metric-value"></div><div class="metric-note">Base + all missing prerequisites</div></article>
+          </div>
+
+          <section class="panel section">
+            <div class="section-head"><div><h3>Parallel building workloads</h3><div class="section-note">Each card is a separate queue workload; elapsed time depends on prerequisite order and slots.</div></div><div id="action-count" class="section-note"></div></div>
+            <div id="work-grid" class="work-grid"></div>
+          </section>
+
+          <section class="panel section">
+            <div class="section-head"><div><h3>Level-by-level route</h3><div class="section-note">Resources are incremental from the preceding Base level.</div></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Base</th><th>Base time</th><th>Total resources</th><th>Missing prerequisite work</th></tr></thead>
+                <tbody id="route-rows"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="shell">
+    <p>Times and costs are static Android-client values before construction-speed bonuses, alliance help, events, or server overrides. Actual elapsed time depends on construction slots and scheduling. The planner does not upload or store account state.</p>
+  </footer>
+
+  <script>
+    "use strict";
+
+    const BUILDING_IDS = [1002, 1004, 1006, 1007, 1010, 1020, 5006, 5013, 5031, 5044, 5045, 5046];
+    const RESOURCE = {1: "food", 2: "metal", 3: "oil"};
+    const SHORT = {
+      "Alpha Research Division": "Alpha Research",
+      "Soldier Training Camp": "Soldier Camp",
+      "Warrior Training Center": "Warrior Center",
+      "Assault Training Center": "Assault Center",
+      "Tactical Training Center": "Tactical Center",
+      "Engineering Department": "Engineering"
+    };
+    const $ = id => document.getElementById(id);
+    let buildings, levels, initialState, advanced = false;
+
+    function options(max, selected = 0) {
+      return Array.from({length: max + 1}, (_, level) => `<option value="${level}"${level === selected ? " selected" : ""}>${level}</option>`).join("");
+    }
+
+    function summarize(actions) {
+      const total = {seconds: 0, food: 0, metal: 0, oil: 0};
+      for (const action of actions) {
+        total.seconds += action.base_time_seconds || 0;
+        for (const cost of action.costs) {
+          if (RESOURCE[cost.type]) total[RESOURCE[cost.type]] += cost.count;
+          else if (cost.count) throw new Error(`Unsupported resource type ${cost.type}`);
+        }
+        if (action.special_costs.length) throw new Error("Special-cost route is not supported");
+      }
+      return total;
+    }
+
+    function ensure(buildingId, target, state, stack = []) {
+      if ((state[buildingId] || 0) >= target) return [];
+      if (stack.includes(buildingId)) throw new Error(`Future-level dependency through ${buildings[buildingId].name}`);
+      const actions = [];
+      while ((state[buildingId] || 0) < target) {
+        const level = (state[buildingId] || 0) + 1;
+        const row = levels[buildingId][level];
+        if (!row) throw new Error(`Missing ${buildings[buildingId].name} level ${level}`);
+        for (const condition of row.prerequisites) {
+          if (condition.kind === "building_level") {
+            for (const dependency of condition.building_ids) actions.push(...ensure(dependency, condition.minimum_level, state, [...stack, buildingId]));
+          } else if (condition.kind === "any_building_in_list_level") {
+            const choices = condition.building_ids.flatMap(dependency => {
+              const trial = {...state};
+              try {
+                const trialActions = ensure(dependency, condition.minimum_level, trial, [...stack, buildingId]);
+                const total = summarize(trialActions);
+                return [{dependency, state: trial, actions: trialActions, seconds: total.seconds, resources: total.food + total.metal + total.oil}];
+              } catch (_) { return []; }
+            }).sort((a, b) => a.seconds - b.seconds || a.resources - b.resources || a.dependency - b.dependency);
+            if (!choices.length) throw new Error("No feasible training-center route");
+            Object.assign(state, choices[0].state);
+            actions.push(...choices[0].actions);
+          } else {
+            throw new Error(`Unsupported condition ${condition.id}`);
+          }
+        }
+        const previous = state[buildingId] || 0;
+        if (previous !== level - 1) throw new Error(`Non-sequential ${buildings[buildingId].name} route`);
+        state[buildingId] = level;
+        actions.push({building_id: buildingId, building_name: buildings[buildingId].name, from_level: previous, ...row});
+      }
+      return actions;
+    }
+
+    function inferredState(baseLevel) {
+      const state = {...initialState};
+      if (baseLevel) ensure(1001, baseLevel, state);
+      return state;
+    }
+
+    function currentState() {
+      if (!advanced) return inferredState(Number($("current-base").value));
+      return Object.fromEntries(Object.keys(buildings).map(id => [id, id === "1001" ? Number($("current-base").value) : initialState[id] || 0]).concat(BUILDING_IDS.map(id => [String(id), Number($(`building-${id}`).value)])));
+    }
+
+    function plan(state, target) {
+      const current = state[1001] || 0;
+      const stages = [], actions = [];
+      for (let level = current + 1; level <= target; level++) {
+        const stageActions = ensure(1001, level, state);
+        stages.push({level, actions: stageActions});
+        actions.push(...stageActions);
+      }
+      return {current, target, stages, actions};
+    }
+
+    function selfCheck() {
+      const result = plan({...initialState}, 30);
+      const total = summarize(result.actions);
+      if (result.actions.length !== 220 || total.seconds !== 110094695 || total.food !== 13352203480 || total.metal !== 12992121750 || total.oil !== 4500620760) {
+        throw new Error("Planner self-check failed for client v1.30.07");
+      }
+    }
+
+    function number(value) { return new Intl.NumberFormat("en-US").format(value); }
+    function compact(value) {
+      for (const [size, suffix] of [[1e9, "B"], [1e6, "M"], [1e3, "K"]]) if (value >= size) return `${(value / size).toFixed(3).replace(/0+$/, "").replace(/\.$/, "")}${suffix}`;
+      return String(value);
+    }
+    function time(seconds) {
+      const parts = [];
+      for (const [size, suffix] of [[86400, "d"], [3600, "h"], [60, "m"], [1, "s"]]) {
+        const amount = Math.floor(seconds / size); seconds %= size;
+        if (amount) parts.push(`${amount}${suffix}`);
+      }
+      return parts.join(" ") || "0s";
+    }
+    function escape(value) {
+      const node = document.createElement("span"); node.textContent = value; return node.innerHTML;
+    }
+
+    function groupWork(actions) {
+      const grouped = new Map();
+      for (const action of actions.filter(action => action.building_id !== 1001)) {
+        if (!grouped.has(action.building_id)) grouped.set(action.building_id, []);
+        grouped.get(action.building_id).push(action);
+      }
+      return [...grouped.values()].map(group => ({
+        id: group[0].building_id,
+        name: SHORT[group[0].building_name] || group[0].building_name,
+        from: group[0].from_level,
+        to: group.at(-1).level,
+        ...summarize(group)
+      }));
+    }
+
+    function render() {
+      try {
+        const state = currentState();
+        const target = Number($("target-base").value);
+        const result = plan({...state}, target);
+        const total = summarize(result.actions);
+        const base = summarize(result.actions.filter(action => action.building_id === 1001));
+        const work = groupWork(result.actions);
+        $("error").style.display = "none";
+        $("route-title").textContent = `Base ${result.current} → ${result.target}`;
+        $("base-time").textContent = time(base.seconds);
+        $("food").textContent = compact(total.food);
+        $("metal").textContent = compact(total.metal);
+        $("oil").textContent = compact(total.oil);
+        $("action-count").textContent = `${result.actions.length} upgrades remaining`;
+        $("work-grid").innerHTML = work.length ? work.map(item => `
+          <article class="work-card">
+            <div class="work-name">${escape(item.name)}</div>
+            <div class="work-level">Lv ${item.from} → ${item.to}</div>
+            <div class="work-time">${time(item.seconds)}</div>
+            <div class="work-resources">F ${compact(item.food)} · M ${compact(item.metal)} · O ${compact(item.oil)}</div>
+          </article>`).join("") : `<div class="empty">No prerequisite building work remains for this target.</div>`;
+        $("route-rows").innerHTML = result.stages.length ? result.stages.map(stage => {
+          const stageTotal = summarize(stage.actions);
+          const direct = summarize(stage.actions.filter(action => action.building_id === 1001));
+          const tasks = groupWork(stage.actions);
+          return `<tr>
+            <td><span class="level-pill">${stage.level}</span></td>
+            <td><b>${time(direct.seconds)}</b></td>
+            <td class="resource-stack"><span>F ${number(stageTotal.food)}</span><span>M ${number(stageTotal.metal)}</span><span>O ${number(stageTotal.oil)}</span></td>
+            <td>${tasks.length ? tasks.map(task => `<span class="task">${escape(task.name)} ${task.from}→${task.to} · <b>${time(task.seconds)}</b></span>`).join("") : "<span class=\"section-note\">None</span>"}</td>
+          </tr>`;
+        }).join("") : `<tr><td colspan="4"><div class="empty">Target already reached. Raise the target to see remaining work.</div></td></tr>`;
+      } catch (error) {
+        $("error").textContent = error.message;
+        $("error").style.display = "block";
+      }
+    }
+
+    function setMode(useAdvanced) {
+      advanced = useAdvanced;
+      $("quick-mode").setAttribute("aria-pressed", String(!advanced));
+      $("advanced-mode").setAttribute("aria-pressed", String(advanced));
+      $("advanced").classList.toggle("visible", advanced);
+      $("mode-hint").textContent = advanced ? "manual state" : "infer prerequisites";
+      if (advanced) {
+        const state = inferredState(Number($("current-base").value));
+        for (const id of BUILDING_IDS) $(`building-${id}`).value = state[id] || 0;
+      }
+      render();
+    }
+
+    async function init() {
+      try {
+        const progression = await fetch("data/progression.json").then(response => {
+          if (!response.ok) throw new Error(`Could not load progression data (${response.status})`);
+          return response.json();
+        });
+        buildings = Object.fromEntries(progression.buildings.map(building => [building.id, building]));
+        levels = Object.fromEntries(progression.buildings.map(building => [building.id, Object.fromEntries(building.levels.map(level => [level.level, level]))]));
+        initialState = Object.fromEntries(progression.buildings.map(building => [building.id, building.initial_level || 0]));
+        selfCheck();
+        $("current-base").innerHTML = options(30, 0);
+        $("target-base").innerHTML = options(30, 30);
+        $("building-inputs").innerHTML = BUILDING_IDS.map(id => `<label for="building-${id}" title="${escape(buildings[id].name)}">${escape(SHORT[buildings[id].name] || buildings[id].name)}</label><select id="building-${id}">${options(buildings[id].max_level, initialState[id] || 0)}</select>`).join("");
+        $("quick-mode").addEventListener("click", () => setMode(false));
+        $("advanced-mode").addEventListener("click", () => setMode(true));
+        $("current-base").addEventListener("change", () => {
+          const current = Number($("current-base").value);
+          if (Number($("target-base").value) < current) $("target-base").value = current;
+          render();
+        });
+        $("target-base").addEventListener("change", render);
+        $("building-inputs").addEventListener("change", event => {
+          render();
+        });
+        $("loading").hidden = true;
+        $("result-content").hidden = false;
+        render();
+      } catch (error) {
+        $("loading").innerHTML = `<div class="error" style="display:block">${escape(error.message)}</div>`;
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -154,13 +154,11 @@ def render(base_source, progression_source, output):
     progression = json.loads(progression_source.read_text(encoding="utf-8"))
     rows, route_total = build_route(base_document, progression)
     base_total = summarize([action for row in rows for action in row["actions"] if action["building_id"] == 1001])
-    prerequisite_total = summarize([action for row in rows for action in row["actions"] if action["building_id"] != 1001])
     max_base_time = max(row["base"]["seconds"] for row in rows)
-    max_prerequisite_time = max(row["prerequisites"]["seconds"] for row in rows)
 
     svg = [f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="title description">
 <title id="title">Z Route complete Base leveling route, levels 1 through 30</title>
-<desc id="description">A three-column guide listing direct Base costs plus incremental prerequisite building costs and sequential construction time for every Base level.</desc>
+<desc id="description">A three-column guide listing Base construction time, combined Base and prerequisite resources, and per-building prerequisite workloads for multi-slot scheduling at every Base level.</desc>
 <style>
   .title {{ font: 800 54px Inter,Segoe UI,sans-serif; fill: #f5f7ff }}
   .subtitle {{ font: 400 24px Inter,Segoe UI,sans-serif; fill: #9aa9c3 }}
@@ -171,7 +169,6 @@ def render(base_source, progression_source, output):
   .column {{ font: 700 14px Inter,Segoe UI,sans-serif; fill: #7789a7; letter-spacing: 1.3px }}
   .level {{ font: 800 24px Inter,Segoe UI,sans-serif; fill: #f5f7ff }}
   .time {{ font: 700 18px Inter,Segoe UI,sans-serif; fill: #dce5f5 }}
-  .prereq-time {{ font: 700 18px Inter,Segoe UI,sans-serif; fill: #74d9ff }}
   .resource {{ font: 600 15px Inter,Segoe UI,sans-serif; fill: #aebbd0 }}
   .body {{ font: 500 16px Inter,Segoe UI,sans-serif; fill: #d6deec }}
   .none {{ font: italic 500 16px Inter,Segoe UI,sans-serif; fill: #7183a1 }}
@@ -184,13 +181,13 @@ def render(base_source, progression_source, output):
 <circle cx="80" cy="2370" r="390" fill="#10243d" opacity=".5"/>''']
     svg += [
         text(45, 75, "Z ROUTE  /  COMPLETE BASE LEVELING GUIDE", "title"),
-        text(47, 117, "Direct Base upgrades plus incremental prerequisite resources and construction / training-center time", "subtitle"),
+        text(47, 117, "Base time, combined resource requirements, and independently schedulable prerequisite building work", "subtitle"),
     ]
 
     cards = (
-        (45, "FULL ROUTE BUILDER-TIME", time_text(route_total["seconds"]), f"Base {time_text(base_total['seconds'], 2)}  +  prerequisites {time_text(prerequisite_total['seconds'], 2)}"),
+        (45, "DIRECT BASE TIME", time_text(base_total["seconds"]), "Base levels 1–30 · before speed modifiers"),
         (1130, "FULL ROUTE CORE RESOURCES", f"{compact(route_total['food'])} Food  ·  {compact(route_total['metal'])} Metal", f"{compact(route_total['oil'])} Oil, including prerequisites"),
-        (2215, "TRAINING-CENTER ROUTE", "Warrior Center path", "Earliest feasible minimum-time option · no speed modifiers"),
+        (2215, "PARALLEL PREREQUISITES", "Per-building times shown", "Elapsed time depends on construction slots and scheduling"),
     )
     for x, label, value, note in cards:
         svg.append(f'<rect x="{x}" y="150" width="1040" height="142" rx="18" fill="#101d31" stroke="#213553"/>')
@@ -205,8 +202,8 @@ def render(base_source, progression_source, output):
         svg += [
             text(x + 25, 394, f"BASE LEVELS {start + 1}–{start + 10}", "band"),
             text(x + 25, top, "LV", "column"),
-            text(x + 105, top, "BASE UPGRADE", "column"),
-            text(x + 360, top, "ADDED PREREQUISITES", "column"),
+            text(x + 105, top, "BASE TIME", "column"),
+            text(x + 330, top, "TOTAL RESOURCES", "column"),
             text(x + 645, top, "BUILDING WORK REQUIRED", "column"),
         ]
         for offset, row in enumerate(group):
@@ -215,19 +212,17 @@ def render(base_source, progression_source, output):
             svg.append(f'<g id="level-{row["level"]}"><rect x="{x + 12}" y="{y}" width="1016" height="146" rx="12" fill="{fill}"/>')
             svg.append(f'<rect x="{x + 12}" y="{y}" width="5" height="146" rx="2" fill="{color}" opacity=".8"/>')
             svg.append(text(x + 35, y + 42, f"{row['level']:02d}", "level"))
-            for block_x, summary, css, maximum, bar_color in (
-                (x + 105, row["base"], "time", max_base_time, color),
-                (x + 360, row["prerequisites"], "prereq-time", max_prerequisite_time, "#51c8f5"),
-            ):
-                svg.append(text(block_x, y + 29, time_text(summary["seconds"]), css))
-                bar = 8 if not summary["seconds"] else 12 + 207 * math.log10(summary["seconds"] + 1) / math.log10(maximum + 1)
-                svg.append(f'<rect x="{block_x}" y="{y + 40}" width="220" height="5" rx="2" fill="#263a57"/>')
-                svg.append(f'<rect x="{block_x}" y="{y + 40}" width="{bar:.1f}" height="5" rx="2" fill="{bar_color}"/>')
-                svg += [
-                    text(block_x, y + 70, f"F {summary['food']:,}", "resource"),
-                    text(block_x, y + 94, f"M {summary['metal']:,}", "resource"),
-                    text(block_x, y + 118, f"O {summary['oil']:,}", "resource"),
-                ]
+            svg.append(text(x + 105, y + 29, time_text(row["base"]["seconds"]), "time"))
+            bar = 12 + 207 * math.log10(row["base"]["seconds"] + 1) / math.log10(max_base_time + 1)
+            svg.append(f'<rect x="{x + 105}" y="{y + 40}" width="220" height="5" rx="2" fill="#263a57"/>')
+            svg.append(f'<rect x="{x + 105}" y="{y + 40}" width="{bar:.1f}" height="5" rx="2" fill="{color}"/>')
+            total = summarize(row["actions"])
+            svg += [
+                text(x + 330, y + 29, "Base + requirements", "body"),
+                text(x + 330, y + 62, f"F {total['food']:,}", "resource"),
+                text(x + 330, y + 86, f"M {total['metal']:,}", "resource"),
+                text(x + 330, y + 110, f"O {total['oil']:,}", "resource"),
+            ]
             lines = work_lines(row["building_work"])
             for line_index, line in enumerate(lines):
                 svg.append(text(x + 645, y + 31 + line_index * 23, line, "none" if line == "None" else "body"))
@@ -236,17 +231,17 @@ def render(base_source, progression_source, output):
         band_total = summarize([action for row in group for action in row["actions"]])
         y = top + 18 + 10 * row_height + 30
         svg += [
-            text(x + 25, y, "BAND TOTAL · BASE + PREREQUISITES", "total-label"),
-            text(x + 25, y + 34, time_text(band_total["seconds"]), "total"),
+            text(x + 25, y, "BAND TOTAL · BASE TIME + ALL RESOURCES", "total-label"),
+            text(x + 25, y + 34, time_text(sum(row["base"]["seconds"] for row in group)), "total"),
             text(x + 380, y + 5, f"F {compact(band_total['food'])}  ·  M {compact(band_total['metal'])}", "total"),
             text(x + 380, y + 38, f"O {compact(band_total['oil'])}", "total"),
         ]
 
     svg += [
         text(45, 2220, "HOW TO READ", "card-label"),
-        text(45, 2254, "Each row is incremental from the prior Base level: Base Upgrade is direct; Added Prerequisites includes every recursively required building upgrade. Sum rows for any cumulative target.", "footer"),
-        text(45, 2285, "Building Work shows each prerequisite building’s level range and builder-time. “Any training center” gates use Warrior, the earliest feasible minimum-time route from the client initial state.", "footer"),
-        text(45, 2316, "Times are summed sequential builder-time before speed bonuses, queue parallelism, alliance help, events, or server overrides. F Food · M Metal · O Oil.", "footer"),
+        text(45, 2254, "Each row is incremental from the prior Base level. Total Resources includes that Base upgrade and every recursively required building upgrade; sum rows for any cumulative target.", "footer"),
+        text(45, 2285, "Building Work shows each prerequisite building’s level range and its own sequential time. Different buildings may run in parallel when additional construction slots are available.", "footer"),
+        text(45, 2316, "Base Time excludes prerequisite time. Actual elapsed time depends on slot count, scheduling, speed bonuses, alliance help, events, and server overrides. F Food · M Metal · O Oil.", "footer"),
         text(45, 2347, "Source: com.zroute.global v1.30.07 · catalog V202608062022", "footer"),
         text(3255, 2347, "zroute-building-data", "footer", "end"),
         "</svg>",

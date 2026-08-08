@@ -2,6 +2,8 @@
 
 This repository turns static progression facts from Android client version `1.30.07` into machine-readable JSON for route planning and leveling analysis. It covers buildings, research, resource generation and gathering nodes, speedups, playable heroes, hero progression, and equipment. The original Base level 1–30 CSV remains available for spreadsheet use.
 
+Use the interactive [Z Route Base Planner](https://jfryton.github.io/zroute-building-data/) to select only your current Base level or enter every relevant building level and calculate the remaining route.
+
 ## Data
 
 - [`data/base-upgrades.csv`](data/base-upgrades.csv) is the compact, spreadsheet-friendly dataset.
@@ -11,7 +13,7 @@ This repository turns static progression facts from Android client version `1.30
 - [`data/heroes.json`](data/heroes.json) contains 32 playable heroes, two level curves, the global star curve, their skill progressions, training-center gates, and three exclusive-gear paths.
 - [`data/equipment.json`](data/equipment.json) joins all 16 equipment bases to manufacturing, strengthening, and Mythic promotion data.
 - [`data/model-manifest.json`](data/model-manifest.json) pins source hashes and records model joins and uncertainty boundaries.
-- [`docs/base-leveling-guide.svg`](docs/base-leveling-guide.svg) is a visual Base level 1–30 guide with direct and prerequisite resource costs, prerequisite construction time, and route totals.
+- [`docs/base-leveling-guide.svg`](docs/base-leveling-guide.svg) is a visual Base level 1–30 guide with Base time, combined Base/prerequisite resources, and per-building prerequisite time for parallel scheduling.
 
 All JSON values are direct client-table facts or explicitly identified interpretations. Raw tables, localization assets, bundles, and APKs are not included.
 

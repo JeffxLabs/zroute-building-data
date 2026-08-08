@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="3300" height="2370" viewBox="0 0 3300 2370" role="img" aria-labelledby="title description">
 <title id="title">Z Route complete Base leveling route, levels 1 through 30</title>
-<desc id="description">A three-column guide listing direct Base costs plus incremental prerequisite building costs and sequential construction time for every Base level.</desc>
+<desc id="description">A three-column guide listing Base construction time, combined Base and prerequisite resources, and per-building prerequisite workloads for multi-slot scheduling at every Base level.</desc>
 <style>
   .title { font: 800 54px Inter,Segoe UI,sans-serif; fill: #f5f7ff }
   .subtitle { font: 400 24px Inter,Segoe UI,sans-serif; fill: #9aa9c3 }
@@ -11,7 +11,6 @@
   .column { font: 700 14px Inter,Segoe UI,sans-serif; fill: #7789a7; letter-spacing: 1.3px }
   .level { font: 800 24px Inter,Segoe UI,sans-serif; fill: #f5f7ff }
   .time { font: 700 18px Inter,Segoe UI,sans-serif; fill: #dce5f5 }
-  .prereq-time { font: 700 18px Inter,Segoe UI,sans-serif; fill: #74d9ff }
   .resource { font: 600 15px Inter,Segoe UI,sans-serif; fill: #aebbd0 }
   .body { font: 500 16px Inter,Segoe UI,sans-serif; fill: #d6deec }
   .none { font: italic 500 16px Inter,Segoe UI,sans-serif; fill: #7183a1 }
@@ -23,25 +22,25 @@
 <circle cx="3050" cy="-70" r="510" fill="#162a47" opacity=".45"/>
 <circle cx="80" cy="2370" r="390" fill="#10243d" opacity=".5"/>
 <text x="45" y="75" class="title">Z ROUTE  /  COMPLETE BASE LEVELING GUIDE</text>
-<text x="47" y="117" class="subtitle">Direct Base upgrades plus incremental prerequisite resources and construction / training-center time</text>
+<text x="47" y="117" class="subtitle">Base time, combined resource requirements, and independently schedulable prerequisite building work</text>
 <rect x="45" y="150" width="1040" height="142" rx="18" fill="#101d31" stroke="#213553"/>
-<text x="73" y="185" class="card-label">FULL ROUTE BUILDER-TIME</text>
-<text x="73" y="232" class="card-value">1274d 5h 51m 35s</text>
-<text x="73" y="266" class="card-note">Base 395d 10h  +  prerequisites 878d 19h</text>
+<text x="73" y="185" class="card-label">DIRECT BASE TIME</text>
+<text x="73" y="232" class="card-value">395d 10h 43m 48s</text>
+<text x="73" y="266" class="card-note">Base levels 1–30 · before speed modifiers</text>
 <rect x="1130" y="150" width="1040" height="142" rx="18" fill="#101d31" stroke="#213553"/>
 <text x="1158" y="185" class="card-label">FULL ROUTE CORE RESOURCES</text>
 <text x="1158" y="232" class="card-value">13.352B Food  ·  12.992B Metal</text>
 <text x="1158" y="266" class="card-note">4.501B Oil, including prerequisites</text>
 <rect x="2215" y="150" width="1040" height="142" rx="18" fill="#101d31" stroke="#213553"/>
-<text x="2243" y="185" class="card-label">TRAINING-CENTER ROUTE</text>
-<text x="2243" y="232" class="card-value">Warrior Center path</text>
-<text x="2243" y="266" class="card-note">Earliest feasible minimum-time option · no speed modifiers</text>
+<text x="2243" y="185" class="card-label">PARALLEL PREREQUISITES</text>
+<text x="2243" y="232" class="card-value">Per-building times shown</text>
+<text x="2243" y="266" class="card-note">Elapsed time depends on construction slots and scheduling</text>
 <rect x="45" y="350" width="1040" height="1820" rx="20" fill="#0d192b" stroke="#213553"/>
 <rect x="45" y="350" width="1040" height="6" rx="3" fill="#5ee6a8"/>
 <text x="70" y="394" class="band">BASE LEVELS 1–10</text>
 <text x="70" y="430" class="column">LV</text>
-<text x="150" y="430" class="column">BASE UPGRADE</text>
-<text x="405" y="430" class="column">ADDED PREREQUISITES</text>
+<text x="150" y="430" class="column">BASE TIME</text>
+<text x="375" y="430" class="column">TOTAL RESOURCES</text>
 <text x="690" y="430" class="column">BUILDING WORK REQUIRED</text>
 <g id="level-1"><rect x="57" y="448" width="1016" height="146" rx="12" fill="#111f34"/>
 <rect x="57" y="448" width="5" height="146" rx="2" fill="#5ee6a8" opacity=".8"/>
@@ -49,15 +48,10 @@
 <text x="150" y="477" class="time">2s</text>
 <rect x="150" y="488" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="488" width="26.2" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="518" class="resource">F 90</text>
-<text x="150" y="542" class="resource">M 90</text>
-<text x="150" y="566" class="resource">O 0</text>
-<text x="405" y="477" class="prereq-time">0s</text>
-<rect x="405" y="488" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="488" width="8.0" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="518" class="resource">F 0</text>
-<text x="405" y="542" class="resource">M 0</text>
-<text x="405" y="566" class="resource">O 0</text>
+<text x="375" y="477" class="body">Base + requirements</text>
+<text x="375" y="510" class="resource">F 90</text>
+<text x="375" y="534" class="resource">M 90</text>
+<text x="375" y="558" class="resource">O 0</text>
 <text x="690" y="479" class="none">None</text>
 </g>
 <g id="level-2"><rect x="57" y="604" width="1016" height="146" rx="12" fill="#0f1c2f"/>
@@ -66,15 +60,10 @@
 <text x="150" y="633" class="time">2s</text>
 <rect x="150" y="644" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="644" width="26.2" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="674" class="resource">F 90</text>
-<text x="150" y="698" class="resource">M 90</text>
-<text x="150" y="722" class="resource">O 0</text>
-<text x="405" y="633" class="prereq-time">9s</text>
-<rect x="405" y="644" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="644" width="40.6" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="674" class="resource">F 180</text>
-<text x="405" y="698" class="resource">M 130</text>
-<text x="405" y="722" class="resource">O 0</text>
+<text x="375" y="633" class="body">Base + requirements</text>
+<text x="375" y="666" class="resource">F 270</text>
+<text x="375" y="690" class="resource">M 220</text>
+<text x="375" y="714" class="resource">O 0</text>
 <text x="690" y="635" class="body">Drill Ground 0→1 · 1s</text>
 <text x="690" y="658" class="body">Squad 1 0→1 · 6s</text>
 <text x="690" y="681" class="body">Defense Line 0→1 · 2s</text>
@@ -85,15 +74,10 @@
 <text x="150" y="789" class="time">47s</text>
 <rect x="150" y="800" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="800" width="62.1" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="830" class="resource">F 490</text>
-<text x="150" y="854" class="resource">M 490</text>
-<text x="150" y="878" class="resource">O 0</text>
-<text x="405" y="789" class="prereq-time">4s</text>
-<rect x="405" y="800" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="800" width="32.0" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="830" class="resource">F 90</text>
-<text x="405" y="854" class="resource">M 20</text>
-<text x="405" y="878" class="resource">O 0</text>
+<text x="375" y="789" class="body">Base + requirements</text>
+<text x="375" y="822" class="resource">F 580</text>
+<text x="375" y="846" class="resource">M 510</text>
+<text x="375" y="870" class="resource">O 0</text>
 <text x="690" y="791" class="body">Defense Line 1→2 · 4s</text>
 </g>
 <g id="level-4"><rect x="57" y="916" width="1016" height="146" rx="12" fill="#0f1c2f"/>
@@ -102,15 +86,10 @@
 <text x="150" y="945" class="time">1m 57s</text>
 <rect x="150" y="956" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="956" width="73.8" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="986" class="resource">F 2,970</text>
-<text x="150" y="1010" class="resource">M 2,970</text>
-<text x="150" y="1034" class="resource">O 0</text>
-<text x="405" y="945" class="prereq-time">1m 46s</text>
-<rect x="405" y="956" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="956" width="70.0" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="986" class="resource">F 1,210</text>
-<text x="405" y="1010" class="resource">M 1,880</text>
-<text x="405" y="1034" class="resource">O 0</text>
+<text x="375" y="945" class="body">Base + requirements</text>
+<text x="375" y="978" class="resource">F 4,180</text>
+<text x="375" y="1002" class="resource">M 4,850</text>
+<text x="375" y="1026" class="resource">O 0</text>
 <text x="690" y="947" class="body">Engineering 0→1 · 4s</text>
 <text x="690" y="970" class="body">Soldier Camp 0→3 · 52s</text>
 <text x="690" y="993" class="body">Drill Ground 1→3 · 50s</text>
@@ -121,15 +100,10 @@
 <text x="150" y="1101" class="time">11m 42s</text>
 <rect x="150" y="1112" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="1112" width="96.9" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="1142" class="resource">F 24,970</text>
-<text x="150" y="1166" class="resource">M 24,970</text>
-<text x="150" y="1190" class="resource">O 0</text>
-<text x="405" y="1101" class="prereq-time">4m 41s</text>
-<rect x="405" y="1112" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="1112" width="82.0" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="1142" class="resource">F 5,560</text>
-<text x="405" y="1166" class="resource">M 2,870</text>
-<text x="405" y="1190" class="resource">O 0</text>
+<text x="375" y="1101" class="body">Base + requirements</text>
+<text x="375" y="1134" class="resource">F 30,530</text>
+<text x="375" y="1158" class="resource">M 27,840</text>
+<text x="375" y="1182" class="resource">O 0</text>
 <text x="690" y="1103" class="body">Defense Line 2→4 · 2m 44s</text>
 <text x="690" y="1126" class="body">Soldier Camp 3→4 · 1m 57s</text>
 </g>
@@ -139,15 +113,10 @@
 <text x="150" y="1257" class="time">35m 6s</text>
 <rect x="150" y="1268" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="1268" width="111.1" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="1298" class="resource">F 89,240</text>
-<text x="150" y="1322" class="resource">M 89,240</text>
-<text x="150" y="1346" class="resource">O 0</text>
-<text x="405" y="1257" class="prereq-time">25m 21s</text>
-<rect x="405" y="1268" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="1268" width="102.9" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="1298" class="resource">F 27,550</text>
-<text x="405" y="1322" class="resource">M 27,130</text>
-<text x="405" y="1346" class="resource">O 0</text>
+<text x="375" y="1257" class="body">Base + requirements</text>
+<text x="375" y="1290" class="resource">F 116,790</text>
+<text x="375" y="1314" class="resource">M 116,370</text>
+<text x="375" y="1338" class="resource">O 0</text>
 <text x="690" y="1259" class="body">Defense Line 4→5 · 11m 42s</text>
 <text x="690" y="1282" class="body">Drill Ground 3→5 · 13m 39s</text>
 </g>
@@ -157,15 +126,10 @@
 <text x="150" y="1413" class="time">1h 33m 36s</text>
 <rect x="150" y="1424" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="1424" width="123.8" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="1454" class="resource">F 249,620</text>
-<text x="150" y="1478" class="resource">M 249,620</text>
-<text x="150" y="1502" class="resource">O 0</text>
-<text x="405" y="1413" class="prereq-time">1h 30m 47s</text>
-<rect x="405" y="1424" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="1424" width="118.8" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="1454" class="resource">F 214,010</text>
-<text x="405" y="1478" class="resource">M 70,970</text>
-<text x="405" y="1502" class="resource">O 0</text>
+<text x="375" y="1413" class="body">Base + requirements</text>
+<text x="375" y="1446" class="resource">F 463,630</text>
+<text x="375" y="1470" class="resource">M 320,590</text>
+<text x="375" y="1494" class="resource">O 0</text>
 <text x="690" y="1415" class="body">Warrior Center 0→6 · 55m 41s</text>
 <text x="690" y="1438" class="body">Defense Line 5→6 · 35m 6s</text>
 </g>
@@ -175,15 +139,10 @@
 <text x="150" y="1569" class="time">3h 7m 12s</text>
 <rect x="150" y="1580" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="1580" width="132.8" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="1610" class="resource">F 398,960</text>
-<text x="150" y="1634" class="resource">M 398,960</text>
-<text x="150" y="1658" class="resource">O 0</text>
-<text x="405" y="1569" class="prereq-time">3h 36m 36s</text>
-<rect x="405" y="1580" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="1580" width="129.6" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="1610" class="resource">F 391,420</text>
-<text x="405" y="1634" class="resource">M 524,540</text>
-<text x="405" y="1658" class="resource">O 0</text>
+<text x="375" y="1569" class="body">Base + requirements</text>
+<text x="375" y="1602" class="resource">F 790,380</text>
+<text x="375" y="1626" class="resource">M 923,500</text>
+<text x="375" y="1650" class="resource">O 0</text>
 <text x="690" y="1571" class="body">Alpha Research 0→7 · 2h 11m</text>
 <text x="690" y="1594" class="body">Radar 0→1 · 1s</text>
 <text x="690" y="1617" class="body">Alliance Center 0→7 · 1h 24m</text>
@@ -194,15 +153,10 @@
 <text x="150" y="1725" class="time">4h 22m 5s</text>
 <rect x="150" y="1736" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="1736" width="137.1" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="1766" class="resource">F 598,500</text>
-<text x="150" y="1790" class="resource">M 598,500</text>
-<text x="150" y="1814" class="resource">O 199,500</text>
-<text x="405" y="1725" class="prereq-time">6h 14m 24s</text>
-<rect x="405" y="1736" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="1736" width="136.3" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="1766" class="resource">F 804,300</text>
-<text x="405" y="1790" class="resource">M 494,280</text>
-<text x="405" y="1814" class="resource">O 0</text>
+<text x="375" y="1725" class="body">Base + requirements</text>
+<text x="375" y="1758" class="resource">F 1,402,800</text>
+<text x="375" y="1782" class="resource">M 1,092,780</text>
+<text x="375" y="1806" class="resource">O 199,500</text>
 <text x="690" y="1727" class="body">Alpha Research 7→8 · 2h 43m</text>
 <text x="690" y="1750" class="body">Warrior Center 6→8 · 3h 30m</text>
 </g>
@@ -212,28 +166,23 @@
 <text x="150" y="1881" class="time">5h 40m 43s</text>
 <rect x="150" y="1892" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="150" y="1892" width="140.5" height="5" rx="2" fill="#5ee6a8"/>
-<text x="150" y="1922" class="resource">F 747,970</text>
-<text x="150" y="1946" class="resource">M 747,970</text>
-<text x="150" y="1970" class="resource">O 239,350</text>
-<text x="405" y="1881" class="prereq-time">11h 26m 15s</text>
-<rect x="405" y="1892" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="405" y="1892" width="143.9" height="5" rx="2" fill="#51c8f5"/>
-<text x="405" y="1922" class="resource">F 888,020</text>
-<text x="405" y="1946" class="resource">M 1,582,970</text>
-<text x="405" y="1970" class="resource">O 287,370</text>
+<text x="375" y="1881" class="body">Base + requirements</text>
+<text x="375" y="1914" class="resource">F 1,635,990</text>
+<text x="375" y="1938" class="resource">M 2,330,940</text>
+<text x="375" y="1962" class="resource">O 526,720</text>
 <text x="690" y="1883" class="body">Alpha Research 8→9 · 3h 49m</text>
 <text x="690" y="1906" class="body">Hospital 0→9 · 7h 36m</text>
 </g>
-<text x="70" y="2038" class="total-label">BAND TOTAL · BASE + PREREQUISITES</text>
-<text x="70" y="2072" class="total">1d 14h 53m 15s</text>
+<text x="70" y="2038" class="total-label">BAND TOTAL · BASE TIME + ALL RESOURCES</text>
+<text x="70" y="2072" class="total">15h 33m 12s</text>
 <text x="425" y="2043" class="total">F 4.445M  ·  M 4.818M</text>
 <text x="425" y="2076" class="total">O 726.22K</text>
 <rect x="1120" y="350" width="1040" height="1820" rx="20" fill="#0d192b" stroke="#213553"/>
 <rect x="1120" y="350" width="1040" height="6" rx="3" fill="#ffc857"/>
 <text x="1145" y="394" class="band">BASE LEVELS 11–20</text>
 <text x="1145" y="430" class="column">LV</text>
-<text x="1225" y="430" class="column">BASE UPGRADE</text>
-<text x="1480" y="430" class="column">ADDED PREREQUISITES</text>
+<text x="1225" y="430" class="column">BASE TIME</text>
+<text x="1450" y="430" class="column">TOTAL RESOURCES</text>
 <text x="1765" y="430" class="column">BUILDING WORK REQUIRED</text>
 <g id="level-11"><rect x="1132" y="448" width="1016" height="146" rx="12" fill="#111f34"/>
 <rect x="1132" y="448" width="5" height="146" rx="2" fill="#ffc857" opacity=".8"/>
@@ -241,15 +190,10 @@
 <text x="1225" y="477" class="time">7h 22m 55s</text>
 <rect x="1225" y="488" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="488" width="143.9" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="518" class="resource">F 1,883,660</text>
-<text x="1225" y="542" class="resource">M 1,883,660</text>
-<text x="1225" y="566" class="resource">O 594,840</text>
-<text x="1480" y="477" class="prereq-time">19h 41m 43s</text>
-<rect x="1480" y="488" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="488" width="150.6" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="518" class="resource">F 2,637,490</text>
-<text x="1480" y="542" class="resource">M 1,314,420</text>
-<text x="1480" y="566" class="resource">O 497,320</text>
+<text x="1450" y="477" class="body">Base + requirements</text>
+<text x="1450" y="510" class="resource">F 4,521,150</text>
+<text x="1450" y="534" class="resource">M 3,198,080</text>
+<text x="1450" y="558" class="resource">O 1,092,160</text>
 <text x="1765" y="479" class="body">Alpha Research 9→10 · 4h 58m</text>
 <text x="1765" y="502" class="body">Defense Line 6→10 · 14h 43m</text>
 </g>
@@ -259,15 +203,10 @@
 <text x="1225" y="633" class="time">9h 35m 48s</text>
 <rect x="1225" y="644" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="644" width="147.3" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="674" class="resource">F 3,176,000</text>
-<text x="1225" y="698" class="resource">M 3,176,000</text>
-<text x="1225" y="722" class="resource">O 992,500</text>
-<text x="1480" y="633" class="prereq-time">23h 49m 16s</text>
-<rect x="1480" y="644" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="644" width="153.0" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="674" class="resource">F 3,598,200</text>
-<text x="1480" y="698" class="resource">M 3,598,200</text>
-<text x="1480" y="722" class="resource">O 1,153,300</text>
+<text x="1450" y="633" class="body">Base + requirements</text>
+<text x="1450" y="666" class="resource">F 6,774,200</text>
+<text x="1450" y="690" class="resource">M 6,774,200</text>
+<text x="1450" y="714" class="resource">O 2,145,800</text>
 <text x="1765" y="635" class="body">Alpha Research 10→11 · 6h 27m</text>
 <text x="1765" y="658" class="body">Soldier Camp 4→11 · 17h 21m</text>
 </g>
@@ -277,15 +216,10 @@
 <text x="1225" y="789" class="time">12h 28m 32s</text>
 <rect x="1225" y="800" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="800" width="150.7" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="830" class="resource">F 3,482,500</text>
-<text x="1225" y="854" class="resource">M 3,482,500</text>
-<text x="1225" y="878" class="resource">O 1,094,500</text>
-<text x="1480" y="789" class="prereq-time">1d 4h 39m 58s</text>
-<rect x="1480" y="800" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="800" width="155.3" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="830" class="resource">F 7,585,960</text>
-<text x="1480" y="854" class="resource">M 4,376,590</text>
-<text x="1480" y="878" class="resource">O 1,907,660</text>
+<text x="1450" y="789" class="body">Base + requirements</text>
+<text x="1450" y="822" class="resource">F 11,068,460</text>
+<text x="1450" y="846" class="resource">M 7,859,090</text>
+<text x="1450" y="870" class="resource">O 3,002,160</text>
 <text x="1765" y="791" class="body">Alpha Research 11→12 · 8h 23m</text>
 <text x="1765" y="814" class="body">Warrior Center 8→12 · 20h 16m</text>
 </g>
@@ -295,15 +229,10 @@
 <text x="1225" y="945" class="time">16h 13m 6s</text>
 <rect x="1225" y="956" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="956" width="154.1" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="986" class="resource">F 4,860,310</text>
-<text x="1225" y="1010" class="resource">M 4,860,310</text>
-<text x="1225" y="1034" class="resource">O 1,587,040</text>
-<text x="1480" y="945" class="prereq-time">1d 9h 23m 49s</text>
-<rect x="1480" y="956" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="956" width="157.2" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="986" class="resource">F 4,855,390</text>
-<text x="1480" y="1010" class="resource">M 8,356,400</text>
-<text x="1480" y="1034" class="resource">O 2,296,640</text>
+<text x="1450" y="945" class="body">Base + requirements</text>
+<text x="1450" y="978" class="resource">F 9,715,700</text>
+<text x="1450" y="1002" class="resource">M 13,216,710</text>
+<text x="1450" y="1026" class="resource">O 3,883,680</text>
 <text x="1765" y="947" class="body">Alpha Research 12→13 · 10h 54m</text>
 <text x="1765" y="970" class="body">Drill Ground 5→13 · 22h 28m</text>
 </g>
@@ -313,15 +242,10 @@
 <text x="1225" y="1101" class="time">22h 42m 20s</text>
 <rect x="1225" y="1112" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="1112" width="158.5" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="1142" class="resource">F 6,797,280</text>
-<text x="1225" y="1166" class="resource">M 6,797,280</text>
-<text x="1225" y="1190" class="resource">O 2,199,120</text>
-<text x="1480" y="1101" class="prereq-time">2d 11h 51m 48s</text>
-<rect x="1480" y="1112" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="1112" width="164.4" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="1142" class="resource">F 17,714,570</text>
-<text x="1480" y="1166" class="resource">M 8,781,590</text>
-<text x="1480" y="1190" class="resource">O 4,200,310</text>
+<text x="1450" y="1101" class="body">Base + requirements</text>
+<text x="1450" y="1134" class="resource">F 24,511,850</text>
+<text x="1450" y="1158" class="resource">M 15,578,870</text>
+<text x="1450" y="1182" class="resource">O 6,399,430</text>
 <text x="1765" y="1103" class="body">Alpha Research 13→14 · 14h 11m</text>
 <text x="1765" y="1126" class="body">Defense Line 10→14 · 1d 21h</text>
 </g>
@@ -331,15 +255,10 @@
 <text x="1225" y="1257" class="time">1d 7h 47m 15s</text>
 <rect x="1225" y="1268" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="1268" width="162.8" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="1298" class="resource">F 11,881,200</text>
-<text x="1225" y="1322" class="resource">M 11,881,200</text>
-<text x="1225" y="1346" class="resource">O 3,861,390</text>
-<text x="1480" y="1257" class="prereq-time">2d 12h 38m 24s</text>
-<rect x="1480" y="1268" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="1268" width="164.6" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="1298" class="resource">F 9,577,980</text>
-<text x="1480" y="1322" class="resource">M 16,832,640</text>
-<text x="1480" y="1346" class="resource">O 5,348,600</text>
+<text x="1450" y="1257" class="body">Base + requirements</text>
+<text x="1450" y="1290" class="resource">F 21,459,180</text>
+<text x="1450" y="1314" class="resource">M 28,713,840</text>
+<text x="1450" y="1338" class="resource">O 9,209,990</text>
 <text x="1765" y="1259" class="body">Alpha Research 14→15 · 19h 52m</text>
 <text x="1765" y="1282" class="body">Alliance Center 7→15 · 1d 16h</text>
 </g>
@@ -349,15 +268,10 @@
 <text x="1225" y="1413" class="time">1d 20h 30m 9s</text>
 <rect x="1225" y="1424" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="1424" width="167.2" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="1454" class="resource">F 15,926,400</text>
-<text x="1225" y="1478" class="resource">M 15,926,400</text>
-<text x="1225" y="1502" class="resource">O 5,076,540</text>
-<text x="1480" y="1413" class="prereq-time">3d 18h 12m 16s</text>
-<rect x="1480" y="1424" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="1424" width="169.5" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="1454" class="resource">F 31,346,030</text>
-<text x="1480" y="1478" class="resource">M 17,698,420</text>
-<text x="1480" y="1502" class="resource">O 7,704,420</text>
+<text x="1450" y="1413" class="body">Base + requirements</text>
+<text x="1450" y="1446" class="resource">F 47,272,430</text>
+<text x="1450" y="1470" class="resource">M 33,624,820</text>
+<text x="1450" y="1494" class="resource">O 12,780,960</text>
 <text x="1765" y="1415" class="body">Alpha Research 15→16 · 1d 3h</text>
 <text x="1765" y="1438" class="body">Warrior Center 12→16 · 2d 14h</text>
 </g>
@@ -367,15 +281,10 @@
 <text x="1225" y="1569" class="time">2d 14h 18m 13s</text>
 <rect x="1225" y="1580" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="1580" width="171.5" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="1610" class="resource">F 27,764,800</text>
-<text x="1225" y="1634" class="resource">M 27,764,800</text>
-<text x="1225" y="1658" class="resource">O 8,825,240</text>
-<text x="1480" y="1569" class="prereq-time">6d 7h 42m</text>
-<rect x="1480" y="1580" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="1580" width="175.9" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="1610" class="resource">F 26,030,370</text>
-<text x="1480" y="1634" class="resource">M 50,494,130</text>
-<text x="1480" y="1658" class="resource">O 14,127,560</text>
+<text x="1450" y="1569" class="body">Base + requirements</text>
+<text x="1450" y="1602" class="resource">F 53,795,170</text>
+<text x="1450" y="1626" class="resource">M 78,258,930</text>
+<text x="1450" y="1650" class="resource">O 22,952,800</text>
 <text x="1765" y="1571" class="body">Alpha Research 16→17 · 1d 14h</text>
 <text x="1765" y="1594" class="body">Hospital 9→17 · 4d 16h</text>
 </g>
@@ -385,15 +294,10 @@
 <text x="1225" y="1725" class="time">3d 15h 13m 29s</text>
 <rect x="1225" y="1736" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="1736" width="175.9" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="1766" class="resource">F 32,755,800</text>
-<text x="1225" y="1790" class="resource">M 32,755,800</text>
-<text x="1225" y="1814" class="resource">O 10,918,600</text>
-<text x="1480" y="1725" class="prereq-time">8d 23h 48m 53s</text>
-<rect x="1480" y="1736" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="1736" width="180.3" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="1766" class="resource">F 86,422,240</text>
-<text x="1480" y="1790" class="resource">M 44,616,850</text>
-<text x="1480" y="1814" class="resource">O 21,092,960</text>
+<text x="1450" y="1725" class="body">Base + requirements</text>
+<text x="1450" y="1758" class="resource">F 119,178,040</text>
+<text x="1450" y="1782" class="resource">M 77,372,650</text>
+<text x="1450" y="1806" class="resource">O 32,011,560</text>
 <text x="1765" y="1727" class="body">Alpha Research 17→18 · 2d 6h</text>
 <text x="1765" y="1750" class="body">Defense Line 14→18 · 6d 17h</text>
 </g>
@@ -403,28 +307,23 @@
 <text x="1225" y="1881" class="time">5d 2h 6m 53s</text>
 <rect x="1225" y="1892" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="1225" y="1892" width="180.2" height="5" rx="2" fill="#ffc857"/>
-<text x="1225" y="1922" class="resource">F 59,556,000</text>
-<text x="1225" y="1946" class="resource">M 59,556,000</text>
-<text x="1225" y="1970" class="resource">O 18,859,400</text>
-<text x="1480" y="1881" class="prereq-time">12d 3h 25m 58s</text>
-<rect x="1480" y="1892" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="1480" y="1892" width="184.0" height="5" rx="2" fill="#51c8f5"/>
-<text x="1480" y="1922" class="resource">F 82,661,220</text>
-<text x="1480" y="1946" class="resource">M 82,661,220</text>
-<text x="1480" y="1970" class="resource">O 30,546,690</text>
+<text x="1450" y="1881" class="body">Base + requirements</text>
+<text x="1450" y="1914" class="resource">F 142,217,220</text>
+<text x="1450" y="1938" class="resource">M 142,217,220</text>
+<text x="1450" y="1962" class="resource">O 49,406,090</text>
 <text x="1765" y="1883" class="body">Alpha Research 18→19 · 3d 4h</text>
 <text x="1765" y="1906" class="body">Soldier Camp 11→19 · 8d 23h</text>
 </g>
-<text x="1145" y="2038" class="total-label">BAND TOTAL · BASE + PREREQUISITES</text>
-<text x="1145" y="2072" class="total">57d 23h 32m 45s</text>
+<text x="1145" y="2038" class="total-label">BAND TOTAL · BASE TIME + ALL RESOURCES</text>
+<text x="1145" y="2072" class="total">17d 8h 18m 40s</text>
 <text x="1500" y="2043" class="total">F 440.513M  ·  M 406.814M</text>
 <text x="1500" y="2076" class="total">O 142.885M</text>
 <rect x="2195" y="350" width="1040" height="1820" rx="20" fill="#0d192b" stroke="#213553"/>
 <rect x="2195" y="350" width="1040" height="6" rx="3" fill="#ff6b6b"/>
 <text x="2220" y="394" class="band">BASE LEVELS 21–30</text>
 <text x="2220" y="430" class="column">LV</text>
-<text x="2300" y="430" class="column">BASE UPGRADE</text>
-<text x="2555" y="430" class="column">ADDED PREREQUISITES</text>
+<text x="2300" y="430" class="column">BASE TIME</text>
+<text x="2525" y="430" class="column">TOTAL RESOURCES</text>
 <text x="2840" y="430" class="column">BUILDING WORK REQUIRED</text>
 <g id="level-21"><rect x="2207" y="448" width="1016" height="146" rx="12" fill="#111f34"/>
 <rect x="2207" y="448" width="5" height="146" rx="2" fill="#ff6b6b" opacity=".8"/>
@@ -432,15 +331,10 @@
 <text x="2300" y="477" class="time">6d 14h 44m 57s</text>
 <rect x="2300" y="488" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="488" width="183.6" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="518" class="resource">F 83,748,000</text>
-<text x="2300" y="542" class="resource">M 83,748,000</text>
-<text x="2300" y="566" class="resource">O 26,919,000</text>
-<text x="2555" y="477" class="prereq-time">14d 7h 57m 36s</text>
-<rect x="2555" y="488" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="488" width="186.1" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="518" class="resource">F 154,273,400</text>
-<text x="2555" y="542" class="resource">M 85,951,400</text>
-<text x="2555" y="566" class="resource">O 38,644,730</text>
+<text x="2525" y="477" class="body">Base + requirements</text>
+<text x="2525" y="510" class="resource">F 238,021,400</text>
+<text x="2525" y="534" class="resource">M 169,699,400</text>
+<text x="2525" y="558" class="resource">O 65,563,730</text>
 <text x="2840" y="479" class="body">Alpha Research 19→20 · 4d 10h</text>
 <text x="2840" y="502" class="body">Warrior Center 16→20 · 9d 21h</text>
 </g>
@@ -450,15 +344,10 @@
 <text x="2300" y="633" class="time">8d 14h 22m 26s</text>
 <rect x="2300" y="644" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="644" width="187.0" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="674" class="resource">F 109,296,000</text>
-<text x="2300" y="698" class="resource">M 109,296,000</text>
-<text x="2300" y="722" class="resource">O 34,776,000</text>
-<text x="2555" y="633" class="prereq-time">17d 3h 42m 34s</text>
-<rect x="2555" y="644" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="644" width="188.3" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="674" class="resource">F 113,116,250</text>
-<text x="2555" y="698" class="resource">M 194,809,720</text>
-<text x="2555" y="722" class="resource">O 55,086,190</text>
+<text x="2525" y="633" class="body">Base + requirements</text>
+<text x="2525" y="666" class="resource">F 222,412,250</text>
+<text x="2525" y="690" class="resource">M 304,105,720</text>
+<text x="2525" y="714" class="resource">O 89,862,190</text>
 <text x="2840" y="635" class="body">Alpha Research 20→21 · 5d 18h</text>
 <text x="2840" y="658" class="body">Drill Ground 13→21 · 11d 8h</text>
 </g>
@@ -468,15 +357,10 @@
 <text x="2300" y="789" class="time">11d 4h 17m 9s</text>
 <rect x="2300" y="800" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="800" width="190.4" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="830" class="resource">F 138,852,000</text>
-<text x="2300" y="854" class="resource">M 138,852,000</text>
-<text x="2300" y="878" class="resource">O 43,639,200</text>
-<text x="2555" y="789" class="prereq-time">31d 11h 2m 23s</text>
-<rect x="2555" y="800" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="800" width="195.9" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="830" class="resource">F 380,793,700</text>
-<text x="2555" y="854" class="resource">M 189,542,900</text>
-<text x="2555" y="878" class="resource">O 90,833,200</text>
+<text x="2525" y="789" class="body">Base + requirements</text>
+<text x="2525" y="822" class="resource">F 519,645,700</text>
+<text x="2525" y="846" class="resource">M 328,394,900</text>
+<text x="2525" y="870" class="resource">O 134,472,400</text>
 <text x="2840" y="791" class="body">Alpha Research 21→22 · 7d 12h</text>
 <text x="2840" y="814" class="body">Defense Line 18→22 · 23d 22h</text>
 </g>
@@ -486,15 +370,10 @@
 <text x="2300" y="945" class="time">15d 15h 36m 1s</text>
 <rect x="2300" y="956" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="956" width="194.8" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="986" class="resource">F 169,201,000</text>
-<text x="2300" y="1010" class="resource">M 169,201,000</text>
-<text x="2300" y="1034" class="resource">O 53,746,200</text>
-<text x="2555" y="945" class="prereq-time">30d 5h 25m 20s</text>
-<rect x="2555" y="956" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="956" width="195.4" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="986" class="resource">F 198,378,230</text>
-<text x="2555" y="1010" class="resource">M 356,644,430</text>
-<text x="2555" y="1034" class="resource">O 112,953,640</text>
+<text x="2525" y="945" class="body">Base + requirements</text>
+<text x="2525" y="978" class="resource">F 367,579,230</text>
+<text x="2525" y="1002" class="resource">M 525,845,430</text>
+<text x="2525" y="1026" class="resource">O 166,699,840</text>
 <text x="2840" y="947" class="body">Alpha Research 22→23 · 9d 18h</text>
 <text x="2840" y="970" class="body">Alliance Center 15→23 · 20d 10h</text>
 </g>
@@ -504,15 +383,10 @@
 <text x="2300" y="1101" class="time">21d 21h 50m 25s</text>
 <rect x="2300" y="1112" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="1112" width="199.1" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="1142" class="resource">F 287,419,000</text>
-<text x="2300" y="1166" class="resource">M 287,419,000</text>
-<text x="2300" y="1190" class="resource">O 92,172,300</text>
-<text x="2555" y="1101" class="prereq-time">45d 5h 24m 26s</text>
-<rect x="2555" y="1112" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="1112" width="200.4" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="1142" class="resource">F 521,166,000</text>
-<text x="2555" y="1166" class="resource">M 272,853,300</text>
-<text x="2555" y="1190" class="resource">O 126,051,700</text>
+<text x="2525" y="1101" class="body">Base + requirements</text>
+<text x="2525" y="1134" class="resource">F 808,585,000</text>
+<text x="2525" y="1158" class="resource">M 560,272,300</text>
+<text x="2525" y="1182" class="resource">O 218,224,000</text>
 <text x="2840" y="1103" class="body">Alpha Research 23→24 · 13d 16h</text>
 <text x="2840" y="1126" class="body">Warrior Center 20→24 · 31d 12h</text>
 </g>
@@ -522,15 +396,10 @@
 <text x="2300" y="1257" class="time">30d 16h 10m 35s</text>
 <rect x="2300" y="1268" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="1268" width="203.5" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="1298" class="resource">F 397,120,000</text>
-<text x="2300" y="1322" class="resource">M 397,120,000</text>
-<text x="2300" y="1346" class="resource">O 129,064,000</text>
-<text x="2555" y="1257" class="prereq-time">75d 14h 58m 48s</text>
-<rect x="2555" y="1268" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="1268" width="206.7" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="1298" class="resource">F 473,628,660</text>
-<text x="2555" y="1322" class="resource">M 930,162,600</text>
-<text x="2555" y="1346" class="resource">O 261,408,550</text>
+<text x="2525" y="1257" class="body">Base + requirements</text>
+<text x="2525" y="1290" class="resource">F 870,748,660</text>
+<text x="2525" y="1314" class="resource">M 1,327,282,600</text>
+<text x="2525" y="1338" class="resource">O 390,472,550</text>
 <text x="2840" y="1259" class="body">Alpha Research 24→25 · 19d 4h</text>
 <text x="2840" y="1282" class="body">Hospital 17→25 · 56d 10h</text>
 </g>
@@ -540,15 +409,10 @@
 <text x="2300" y="1413" class="time">42d 22h 38m 49s</text>
 <rect x="2300" y="1424" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="1424" width="207.8" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="1454" class="resource">F 528,463,000</text>
-<text x="2300" y="1478" class="resource">M 528,463,000</text>
-<text x="2300" y="1502" class="resource">O 169,507,000</text>
-<text x="2555" y="1413" class="prereq-time">106d 6h 3m 26s</text>
-<rect x="2555" y="1424" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="1424" width="211.0" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="1454" class="resource">F 1,341,206,000</text>
-<text x="2555" y="1478" class="resource">M 673,330,300</text>
-<text x="2555" y="1502" class="resource">O 320,850,300</text>
+<text x="2525" y="1413" class="body">Base + requirements</text>
+<text x="2525" y="1446" class="resource">F 1,869,669,000</text>
+<text x="2525" y="1470" class="resource">M 1,201,793,300</text>
+<text x="2525" y="1494" class="resource">O 490,357,300</text>
 <text x="2840" y="1415" class="body">Alpha Research 25→26 · 26d 20h</text>
 <text x="2840" y="1438" class="body">Defense Line 22→26 · 79d 9h</text>
 </g>
@@ -558,15 +422,10 @@
 <text x="2300" y="1569" class="time">60d 2h 54m 20s</text>
 <rect x="2300" y="1580" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="1580" width="212.2" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="1610" class="resource">F 736,004,000</text>
-<text x="2300" y="1634" class="resource">M 736,004,000</text>
-<text x="2300" y="1658" class="resource">O 238,704,000</text>
-<text x="2555" y="1569" class="prereq-time">144d 13h 39m 25s</text>
-<rect x="2555" y="1580" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="1580" width="214.8" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="1610" class="resource">F 1,329,870,100</text>
-<text x="2555" y="1634" class="resource">M 1,329,870,100</text>
-<text x="2555" y="1658" class="resource">O 507,609,600</text>
+<text x="2525" y="1569" class="body">Base + requirements</text>
+<text x="2525" y="1602" class="resource">F 2,065,874,100</text>
+<text x="2525" y="1626" class="resource">M 2,065,874,100</text>
+<text x="2525" y="1650" class="resource">O 746,313,600</text>
 <text x="2840" y="1571" class="body">Alpha Research 26→27 · 37d 13h</text>
 <text x="2840" y="1594" class="body">Soldier Camp 19→27 · 106d 23h</text>
 </g>
@@ -576,15 +435,10 @@
 <text x="2300" y="1725" class="time">78d 3h 46m 37s</text>
 <rect x="2300" y="1736" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="1736" width="215.6" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="1766" class="resource">F 998,300,000</text>
-<text x="2300" y="1790" class="resource">M 998,300,000</text>
-<text x="2300" y="1814" class="resource">O 329,439,000</text>
-<text x="2555" y="1725" class="prereq-time">169d 8h 13m 9s</text>
-<rect x="2555" y="1736" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="1736" width="216.7" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="1766" class="resource">F 2,090,841,000</text>
-<text x="2555" y="1790" class="resource">M 1,115,966,400</text>
-<text x="2555" y="1814" class="resource">O 522,525,900</text>
+<text x="2525" y="1725" class="body">Base + requirements</text>
+<text x="2525" y="1758" class="resource">F 3,089,141,000</text>
+<text x="2525" y="1782" class="resource">M 2,114,266,400</text>
+<text x="2525" y="1806" class="resource">O 851,964,900</text>
 <text x="2840" y="1727" class="body">Alpha Research 27→28 · 52d 14h</text>
 <text x="2840" y="1750" class="body">Warrior Center 24→28 · 116d 17h</text>
 </g>
@@ -594,26 +448,21 @@
 <text x="2300" y="1881" class="time">101d 14h 30m 37s</text>
 <rect x="2300" y="1892" width="220" height="5" rx="2" fill="#263a57"/>
 <rect x="2300" y="1892" width="219.0" height="5" rx="2" fill="#ff6b6b"/>
-<text x="2300" y="1922" class="resource">F 1,399,300,000</text>
-<text x="2300" y="1946" class="resource">M 1,399,300,000</text>
-<text x="2300" y="1970" class="resource">O 459,770,000</text>
-<text x="2555" y="1881" class="prereq-time">203d 6m 32s</text>
-<rect x="2555" y="1892" width="220" height="5" rx="2" fill="#263a57"/>
-<rect x="2555" y="1892" width="219.0" height="5" rx="2" fill="#51c8f5"/>
-<text x="2555" y="1922" class="resource">F 1,456,268,500</text>
-<text x="2555" y="1946" class="resource">M 2,583,655,500</text>
-<text x="2555" y="1970" class="resource">O 743,309,400</text>
+<text x="2525" y="1881" class="body">Base + requirements</text>
+<text x="2525" y="1914" class="resource">F 2,855,568,500</text>
+<text x="2525" y="1938" class="resource">M 3,982,955,500</text>
+<text x="2525" y="1962" class="resource">O 1,203,079,400</text>
 <text x="2840" y="1883" class="body">Alpha Research 28→29 · 68d 9h</text>
 <text x="2840" y="1906" class="body">Drill Ground 21→29 · 134d 14h</text>
 </g>
-<text x="2220" y="2038" class="total-label">BAND TOTAL · BASE + PREREQUISITES</text>
-<text x="2220" y="2072" class="total">1214d 15h 25m 35s</text>
+<text x="2220" y="2038" class="total-label">BAND TOTAL · BASE TIME + ALL RESOURCES</text>
+<text x="2220" y="2072" class="total">377d 10h 51m 56s</text>
 <text x="2575" y="2043" class="total">F 12.907B  ·  M 12.58B</text>
 <text x="2575" y="2076" class="total">O 4.357B</text>
 <text x="45" y="2220" class="card-label">HOW TO READ</text>
-<text x="45" y="2254" class="footer">Each row is incremental from the prior Base level: Base Upgrade is direct; Added Prerequisites includes every recursively required building upgrade. Sum rows for any cumulative target.</text>
-<text x="45" y="2285" class="footer">Building Work shows each prerequisite building’s level range and builder-time. “Any training center” gates use Warrior, the earliest feasible minimum-time route from the client initial state.</text>
-<text x="45" y="2316" class="footer">Times are summed sequential builder-time before speed bonuses, queue parallelism, alliance help, events, or server overrides. F Food · M Metal · O Oil.</text>
+<text x="45" y="2254" class="footer">Each row is incremental from the prior Base level. Total Resources includes that Base upgrade and every recursively required building upgrade; sum rows for any cumulative target.</text>
+<text x="45" y="2285" class="footer">Building Work shows each prerequisite building’s level range and its own sequential time. Different buildings may run in parallel when additional construction slots are available.</text>
+<text x="45" y="2316" class="footer">Base Time excludes prerequisite time. Actual elapsed time depends on slot count, scheduling, speed bonuses, alliance help, events, and server overrides. F Food · M Metal · O Oil.</text>
 <text x="45" y="2347" class="footer">Source: com.zroute.global v1.30.07 · catalog V202608062022</text>
 <text x="3255" y="2347" class="footer" text-anchor="end">zroute-building-data</text>
 </svg>
