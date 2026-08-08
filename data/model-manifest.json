@@ -1,0 +1,190 @@
+{
+  "source": {
+    "package": "com.zroute.global",
+    "app_version": "1.30.07",
+    "catalog_version": "V202608062022",
+    "client_build_time": "2026-08-06 20:26:03"
+  },
+  "tables": {
+    "Building": {
+      "bundle_guid": "0eb19f215674df0a721e8af4b6e38b27",
+      "plaintext_sha256": "626e8c94253acbc3d62e35a48995c1672224ae41ef77b16d2ef82a94e73ae9a8",
+      "rows": 99
+    },
+    "BuildingLevel": {
+      "bundle_guid": "fe3de944af769d3aed3c085028a01388",
+      "plaintext_sha256": "c011f412e2d8b3de100df0c4dd7605718950b30729adee240a9746a2f42208d9",
+      "rows": 1525
+    },
+    "BuildingUpgrade": {
+      "bundle_guid": "867eafd983c72fabb00169f6995b94ed",
+      "plaintext_sha256": "ec2855a231be5bc764f831c13abf44fc4814f6c04f53a040e2448856b95668ba",
+      "rows": 1313
+    },
+    "BuildingCountLimit": {
+      "bundle_guid": "7c25bd166199f36643c1041952586c84",
+      "plaintext_sha256": "2c6b439c7f605e0970fa314f14b70c796febfcf6bad26ee57b59c789c6037709",
+      "rows": 114
+    },
+    "DefineBenefit": {
+      "bundle_guid": "358872978fa5d6ea71cc3278941ba487",
+      "plaintext_sha256": "3778da5a3a5e623205f5cde728104d50a8c259ef203e5546025c8d7fe4d4d461",
+      "rows": 359
+    },
+    "CollegeTech": {
+      "bundle_guid": "ca0eae5e4286e93f999b6e8907b47848",
+      "plaintext_sha256": "eb0e37e4607d3a7b14affa02c1ce6b1b2901c9e9197fcdf9d72e2912ac5d72dd",
+      "rows": 328
+    },
+    "CollegeTechLevel": {
+      "bundle_guid": "97dd856dc66a18e377f248ccbe94279d",
+      "plaintext_sha256": "49b8322d773f80039bf671f2ea8bfeb8c6c30ad293e32644644e3d99defbe922",
+      "rows": 1644
+    },
+    "CollegeTechType": {
+      "bundle_guid": "dfff5d9d7248a7e30dabfe4216e3d53d",
+      "plaintext_sha256": "ecdc96ec072311f52e1453e3ab43e3831c083a393138e51c1efc8cac67abdbfa",
+      "rows": 15
+    },
+    "ResourceInfo": {
+      "bundle_guid": "c5d9304dab5e8c3e4453db1b3893a33a",
+      "plaintext_sha256": "fc2f809074501b16e4f1398d057fdd14537e87cbd54c7b778806975a80838510",
+      "rows": 190
+    },
+    "ResourceSearch": {
+      "bundle_guid": "8246abd36bcf6cc0676c32ca8ebc0bd8",
+      "plaintext_sha256": "3a8e0d4dda967e644d7e33aba6bf30ca96c8ecc2868c4d5c621bf631ae88148c",
+      "rows": 20
+    },
+    "Item": {
+      "bundle_guid": "e8dc564c60c6da1a81c81e37f6d4f280",
+      "plaintext_sha256": "f468c2851ed4df7b47805865623587ef408251b4f3a7a6096203934945abe1eb",
+      "rows": 1522
+    },
+    "HeroInfo": {
+      "bundle_guid": "b65185a6afa3b72d0e0a0df03f573359",
+      "plaintext_sha256": "f88db0f3be6651eb99374c0401564984f2950bdaaa991ffe0c1c6db841317a2a",
+      "rows": 321
+    },
+    "HeroLevel": {
+      "bundle_guid": "d43f6e1ad030a0e87c47d3ce9be66afd",
+      "plaintext_sha256": "dc2b14f759e1565267cf47db95a2c102aa451a87af595eaac490431c84e42f88",
+      "rows": 350
+    },
+    "HeroStar": {
+      "bundle_guid": "3559a71b32ce86343518537a0dc09ae4",
+      "plaintext_sha256": "7489d811997332db8259c87b8b6a8b68fb4081b4f0bd880de8c298446150b97a",
+      "rows": 26
+    },
+    "NewHeroSkill": {
+      "bundle_guid": "82fa7b3ef945483bf6fa49d1514221af",
+      "plaintext_sha256": "1139271080d135aef30323561aa2b77f5fe23ff3124cb6fc23553216d14cb00b",
+      "rows": 1446
+    },
+    "NewHeroSkillLevel": {
+      "bundle_guid": "e8ee42e676aac80f1602da0659b796c7",
+      "plaintext_sha256": "1647a1c9f093bf0e48b1c5c5decc9bfef63cbf43913ffd60d075f48c547f5d72",
+      "rows": 100
+    },
+    "HeroExclusive": {
+      "bundle_guid": "c6633163250278a05ba21285711dd313",
+      "plaintext_sha256": "80bd5f755ce606a971107a8ad0c51a97f067c65d09dbb19402e1a0ed2912a128",
+      "rows": 3
+    },
+    "HeroExclusiveGearLevel": {
+      "bundle_guid": "c521dbbe20397444b599cac16cde1dfb",
+      "plaintext_sha256": "d0b58344caf455e83bd0483bb61f1319ac9ec081cc3098986a1e43d305fd1e16",
+      "rows": 30
+    },
+    "HeroExclusiveGearStrengthen": {
+      "bundle_guid": "7ed748f1a65f0de871e363df1b506418",
+      "plaintext_sha256": "3c0ff02cea3f7d7f0afcd6c75810fadefc87f3a7413fb6a347c72fa407c51d23",
+      "rows": 600
+    },
+    "EquipmentBase": {
+      "bundle_guid": "4f27bbaae33b1e27f2f3d027f12be7fc",
+      "plaintext_sha256": "8001b24bbe4e39b1db85d5297360b161ce6ad951cba71e97e6d399090576ca7c",
+      "rows": 16
+    },
+    "EquipmentStrengthen": {
+      "bundle_guid": "f55e78d377d3fe887ef3380310b78a3e",
+      "plaintext_sha256": "8ea442a0d0d6e817d457c4f1c65883515b51f4e76c64e0090921e35308c52421",
+      "rows": 356
+    },
+    "EquipmentPromotion": {
+      "bundle_guid": "7243e13574084f2f4cfcbb51827cee00",
+      "plaintext_sha256": "e652a592060f386121ebd6c94b6d744da8b4734aefe53da7e3f0dffd80a5c30b",
+      "rows": 104
+    }
+  },
+  "localization_plaintext_sha256": {
+    "lang_base.json": "2ca5ca25d6b4da15c10fdbadea57b5b07744fb78261c436df47ab36c92742eb7",
+    "lang_benefit.json": "3ca8ef1e57431bc4f7e0b50c47690d223bd7fd811526bc4c6841df69aeda1b64",
+    "lang_building.json": "a2d6dc3657aaf825a5a163b0fac769bad78d212e1ffcd41ebda3d64291f0bc82",
+    "lang_hero.json": "2281040c8e5c3e390624ad54ced5a82631053ce25b8ceb2f330f01e1e109ff7e",
+    "lang_item.json": "7e7eb7bec2d9aea05e90d82deb05399134bebad1b5d1f65af810815c2ac3a053"
+  },
+  "scope": "Static client facts for progression analysis; no player, alliance, event, or server state.",
+  "coverage": {
+    "unmapped_building_condition_instances": 177,
+    "unmapped_building_condition_ids": [
+      0,
+      10001,
+      10002,
+      10003,
+      10005,
+      10009,
+      10010,
+      10011,
+      10012,
+      10013,
+      10014,
+      10015,
+      10016,
+      10017,
+      10018,
+      10019,
+      10020,
+      10021,
+      10022,
+      10024,
+      10025,
+      10026,
+      10031,
+      10032,
+      10033,
+      20002,
+      20014
+    ],
+    "buildings_with_incomplete_level_rows": [
+      20002,
+      20014
+    ],
+    "unmapped_world_resource_type_ids": [
+      51,
+      52,
+      53
+    ],
+    "research_levels_requiring_external_or_unmapped_state": 779
+  },
+  "optimizer_joins": [
+    "building level -> prerequisite conditions + time + costs",
+    "research level -> prerequisite conditions + time + costs + benefits",
+    "producer building level -> base output per hour",
+    "hero -> level curve + star curve + skill groups + training-center gate",
+    "equipment base -> manufacturing + strengthening + promotion",
+    "speedup item -> category + duration minutes"
+  ],
+  "caveats": [
+    "BuildingProduction and BuildingEffect are empty in this client build; producer output uses BuildingLevel.ability where the UI labels it output per hour.",
+    "An action with static_optimizer_supported=false must not be planned without resolving its parent gate, missing row, or unmapped condition externally.",
+    "Building max_level is the configured value; available_max_level and level_rows_complete expose whether matching level rows exist.",
+    "ResourceInfo.speed units are not confirmed, so resources.json preserves speed_value without deriving gather duration.",
+    "World resource types 51, 52, and 53 have no confirmed English label in the extracted localization set.",
+    "Refined Stone and Steel producer output_type 99 means an item resource; the product labels come from the building UI and are not item-ID joins.",
+    "HeroInfo contains mode/copy rows; heroes.json includes only heroType=1 and showType=1 rows.",
+    "No direct construction, research, production, or gathering benefit appears in playable HeroInfo.levelBenefit rows.",
+    "Client reward fields are preserved as client_reward and are not treated as upgrade costs.",
+    "Dynamic server, event, alliance-help, player-inventory, queue, and active-buff state must be supplied before an optimizer can recommend a live route."
+  ]
+}

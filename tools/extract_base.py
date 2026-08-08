@@ -15,7 +15,7 @@ EXPECTED_HASHES = {
     "BuildingLevel.lua": "c011f412e2d8b3de100df0c4dd7605718950b30729adee240a9746a2f42208d9",
     "BuildingUpgrade.lua": "ec2855a231be5bc764f831c13abf44fc4814f6c04f53a040e2448856b95668ba",
 }
-ROW = re.compile(r"^\s*\[(\d+)\] = \{(.*)\},\s*$")
+ROW = re.compile(r"^\s*\[(\d+)\] = \{(.*)\},?\s*$")
 CONDITION = re.compile(
     r'\{id=(\d+), param1="([^"]*)", param2="([^"]*)", '
     r'param3="([^"]*)", param4="([^"]*)"\}'

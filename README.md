@@ -1,11 +1,28 @@
-# Z Route: Redemption Base upgrade data
+# Z Route: Redemption progression data
 
-This repository documents the Base (building ID `1001`) upgrade requirements embedded in the Android client version `1.30.07`. The client contains complete Base rows for target levels 1–30: base time, Food/Metal/Oil costs, and building prerequisites.
+This repository turns static progression facts from Android client version `1.30.07` into machine-readable JSON for route planning and leveling analysis. It covers buildings, research, resource generation and gathering nodes, speedups, playable heroes, hero progression, and equipment. The original Base level 1–30 CSV remains available for spreadsheet use.
 
 ## Data
 
 - [`data/base-upgrades.csv`](data/base-upgrades.csv) is the compact, spreadsheet-friendly dataset.
 - [`data/base-upgrades.json`](data/base-upgrades.json) preserves the prerequisite structure and source metadata.
+- [`data/progression.json`](data/progression.json) joins 99 buildings and 328 research technologies to their levels, prerequisites, base times, costs, and benefits. It also defines 359 benefit types.
+- [`data/resources.json`](data/resources.json) contains six production-building curves, 190 world resource nodes, 20 search categories, and 40 speedup items.
+- [`data/heroes.json`](data/heroes.json) contains 32 playable heroes, two level curves, the global star curve, their skill progressions, training-center gates, and three exclusive-gear paths.
+- [`data/equipment.json`](data/equipment.json) joins all 16 equipment bases to manufacturing, strengthening, and Mythic promotion data.
+- [`data/model-manifest.json`](data/model-manifest.json) pins source hashes and records model joins and uncertainty boundaries.
+
+All JSON values are direct client-table facts or explicitly identified interpretations. Raw tables, localization assets, bundles, and APKs are not included.
+
+## Optimizer model
+
+The static files support a dependency graph whose actions are building upgrades, research levels, hero levels/stars/skills, and equipment manufacturing/upgrades. Each action supplies its gate, client base time, and resource cost; research and gear actions also expose their client benefit values. A solver can derive marginal benefit by comparing adjacent levels. Producer building `ability` values are published as `base_output_per_hour` because the matching client UI labels them “Output per Hour.”
+
+A live recommendation still needs an account-state input: current building/research/hero/gear levels, Food/Metal/Oil and item inventories, active queues, speedups, current percentage modifiers, alliance help, event/server modifiers, and the target objective. Those dynamic values are intentionally not guessed. `ResourceInfo.speed` is retained as `speed_value` because its unit and gathering-duration formula are not yet confirmed.
+
+Conditions preserve their numeric parameters and include a semantic `kind` where confirmed. Conditions in a prerequisite list are jointly required; `any_building_in_list_level` is the client’s internal OR case. A planner can resolve `building_level`, `research_level`, and `any_building_class_level` against IDs/classes in `progression.json`; seasonal and event gates need live server state. Building levels expose `static_optimizer_supported` and `requires_external_state`; a solver should reject unsupported levels rather than treating an unknown gate as satisfied. Two event/decor buildings also expose `level_rows_complete=false` because their configured maximum exceeds the available client rows.
+
+Hero rows are limited to client records where `heroType=1` and `showType=1`, excluding mode/copy records. Their `level_curve_id` joins to `level_curves`, and `skill_group_ids` join to `skills`. No direct construction, research, production, or gathering modifier appears in the playable heroes’ `levelBenefit` records in this version.
 
 All prerequisite entries on a level must pass. Condition `20103` requires the named building to reach the minimum level; condition `20105` requires any one building in its group to reach the minimum. The group used here is Warrior, Tactical, or Assault Training Center.
 
@@ -15,10 +32,30 @@ The generated sheet caption still mentions “L35,” but the live Base definiti
 
 ## Reproduce
 
-The generator uses only Python's standard library. Give it the three locally decrypted client tables and the locally extracted `lang_building` JSON; no source assets belong in this repository.
+Both generators use only Python's standard library. The complete model expects the pinned plaintext tables and five English localization JSON files listed in `model-manifest.json`; no source assets belong in this repository.
 
 ```sh
 python3 tools/extract_base.py build /path/to/decrypted-tables /path/to/lang_building data
+python3 tools/extract_model.py build /path/to/decrypted-tables data
+python3 tools/extract_model.py check data
+```
+
+Querying the model needs no custom library:
+
+```sh
+python3 - <<'PY'
+import json
+model = json.load(open("data/progression.json"))
+base = next(item for item in model["buildings"] if item["id"] == 1001)
+print(base["levels"][29])
+PY
+```
+
+The complete-model generator verifies every source hash so a different client version cannot silently produce mislabeled data. The smaller Base-only generator remains available for its focused CSV workflow.
+
+For the Base dataset specifically:
+
+```sh
 python3 tools/extract_base.py check data
 ```
 
