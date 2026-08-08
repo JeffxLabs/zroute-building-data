@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the Base level 1–30 requirements as a standalone SVG poster."""
+"""Render the complete Base level 1–30 requirement route as an SVG poster."""
 
 import argparse
 import html
@@ -10,8 +10,15 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
-WIDTH, HEIGHT = 2400, 2140
+WIDTH, HEIGHT = 3300, 2370
 COLORS = ("#5ee6a8", "#ffc857", "#ff6b6b")
+RESOURCE_NAMES = {1: "food", 2: "metal", 3: "oil"}
+SHORT_NAMES = {
+    "Alpha Research Division": "Alpha Research",
+    "Soldier Training Camp": "Soldier Camp",
+    "Warrior Training Center": "Warrior Center",
+    "Engineering Department": "Engineering",
+}
 
 
 def compact(value):
@@ -21,24 +28,120 @@ def compact(value):
     return str(value)
 
 
-def time_text(seconds):
+def time_text(seconds, units=4):
     result = []
     for size, suffix in ((86400, "d"), (3600, "h"), (60, "m"), (1, "s")):
         amount, seconds = divmod(seconds, size)
         if amount:
             result.append(f"{amount}{suffix}")
-    return " ".join(result) or "0s"
+    return " ".join(result[:units]) or "0s"
 
 
-def requirement_text(prerequisites):
-    parts = []
-    for item in prerequisites:
-        names = [building["name"] for building in item["buildings"]]
-        if item["match"] == "any":
-            parts.append(f"Any training center Lv {item['minimum_level']} ({' / '.join(name.replace(' Training Center', '') for name in names)})")
-        else:
-            parts.append(f"{names[0]} Lv {item['minimum_level']}")
-    return " + ".join(parts) or "None"
+def summarize(actions):
+    result = {"seconds": 0, "food": 0, "metal": 0, "oil": 0}
+    for action in actions:
+        result["seconds"] += action["base_time_seconds"] or 0
+        for cost in action["costs"]:
+            if cost["type"] not in RESOURCE_NAMES and cost["count"]:
+                raise ValueError(f"unhandled route resource type {cost['type']}")
+            if cost["type"] in RESOURCE_NAMES:
+                result[RESOURCE_NAMES[cost["type"]]] += cost["count"]
+        if action["special_costs"]:
+            raise ValueError(f"unhandled special route cost: {action['special_costs']}")
+    return result
+
+
+def build_route(base_document, progression):
+    base_rows = base_document["upgrades"]
+    buildings = {building["id"]: building for building in progression["buildings"]}
+    levels = {building_id: {row["level"]: row for row in building["levels"]} for building_id, building in buildings.items()}
+    state = {building_id: building["initial_level"] or 0 for building_id, building in buildings.items()}
+
+    def ensure(building_id, target, current, stack=()):
+        if current.get(building_id, 0) >= target:
+            return []
+        if building_id in stack:
+            raise ValueError(f"future-level dependency cycle through building {building_id}")
+        actions = []
+        while current.get(building_id, 0) < target:
+            level = current.get(building_id, 0) + 1
+            try:
+                row = levels[building_id][level]
+            except KeyError as error:
+                raise ValueError(f"missing building {building_id} level {level}") from error
+            for condition in row["prerequisites"]:
+                if condition["kind"] == "building_level":
+                    for dependency in condition["building_ids"]:
+                        actions += ensure(dependency, condition["minimum_level"], current, stack + (building_id,))
+                elif condition["kind"] == "any_building_in_list_level":
+                    choices = []
+                    for dependency in condition["building_ids"]:
+                        trial = current.copy()
+                        try:
+                            trial_actions = ensure(dependency, condition["minimum_level"], trial, stack + (building_id,))
+                        except ValueError:
+                            continue
+                        trial_total = summarize(trial_actions)
+                        choices.append((trial_total["seconds"], sum(trial_total[name] for name in RESOURCE_NAMES.values()), dependency, trial, trial_actions))
+                    if not choices:
+                        raise ValueError(f"no feasible option for {condition}")
+                    _, _, _, chosen_state, chosen_actions = min(choices)
+                    current.clear()
+                    current.update(chosen_state)
+                    actions += chosen_actions
+                else:
+                    raise ValueError(f"unsupported route condition {condition}")
+            previous = current.get(building_id, 0)
+            if previous != level - 1:
+                raise ValueError(f"non-sequential building {building_id}: {previous} -> {level}")
+            current[building_id] = level
+            actions.append({"building_id": building_id, "building_name": buildings[building_id]["name"], "from_level": previous, **row})
+        return actions
+
+    route, all_actions = [], []
+    for expected, base_row in enumerate(base_rows, 1):
+        if base_row["target_level"] != expected:
+            raise ValueError("Base rows are not sequential")
+        actions = ensure(1001, expected, state)
+        direct = [action for action in actions if action["building_id"] == 1001]
+        prerequisites = [action for action in actions if action["building_id"] != 1001]
+        if len(direct) != 1:
+            raise ValueError(f"Base {expected} produced {len(direct)} direct actions")
+        direct_total = summarize(direct)
+        if direct_total["seconds"] != base_row["base_time_seconds"] or any(direct_total[name] != base_row["costs"][name] for name in RESOURCE_NAMES.values()):
+            raise ValueError(f"Base {expected} source mismatch")
+        grouped = {}
+        for action in prerequisites:
+            grouped.setdefault(action["building_id"], []).append(action)
+        route.append({
+            "level": expected,
+            "base": direct_total,
+            "prerequisites": summarize(prerequisites),
+            "building_work": [
+                {
+                    "name": SHORT_NAMES.get(group[0]["building_name"], group[0]["building_name"]),
+                    "from_level": group[0]["from_level"],
+                    "to_level": group[-1]["level"],
+                    **summarize(group),
+                }
+                for group in grouped.values()
+            ],
+            "actions": actions,
+        })
+        all_actions += actions
+    if len(all_actions) != 220:
+        raise ValueError(f"unexpected route length: {len(all_actions)} actions")
+    return route, summarize(all_actions)
+
+
+def work_lines(groups):
+    lines = []
+    for group in groups:
+        value = f"{group['name']} {group['from_level']}→{group['to_level']} · {time_text(group['seconds'], 2)}"
+        lines += textwrap.wrap(value, width=42, break_long_words=False)
+    if len(lines) > 5:
+        raise ValueError(f"building-work text exceeds row: {lines}")
+    return lines or ["None"]
 
 
 def text(x, y, value, css="body", anchor=None):
@@ -46,115 +149,123 @@ def text(x, y, value, css="body", anchor=None):
     return f'<text x="{x}" y="{y}" class="{css}"{extra}>{html.escape(str(value))}</text>'
 
 
-def render(source, output):
-    document = json.loads(source.read_text(encoding="utf-8"))
-    rows = document["upgrades"]
-    assert len(rows) == 30 and [row["target_level"] for row in rows] == list(range(1, 31))
-    total_time = sum(row["base_time_seconds"] for row in rows)
-    totals = {kind: sum(row["costs"][kind] for row in rows) for kind in ("food", "metal", "oil")}
-    max_seconds = max(row["base_time_seconds"] for row in rows)
+def render(base_source, progression_source, output):
+    base_document = json.loads(base_source.read_text(encoding="utf-8"))
+    progression = json.loads(progression_source.read_text(encoding="utf-8"))
+    rows, route_total = build_route(base_document, progression)
+    base_total = summarize([action for row in rows for action in row["actions"] if action["building_id"] == 1001])
+    prerequisite_total = summarize([action for row in rows for action in row["actions"] if action["building_id"] != 1001])
+    max_base_time = max(row["base"]["seconds"] for row in rows)
+    max_prerequisite_time = max(row["prerequisites"]["seconds"] for row in rows)
 
     svg = [f'''<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="title description">
-<title id="title">Z Route Base leveling requirements, levels 1 through 30</title>
-<desc id="description">A three-column guide listing exact base construction time, Food, Metal, Oil, and building prerequisites for every Base level.</desc>
+<title id="title">Z Route complete Base leveling route, levels 1 through 30</title>
+<desc id="description">A three-column guide listing direct Base costs plus incremental prerequisite building costs and sequential construction time for every Base level.</desc>
 <style>
-  .title {{ font: 800 52px Inter,Segoe UI,sans-serif; fill: #f5f7ff }}
-  .subtitle {{ font: 400 23px Inter,Segoe UI,sans-serif; fill: #9aa9c3 }}
+  .title {{ font: 800 54px Inter,Segoe UI,sans-serif; fill: #f5f7ff }}
+  .subtitle {{ font: 400 24px Inter,Segoe UI,sans-serif; fill: #9aa9c3 }}
   .card-label {{ font: 700 17px Inter,Segoe UI,sans-serif; fill: #8ea0bd; letter-spacing: 2px }}
-  .card-value {{ font: 800 31px Inter,Segoe UI,sans-serif; fill: #f5f7ff }}
+  .card-value {{ font: 800 30px Inter,Segoe UI,sans-serif; fill: #f5f7ff }}
   .card-note {{ font: 400 18px Inter,Segoe UI,sans-serif; fill: #aab7cc }}
   .band {{ font: 800 27px Inter,Segoe UI,sans-serif; fill: #f5f7ff }}
-  .column {{ font: 700 15px Inter,Segoe UI,sans-serif; fill: #7789a7; letter-spacing: 1.4px }}
+  .column {{ font: 700 14px Inter,Segoe UI,sans-serif; fill: #7789a7; letter-spacing: 1.3px }}
   .level {{ font: 800 24px Inter,Segoe UI,sans-serif; fill: #f5f7ff }}
-  .time {{ font: 700 19px Inter,Segoe UI,sans-serif; fill: #dce5f5 }}
-  .resource {{ font: 600 16px Inter,Segoe UI,sans-serif; fill: #aebbd0 }}
-  .body {{ font: 500 18px Inter,Segoe UI,sans-serif; fill: #d6deec }}
-  .none {{ font: italic 500 18px Inter,Segoe UI,sans-serif; fill: #7183a1 }}
+  .time {{ font: 700 18px Inter,Segoe UI,sans-serif; fill: #dce5f5 }}
+  .prereq-time {{ font: 700 18px Inter,Segoe UI,sans-serif; fill: #74d9ff }}
+  .resource {{ font: 600 15px Inter,Segoe UI,sans-serif; fill: #aebbd0 }}
+  .body {{ font: 500 16px Inter,Segoe UI,sans-serif; fill: #d6deec }}
+  .none {{ font: italic 500 16px Inter,Segoe UI,sans-serif; fill: #7183a1 }}
   .total-label {{ font: 700 15px Inter,Segoe UI,sans-serif; fill: #8798b5; letter-spacing: 1.2px }}
   .total {{ font: 700 18px Inter,Segoe UI,sans-serif; fill: #dce5f5 }}
   .footer {{ font: 400 17px Inter,Segoe UI,sans-serif; fill: #8798b5 }}
 </style>
-<rect width="2400" height="2140" fill="#08111f"/>
-<circle cx="2200" cy="-80" r="430" fill="#162a47" opacity=".45"/>
-<circle cx="80" cy="2140" r="360" fill="#10243d" opacity=".5"/>''']
+<rect width="3300" height="2370" fill="#08111f"/>
+<circle cx="3050" cy="-70" r="510" fill="#162a47" opacity=".45"/>
+<circle cx="80" cy="2370" r="390" fill="#10243d" opacity=".5"/>''']
     svg += [
-        text(45, 72, "Z ROUTE  /  BASE LEVELING GUIDE", "title"),
-        text(47, 112, "Requirements and unmodified construction time for every Base level", "subtitle"),
+        text(45, 75, "Z ROUTE  /  COMPLETE BASE LEVELING GUIDE", "title"),
+        text(47, 117, "Direct Base upgrades plus incremental prerequisite resources and construction / training-center time", "subtitle"),
     ]
 
     cards = (
-        (45, "TOTAL BASE TIME", time_text(total_time), "Levels 1–30, sequential"),
-        (825, "TOTAL CORE RESOURCES", f"{compact(totals['food'])} Food  ·  {compact(totals['metal'])} Metal", f"{compact(totals['oil'])} Oil"),
-        (1605, "DATA SCOPE", "Client v1.30.07", "Before speed bonuses, help, events, or overrides"),
+        (45, "FULL ROUTE BUILDER-TIME", time_text(route_total["seconds"]), f"Base {time_text(base_total['seconds'], 2)}  +  prerequisites {time_text(prerequisite_total['seconds'], 2)}"),
+        (1130, "FULL ROUTE CORE RESOURCES", f"{compact(route_total['food'])} Food  ·  {compact(route_total['metal'])} Metal", f"{compact(route_total['oil'])} Oil, including prerequisites"),
+        (2215, "TRAINING-CENTER ROUTE", "Warrior Center path", "Earliest feasible minimum-time option · no speed modifiers"),
     )
     for x, label, value, note in cards:
-        svg.append(f'<rect x="{x}" y="150" width="750" height="142" rx="18" fill="#101d31" stroke="#213553"/>')
+        svg.append(f'<rect x="{x}" y="150" width="1040" height="142" rx="18" fill="#101d31" stroke="#213553"/>')
         svg += [text(x + 28, 185, label, "card-label"), text(x + 28, 232, value, "card-value"), text(x + 28, 266, note, "card-note")]
 
-    row_height, top = 134, 420
+    row_height, top = 156, 430
     for band_index, start in enumerate((0, 10, 20)):
-        x, color = 45 + band_index * 780, COLORS[band_index]
+        x, color = 45 + band_index * 1075, COLORS[band_index]
         group = rows[start:start + 10]
-        svg.append(f'<rect x="{x}" y="350" width="750" height="1615" rx="20" fill="#0d192b" stroke="#213553"/>')
-        svg.append(f'<rect x="{x}" y="350" width="750" height="6" rx="3" fill="{color}"/>')
+        svg.append(f'<rect x="{x}" y="350" width="1040" height="1820" rx="20" fill="#0d192b" stroke="#213553"/>')
+        svg.append(f'<rect x="{x}" y="350" width="1040" height="6" rx="3" fill="{color}"/>')
         svg += [
             text(x + 25, 394, f"BASE LEVELS {start + 1}–{start + 10}", "band"),
-            text(x + 25, top, "LEVEL", "column"),
-            text(x + 118, top, "TIME + RESOURCES", "column"),
-            text(x + 370, top, "REQUIREMENTS", "column"),
+            text(x + 25, top, "LV", "column"),
+            text(x + 105, top, "BASE UPGRADE", "column"),
+            text(x + 360, top, "ADDED PREREQUISITES", "column"),
+            text(x + 645, top, "BUILDING WORK REQUIRED", "column"),
         ]
         for offset, row in enumerate(group):
             y = top + 18 + offset * row_height
             fill = "#111f34" if offset % 2 == 0 else "#0f1c2f"
-            svg.append(f'<g id="level-{row["target_level"]}"><rect x="{x + 12}" y="{y}" width="726" height="124" rx="12" fill="{fill}"/>')
-            svg.append(f'<rect x="{x + 12}" y="{y}" width="5" height="124" rx="2" fill="{color}" opacity=".8"/>')
-            svg += [
-                text(x + 37, y + 43, f"{row['target_level']:02d}", "level"),
-                text(x + 118, y + 35, row["base_time_human"], "time"),
-            ]
-            bar = 10 + 205 * math.log10(max(row["base_time_seconds"], 2) / 2 + 1) / math.log10(max_seconds / 2 + 1)
-            svg.append(f'<rect x="{x + 118}" y="{y + 48}" width="215" height="6" rx="3" fill="#263a57"/>')
-            svg.append(f'<rect x="{x + 118}" y="{y + 48}" width="{bar:.1f}" height="6" rx="3" fill="{color}"/>')
-            costs = row["costs"]
-            svg += [
-                text(x + 118, y + 80, f"F {costs['food']:,}  ·  M {costs['metal']:,}", "resource"),
-                text(x + 118, y + 105, f"O {costs['oil']:,}", "resource"),
-            ]
-            requirement = requirement_text(row["prerequisites"])
-            for line_index, line in enumerate(textwrap.wrap(requirement, width=39, break_long_words=False) or ["None"]):
-                svg.append(text(x + 370, y + 38 + line_index * 24, line, "none" if requirement == "None" else "body"))
+            svg.append(f'<g id="level-{row["level"]}"><rect x="{x + 12}" y="{y}" width="1016" height="146" rx="12" fill="{fill}"/>')
+            svg.append(f'<rect x="{x + 12}" y="{y}" width="5" height="146" rx="2" fill="{color}" opacity=".8"/>')
+            svg.append(text(x + 35, y + 42, f"{row['level']:02d}", "level"))
+            for block_x, summary, css, maximum, bar_color in (
+                (x + 105, row["base"], "time", max_base_time, color),
+                (x + 360, row["prerequisites"], "prereq-time", max_prerequisite_time, "#51c8f5"),
+            ):
+                svg.append(text(block_x, y + 29, time_text(summary["seconds"]), css))
+                bar = 8 if not summary["seconds"] else 12 + 207 * math.log10(summary["seconds"] + 1) / math.log10(maximum + 1)
+                svg.append(f'<rect x="{block_x}" y="{y + 40}" width="220" height="5" rx="2" fill="#263a57"/>')
+                svg.append(f'<rect x="{block_x}" y="{y + 40}" width="{bar:.1f}" height="5" rx="2" fill="{bar_color}"/>')
+                svg += [
+                    text(block_x, y + 70, f"F {summary['food']:,}", "resource"),
+                    text(block_x, y + 94, f"M {summary['metal']:,}", "resource"),
+                    text(block_x, y + 118, f"O {summary['oil']:,}", "resource"),
+                ]
+            lines = work_lines(row["building_work"])
+            for line_index, line in enumerate(lines):
+                svg.append(text(x + 645, y + 31 + line_index * 23, line, "none" if line == "None" else "body"))
             svg.append("</g>")
 
-        band_time = sum(row["base_time_seconds"] for row in group)
-        band_totals = {kind: sum(row["costs"][kind] for row in group) for kind in totals}
+        band_total = summarize([action for row in group for action in row["actions"]])
         y = top + 18 + 10 * row_height + 30
         svg += [
-            text(x + 25, y, "BAND TOTAL", "total-label"),
-            text(x + 25, y + 32, time_text(band_time), "total"),
-            text(x + 215, y + 5, f"F {compact(band_totals['food'])}  ·  M {compact(band_totals['metal'])}", "total"),
-            text(x + 215, y + 37, f"O {compact(band_totals['oil'])}", "total"),
+            text(x + 25, y, "BAND TOTAL · BASE + PREREQUISITES", "total-label"),
+            text(x + 25, y + 34, time_text(band_total["seconds"]), "total"),
+            text(x + 380, y + 5, f"F {compact(band_total['food'])}  ·  M {compact(band_total['metal'])}", "total"),
+            text(x + 380, y + 38, f"O {compact(band_total['oil'])}", "total"),
         ]
 
     svg += [
-        text(45, 2025, "HOW TO READ", "card-label"),
-        text(45, 2059, "Each row is the target Base level. All listed requirements must be met; “Any training center” means one of Warrior, Assault, or Tactical.", "footer"),
-        text(45, 2090, f"Times and costs are client base values. Total time: {time_text(total_time)}. Data source: com.zroute.global · catalog V202608062022.", "footer"),
-        text(2355, 2090, "zroute-building-data", "footer", "end"),
+        text(45, 2220, "HOW TO READ", "card-label"),
+        text(45, 2254, "Each row is incremental from the prior Base level: Base Upgrade is direct; Added Prerequisites includes every recursively required building upgrade. Sum rows for any cumulative target.", "footer"),
+        text(45, 2285, "Building Work shows each prerequisite building’s level range and builder-time. “Any training center” gates use Warrior, the earliest feasible minimum-time route from the client initial state.", "footer"),
+        text(45, 2316, "Times are summed sequential builder-time before speed bonuses, queue parallelism, alliance help, events, or server overrides. F Food · M Metal · O Oil.", "footer"),
+        text(45, 2347, "Source: com.zroute.global v1.30.07 · catalog V202608062022", "footer"),
+        text(3255, 2347, "zroute-building-data", "footer", "end"),
         "</svg>",
     ]
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text("\n".join(svg), encoding="utf-8")
     root = ET.parse(output).getroot()
     assert root.tag.endswith("svg") and all(root.find(f".//*[@id='level-{level}']") is not None for level in range(1, 31))
-    print(f"ok: rendered 30 Base levels to {output}")
+    assert route_total == {"seconds": 110_094_695, "food": 13_352_203_480, "metal": 12_992_121_750, "oil": 4_500_620_760}
+    print(f"ok: rendered complete 220-action Base route to {output}")
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("source", type=Path)
+    parser.add_argument("base_source", type=Path)
+    parser.add_argument("progression_source", type=Path)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
-    render(args.source, args.output)
+    render(args.base_source, args.progression_source, args.output)
 
 
 if __name__ == "__main__":

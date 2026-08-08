@@ -11,7 +11,7 @@ This repository turns static progression facts from Android client version `1.30
 - [`data/heroes.json`](data/heroes.json) contains 32 playable heroes, two level curves, the global star curve, their skill progressions, training-center gates, and three exclusive-gear paths.
 - [`data/equipment.json`](data/equipment.json) joins all 16 equipment bases to manufacturing, strengthening, and Mythic promotion data.
 - [`data/model-manifest.json`](data/model-manifest.json) pins source hashes and records model joins and uncertainty boundaries.
-- [`docs/base-leveling-guide.svg`](docs/base-leveling-guide.svg) is a visual Base level 1–30 guide with time, resource costs, prerequisites, and totals.
+- [`docs/base-leveling-guide.svg`](docs/base-leveling-guide.svg) is a visual Base level 1–30 guide with direct and prerequisite resource costs, prerequisite construction time, and route totals.
 
 All JSON values are direct client-table facts or explicitly identified interpretations. Raw tables, localization assets, bundles, and APKs are not included.
 
@@ -39,7 +39,7 @@ Both generators use only Python's standard library. The complete model expects t
 python3 tools/extract_base.py build /path/to/decrypted-tables /path/to/lang_building data
 python3 tools/extract_model.py build /path/to/decrypted-tables data
 python3 tools/extract_model.py check data
-python3 tools/render_base_guide.py data/base-upgrades.json docs/base-leveling-guide.svg
+python3 tools/render_base_guide.py data/base-upgrades.json data/progression.json docs/base-leveling-guide.svg
 ```
 
 Querying the model needs no custom library:
