@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Interactive Z Route Base leveling planner with prerequisite resources and parallel building workloads.">
+  <meta name="description" content="Interactive Z Route Base leveling and resource-producer return-on-investment calculators.">
   <link rel="icon" href="data:,">
-  <title>Z Route Base Planner</title>
+  <title>Z Route Progression Planner</title>
   <style>
     :root {
       color-scheme: dark;
@@ -45,6 +45,9 @@
     .mark { width: 34px; height: 34px; border: 1px solid #477090; border-radius: 10px; background: linear-gradient(135deg, var(--green), var(--cyan)); box-shadow: 0 0 26px rgba(91, 202, 242, .22) }
     .source-link { color: var(--muted); font-size: .9rem; text-decoration: none }
     .source-link:hover { color: var(--text) }
+    .site-nav { display: flex; align-items: center; gap: 8px }
+    .site-nav button { border: 1px solid transparent; border-radius: 9px; padding: 7px 10px; background: transparent; color: var(--muted); cursor: pointer }
+    .site-nav button[aria-pressed="true"] { border-color: var(--line); background: var(--panel-2); color: var(--text) }
 
     .hero { padding: 64px 0 38px; max-width: 940px }
     .eyebrow { color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase }
@@ -84,6 +87,15 @@
     .config-actions button { border: 1px solid #315071; border-radius: 10px; padding: 9px; background: #11243a; cursor: pointer }
     .config-actions button:hover { background: #17304a }
     .config-status { min-height: 1.2em; margin: 7px 0 0; color: var(--muted); font-size: .75rem }
+    .check-field { display: flex; align-items: center; gap: 9px; margin-top: 16px; color: #c9d5e7; font-size: .86rem; font-weight: 650 }
+    .check-field input { width: 18px; height: 18px; accent-color: var(--green) }
+    .value-inputs { display: grid; grid-template-columns: 1fr 92px; gap: 9px 12px; align-items: center }
+    .value-inputs label { color: #b9c8dc; font-size: .82rem }
+    .value-inputs input { padding: 7px 9px; font-size: .84rem }
+    .profit { color: var(--green); font-weight: 800 }
+    .profit.negative { color: var(--red) }
+    .nowrap { white-space: nowrap }
+    #roi-view table { min-width: 1050px }
 
     .results { min-width: 0 }
     .result-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin: 2px 2px 17px }
@@ -142,6 +154,9 @@
       .shell { width: min(100% - 22px, 1480px) }
       .topbar { padding-top: 16px }
       .source-link { font-size: .82rem }
+      .topbar { align-items: flex-start }
+      .site-nav { flex-wrap: wrap; justify-content: flex-end }
+      .site-nav button { padding: 6px 8px; font-size: .82rem }
       .hero { padding: 40px 2px 27px }
       .planner { gap: 15px }
       .controls-inner, .section { padding: 17px }
@@ -158,10 +173,14 @@
 <body>
   <header class="shell topbar">
     <div class="brand"><span class="mark" aria-hidden="true"></span><span>Z Route Planner</span></div>
-    <a class="source-link" href="https://github.com/JeffxLabs/zroute-building-data">GitHub ↗</a>
+    <nav class="site-nav" aria-label="Calculators">
+      <button id="base-view-button" aria-pressed="true">Base planner</button>
+      <button id="roi-view-button" aria-pressed="false">Producer ROI</button>
+      <a class="source-link" href="https://github.com/JeffxLabs/zroute-building-data">GitHub ↗</a>
+    </nav>
   </header>
 
-  <main class="shell">
+  <main id="base-view" class="shell">
     <section class="hero">
       <div class="eyebrow">Base progression intelligence</div>
       <h1>Know what the next Base levels really cost.</h1>
@@ -247,8 +266,73 @@
     </div>
   </main>
 
+  <main id="roi-view" class="shell" hidden>
+    <section class="hero">
+      <div class="eyebrow">Resource investment intelligence</div>
+      <h1>Know when a producer upgrade pays you back.</h1>
+      <p>Compare construction cost against the added hourly output of Farms, Metal and Oil producers, Training Grounds, and material factories.</p>
+    </section>
+
+    <div class="planner">
+      <aside class="panel controls" aria-label="ROI calculator inputs">
+        <div class="controls-inner">
+          <h2>Investment assumptions</h2>
+          <p class="hint">Payback uses only the extra output gained by upgrading.</p>
+          <div class="field"><label for="roi-producer">Producer</label><select id="roi-producer"></select></div>
+          <div class="settings-grid">
+            <div class="field"><label for="roi-current">Current level</label><select id="roi-current"></select></div>
+            <div class="field"><label for="roi-target">Target level</label><select id="roi-target"></select></div>
+            <div class="field"><label for="roi-speed">Construction speed <small>%</small></label><input id="roi-speed" type="number" min="0" max="1000" step="0.1" value="0"></div>
+            <div class="field"><label for="roi-free">Free-finish time <small>minutes</small></label><input id="roi-free" type="number" min="0" max="100000" step="1" value="0"></div>
+            <div class="field"><label for="roi-production">Production bonus <small>%</small></label><input id="roi-production" type="number" min="0" max="10000" step="0.1" value="0"></div>
+            <div class="field"><label for="roi-utilization">Collection uptime <small>%</small></label><input id="roi-utilization" type="number" min="0.1" max="100" step="0.1" value="100"></div>
+          </div>
+          <label class="check-field"><input id="roi-downtime" type="checkbox"> Count production lost while upgrading</label>
+          <details class="settings" open>
+            <summary>Relative resource values</summary>
+            <p class="advanced-note">Value of one unit in a common comparison unit. Defaults treat Food, Metal, and Oil equally; set the produced resource to reflect how valuable it is to you.</p>
+            <div id="roi-values" class="value-inputs"></div>
+          </details>
+        </div>
+      </aside>
+
+      <section class="results" aria-live="polite">
+        <div id="roi-loading" class="panel loading"><div><div class="spinner"></div>Loading verified producer data…</div></div>
+        <div id="roi-content" hidden>
+          <div id="roi-error" class="error"></div>
+          <header class="result-head">
+            <div><div class="route-label">Producer investment</div><div id="roi-title" class="route-title"></div></div>
+            <div id="roi-gate" class="version"></div>
+          </header>
+          <div class="metrics">
+            <article class="metric"><div class="metric-label">Payback runtime</div><div id="roi-payback" class="metric-value"></div><div class="metric-note">After construction completes</div></article>
+            <article class="metric"><div class="metric-label">Total to break even</div><div id="roi-total-time" class="metric-value"></div><div class="metric-note">Construction + production runtime</div></article>
+            <article class="metric"><div class="metric-label">Added output</div><div id="roi-output" class="metric-value"></div><div id="roi-output-note" class="metric-note"></div></article>
+            <article class="metric"><div class="metric-label">Investment value</div><div id="roi-investment" class="metric-value"></div><div class="metric-note">Weighted costs + optional downtime</div></article>
+            <article class="metric"><div class="metric-label">Profit after 30 days</div><div id="roi-profit" class="metric-value profit"></div><div class="metric-note">Weighted net value from construction start</div></article>
+          </div>
+
+          <section class="panel section">
+            <div class="section-head"><div><h3>Upgrade-by-upgrade ROI</h3><div class="section-note">Each row evaluates that level alone against its marginal output gain.</div></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Upgrade</th><th>Build time</th><th>Added / hour</th><th>Cost</th><th>Payback runtime</th><th>Total break-even</th><th>Profit at 30d</th></tr></thead>
+                <tbody id="roi-rows"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel section">
+            <h3>How this is calculated</h3>
+            <p class="section-note">Investment value = weighted upgrade costs + optional production lost during construction. Payback runtime = investment value ÷ weighted marginal output per hour. Profit starts after construction and becomes positive at the displayed total break-even time. Multi-level routes assume back-to-back upgrades with no production between them. Base prerequisite costs are excluded because they benefit the whole account, not only this producer.</p>
+          </section>
+        </div>
+      </section>
+    </div>
+  </main>
+
   <footer class="shell">
-    <p>Costs are static Android-client values. Times apply the selected additive Building Speed and free-finish threshold; the schedule is an estimate and cannot predict server overrides or alliance-help timing. Configuration files stay on your device—the planner does not upload or store account state.</p>
+    <p>Costs and production are static Android-client values. Times apply the selected additive Building Speed and free-finish threshold; results cannot predict server overrides or alliance-help timing. Configuration files stay on your device—the planner does not upload or store account state.</p>
   </footer>
 
   <script>
@@ -256,6 +340,7 @@
 
     const BUILDING_IDS = [1002, 1004, 1006, 1007, 1010, 1020, 5006, 5013, 5031, 5044, 5045, 5046];
     const RESEARCH_IDS = [1001, 1008, 1015, 1022];
+    const ROI_RESOURCE_NAMES = {1: "Food", 2: "Metal", 3: "Oil", 5: "Hero EXP", 99: "Produced material"};
     const RESOURCE = {1: "food", 2: "metal", 3: "oil"};
     const SHORT = {
       "Alpha Research Division": "Alpha Research",
@@ -266,8 +351,8 @@
       "Engineering Department": "Engineering"
     };
     const $ = id => document.getElementById(id);
-    let buildings, levels, initialState, research, vipSpeed, advanced = false;
-    let quickOverrides = {}, manualLevels = {};
+    let buildings, levels, initialState, research, vipSpeed, producers, advanced = false;
+    let quickOverrides = {}, manualLevels = {}, roiValues = {};
 
     function options(max, selected = 0) {
       return Array.from({length: max + 1}, (_, level) => `<option value="${level}"${level === selected ? " selected" : ""}>${level}</option>`).join("");
@@ -356,7 +441,10 @@
       if (result.actions.length !== 220 || total.seconds !== 110094695 || total.food !== 13352203480 || total.metal !== 12992121750 || total.oil !== 4500620760
           || schedule(result.actions, 1, unchanged).seconds !== total.seconds
           || schedule(result.actions, 4, unchanged).seconds > total.seconds
-          || adjustedTime({base_time_seconds: 100}, {speedPercent: 100, freeSeconds: 10}) !== 40) {
+          || adjustedTime({base_time_seconds: 100}, {speedPercent: 100, freeSeconds: 10}) !== 40
+          || Math.round(roiFor({costValue: 1000, previousOutput: 100, output: 200, buildSeconds: 3600}, {outputValue: 1, productionFactor: 1, utilization: 1, downtime: true}).paybackHours) !== 11
+          || roiProfit({costValue: 1000, previousOutput: 100, output: 200, buildSeconds: 3600}, {outputValue: 1, productionFactor: 1, utilization: 1, downtime: true}, 12) !== 0
+          || roiPlanProfit([{costValue: 0, previousOutput: 100, output: 200, buildSeconds: 3600}, {costValue: 0, previousOutput: 200, output: 300, buildSeconds: 3600}], {outputValue: 1, productionFactor: 1, utilization: 1, downtime: true}, 3) !== -100) {
         throw new Error("Planner self-check failed for client v1.30.07");
       }
     }
@@ -402,6 +490,38 @@
 
     function adjustedTotal(actions, modifier) {
       return actions.reduce((sum, action) => sum + adjustedTime(action, modifier), 0);
+    }
+
+    function roiFor(upgrade, assumptions) {
+      const effectivePrevious = upgrade.previousOutput * assumptions.productionFactor * assumptions.utilization;
+      const addedPerHour = (upgrade.output - upgrade.previousOutput) * assumptions.productionFactor * assumptions.utilization;
+      const downtimeValue = assumptions.downtime ? effectivePrevious * assumptions.outputValue * upgrade.buildSeconds / 3600 : 0;
+      const investmentValue = upgrade.costValue + downtimeValue;
+      const paybackHours = investmentValue / (addedPerHour * assumptions.outputValue);
+      const totalHours = upgrade.buildSeconds / 3600 + paybackHours;
+      return {addedPerHour, downtimeValue, investmentValue, paybackHours, totalHours};
+    }
+
+    function roiProfit(upgrade, assumptions, horizonHours) {
+      const buildHours = Math.min(upgrade.buildSeconds / 3600, horizonHours);
+      const operatingHours = Math.max(0, horizonHours - buildHours);
+      const previous = upgrade.previousOutput * assumptions.productionFactor * assumptions.utilization;
+      const added = (upgrade.output - upgrade.previousOutput) * assumptions.productionFactor * assumptions.utilization;
+      const lost = assumptions.downtime ? previous * buildHours : 0;
+      return (added * operatingHours - lost) * assumptions.outputValue - upgrade.costValue;
+    }
+
+    function roiPlanProfit(upgrades, assumptions, horizonHours) {
+      const buildHours = upgrades.reduce((sum, item) => sum + item.buildSeconds / 3600, 0);
+      const operatingHours = Math.max(0, horizonHours - buildHours);
+      const added = (upgrades.at(-1).output - upgrades[0].previousOutput) * assumptions.productionFactor * assumptions.utilization;
+      let elapsed = 0, lost = 0;
+      if (assumptions.downtime) for (const item of upgrades) {
+        const hours = Math.max(0, Math.min(item.buildSeconds / 3600, horizonHours - elapsed));
+        lost += item.previousOutput * assumptions.productionFactor * assumptions.utilization * hours;
+        elapsed += hours;
+      }
+      return (added * operatingHours - lost) * assumptions.outputValue - upgrades.reduce((sum, item) => sum + item.costValue, 0);
     }
 
     function schedule(actions, slotCount, modifier) {
@@ -591,23 +711,122 @@
       $("config-status").textContent = "Configuration exported.";
     }
 
+    function setView(view) {
+      const roi = view === "roi";
+      $("base-view").hidden = roi;
+      $("roi-view").hidden = !roi;
+      $("base-view-button").setAttribute("aria-pressed", String(!roi));
+      $("roi-view-button").setAttribute("aria-pressed", String(roi));
+      history.replaceState(null, "", roi ? `${location.pathname}${location.search}#producer-roi` : location.pathname + location.search);
+      document.title = roi ? "Z Route Producer ROI Calculator" : "Z Route Base Planner";
+      if (roi) renderRoi();
+      scrollTo({top: 0, behavior: "smooth"});
+    }
+
+    function roiUpgrade(producer, level, assumptions) {
+      const row = levels[producer.building_id][level];
+      const output = producer.levels.find(item => item.level === level).base_output_per_hour;
+      const previousOutput = producer.levels.find(item => item.level === level - 1)?.base_output_per_hour || 0;
+      const buildSeconds = adjustedTime(row, {speedPercent: assumptions.speedPercent, freeSeconds: assumptions.freeSeconds});
+      const costValue = row.costs.reduce((sum, cost) => sum + cost.count * assumptions.values[cost.type], 0);
+      const gate = Math.max(0, ...row.prerequisites.filter(item => item.kind === "building_level" && item.building_ids.includes(1001)).map(item => item.minimum_level));
+      return {level, output, previousOutput, buildSeconds, costValue, costs: row.costs, gate, ...roiFor({costValue, previousOutput, output, buildSeconds}, assumptions)};
+    }
+
+    function roiAssumptions(producer) {
+      const values = Object.fromEntries([...new Set([1, 2, 3, producer.output_type])].map(type => [type, readNumber(`roi-value-${type}`, type === producer.output_type ? 0.000001 : 0, 1000000, `${ROI_RESOURCE_NAMES[type] || producer.output_name} value`)]));
+      return {
+        speedPercent: readNumber("roi-speed", 0, 1000, "Construction speed"),
+        freeSeconds: readNumber("roi-free", 0, 100000, "Free-finish time") * 60,
+        productionFactor: 1 + readNumber("roi-production", 0, 10000, "Production bonus") / 100,
+        utilization: readNumber("roi-utilization", 0.1, 100, "Collection uptime") / 100,
+        downtime: $("roi-downtime").checked,
+        values,
+        outputValue: values[producer.output_type]
+      };
+    }
+
+    function durationHours(hours) {
+      return Number.isFinite(hours) ? time(Math.ceil(hours * 3600)) : "Never";
+    }
+
+    function formatCosts(costs) {
+      return costs.filter(cost => cost.count).map(cost => `${escape(cost.type_name)} ${compact(cost.count)}`).join(" · ") || "Free";
+    }
+
+    function renderRoiValues() {
+      const producer = producers.find(item => item.building_id === Number($("roi-producer").value));
+      if (!producer) return;
+      Object.assign(roiValues, Object.fromEntries([...$("roi-values").querySelectorAll("input")].map(input => [`${input.dataset.producer}:${input.dataset.type}`, input.value])));
+      const types = [...new Set([1, 2, 3, producer.output_type])];
+      $("roi-values").innerHTML = types.map(type => {
+        const name = type === 99 ? producer.output_name : ROI_RESOURCE_NAMES[type];
+        const key = `${type === 99 ? producer.building_id : "common"}:${type}`;
+        return `<label for="roi-value-${type}">${escape(name)}</label><input id="roi-value-${type}" data-type="${type}" data-producer="${type === 99 ? producer.building_id : "common"}" type="number" min="${type === producer.output_type ? "0.000001" : "0"}" max="1000000" step="0.01" value="${escape(roiValues[key] || "1")}">`;
+      }).join("");
+    }
+
+    function renderRoi() {
+      try {
+        if (!producers) return;
+        const producer = producers.find(item => item.building_id === Number($("roi-producer").value));
+        const current = Number($("roi-current").value);
+        const target = Number($("roi-target").value);
+        const assumptions = roiAssumptions(producer);
+        if (target <= current) throw new Error("Target level must be higher than current level");
+        const upgrades = Array.from({length: target - current}, (_, index) => roiUpgrade(producer, current + index + 1, assumptions));
+        const startOutput = producer.levels.find(item => item.level === current)?.base_output_per_hour || 0;
+        const endOutput = producer.levels.find(item => item.level === target)?.base_output_per_hour || 0;
+        const buildSeconds = upgrades.reduce((sum, item) => sum + item.buildSeconds, 0);
+        const costValue = upgrades.reduce((sum, item) => sum + item.costValue, 0);
+        const addedPerHour = (endOutput - startOutput) * assumptions.productionFactor * assumptions.utilization;
+        const investmentValue = costValue + upgrades.reduce((sum, item) => sum + item.downtimeValue, 0);
+        const paybackHours = investmentValue / (addedPerHour * assumptions.outputValue);
+        const cumulative = {addedPerHour, investmentValue, paybackHours, totalHours: buildSeconds / 3600 + paybackHours};
+        const profit30 = roiPlanProfit(upgrades, assumptions, 720);
+        const gate = Math.max(0, ...upgrades.map(item => item.gate));
+        $("roi-error").style.display = "none";
+        $("roi-title").textContent = `${producer.building_name} ${current} → ${target}`;
+        $("roi-gate").textContent = `Requires Base ${gate || "—"} · Client v1.30.07`;
+        $("roi-payback").textContent = durationHours(cumulative.paybackHours);
+        $("roi-total-time").textContent = durationHours(cumulative.totalHours);
+        $("roi-output").textContent = `+${compact(Math.round(cumulative.addedPerHour))}/h`;
+        $("roi-output-note").textContent = `${producer.output_name}: ${compact(startOutput)} → ${compact(endOutput)} base per hour`;
+        $("roi-investment").textContent = compact(Math.round(cumulative.investmentValue));
+        $("roi-profit").textContent = number(Math.round(profit30));
+        $("roi-profit").classList.toggle("negative", profit30 < 0);
+        $("roi-rows").innerHTML = upgrades.map(item => {
+          const profit = roiProfit(item, assumptions, 720);
+          return `<tr><td><span class="level-pill">${item.level}</span></td><td class="nowrap">${time(item.buildSeconds)}</td><td class="nowrap">+${number(Math.round(item.addedPerHour))} ${escape(producer.output_name)}/h</td><td>${formatCosts(item.costs)}</td><td class="nowrap">${durationHours(item.paybackHours)}</td><td class="nowrap"><b>${durationHours(item.totalHours)}</b></td><td class="profit${profit < 0 ? " negative" : ""} nowrap">${number(Math.round(profit))}</td></tr>`;
+        }).join("") || `<tr><td colspan="7"><div class="empty">Select a higher target level.</div></td></tr>`;
+      } catch (error) {
+        $("roi-error").textContent = error.message;
+        $("roi-error").style.display = "block";
+      }
+    }
+
     async function init() {
       try {
-        const progression = await fetch("data/progression.json").then(response => {
-          if (!response.ok) throw new Error(`Could not load progression data (${response.status})`);
+        const [progression, resources] = await Promise.all(["data/progression.json", "data/resources.json"].map(url => fetch(url).then(response => {
+          if (!response.ok) throw new Error(`Could not load ${url} (${response.status})`);
           return response.json();
-        });
+        })));
         buildings = Object.fromEntries(progression.buildings.map(building => [building.id, building]));
         levels = Object.fromEntries(progression.buildings.map(building => [building.id, Object.fromEntries(building.levels.map(level => [level.level, level]))]));
         initialState = Object.fromEntries(progression.buildings.map(building => [building.id, building.initial_level || 0]));
         research = RESEARCH_IDS.map(id => progression.research.find(tech => tech.id === id));
         vipSpeed = progression.construction_modifiers?.vip_building_speed_percent_by_level;
+        producers = resources.producer_buildings;
         if (research.some(tech => !tech) || vipSpeed?.length !== 19) throw new Error("Construction modifier data is incomplete");
         selfCheck();
         $("current-base").innerHTML = options(30, 0);
         $("target-base").innerHTML = options(30, 30);
         $("vip-level").innerHTML = vipSpeed.map((speed, level) => `<option value="${level}">VIP ${level} · +${speed}%</option>`).join("");
         $("research-inputs").innerHTML = research.map(tech => `<label for="research-${tech.id}">${escape(tech.name)}</label><select id="research-${tech.id}">${Array.from({length: tech.max_level + 1}, (_, level) => `<option value="${level}">Lv ${level} · ${researchSpeed(tech, level)}%</option>`).join("")}</select>`).join("");
+        $("roi-producer").innerHTML = producers.map(producer => `<option value="${producer.building_id}">${escape(producer.building_name)} · ${escape(producer.output_name)}</option>`).join("");
+        $("roi-current").innerHTML = options(29, 0);
+        $("roi-target").innerHTML = options(30, 1);
+        renderRoiValues();
         manualLevels = Object.fromEntries(BUILDING_IDS.map(id => [id, initialState[id] || 0]));
         renderBuildingInputs();
         $("quick-mode").addEventListener("click", () => setMode(false));
@@ -642,11 +861,31 @@
             event.target.value = "";
           }
         });
+        $("base-view-button").addEventListener("click", () => setView("base"));
+        $("roi-view-button").addEventListener("click", () => setView("roi"));
+        $("roi-producer").addEventListener("change", () => { renderRoiValues(); renderRoi(); });
+        $("roi-current").addEventListener("change", () => {
+          const current = Number($("roi-current").value);
+          if (Number($("roi-target").value) <= current) $("roi-target").value = current + 1;
+          renderRoi();
+        });
+        $("roi-view").addEventListener("input", renderRoi);
+        $("roi-target").addEventListener("change", () => {
+          const current = Number($("roi-current").value);
+          if (Number($("roi-target").value) <= current) $("roi-target").value = current + 1;
+          renderRoi();
+        });
         $("loading").hidden = true;
         $("result-content").hidden = false;
+        $("roi-loading").hidden = true;
+        $("roi-content").hidden = false;
         render();
+        renderRoi();
+        if (location.hash === "#producer-roi") setView("roi");
       } catch (error) {
-        $("loading").innerHTML = `<div class="error" style="display:block">${escape(error.message)}</div>`;
+        const message = `<div class="error" style="display:block">${escape(error.message)}</div>`;
+        $("loading").innerHTML = message;
+        $("roi-loading").innerHTML = message;
       }
     }
 
