@@ -8,7 +8,7 @@ Use the interactive [Z Route Base Planner](https://jfryton.github.io/zroute-buil
 
 - [`data/base-upgrades.csv`](data/base-upgrades.csv) is the compact, spreadsheet-friendly dataset.
 - [`data/base-upgrades.json`](data/base-upgrades.json) preserves the prerequisite structure and source metadata.
-- [`data/progression.json`](data/progression.json) joins 99 buildings and 328 research technologies to their levels, prerequisites, base times, costs, and benefits. It also defines 359 benefit types.
+- [`data/progression.json`](data/progression.json) joins 99 buildings and 328 research technologies to their levels, prerequisites, base times, costs, and benefits. It also defines 359 benefit types and the VIP 0–18 Building Speed curve.
 - [`data/resources.json`](data/resources.json) contains six production-building curves, 190 world resource nodes, 20 search categories, and 40 speedup items.
 - [`data/heroes.json`](data/heroes.json) contains 32 playable heroes, two level curves, the global star curve, their skill progressions, training-center gates, and three exclusive-gear paths.
 - [`data/equipment.json`](data/equipment.json) joins all 16 equipment bases to manufacturing, strengthening, and Mythic promotion data.
@@ -29,7 +29,7 @@ Hero rows are limited to client records where `heroType=1` and `showType=1`, exc
 
 All prerequisite entries on a level must pass. Condition `20103` requires the named building to reach the minimum level; condition `20105` requires any one building in its group to reach the minimum. The group used here is Warrior, Tactical, or Assault Training Center.
 
-Times are seconds from the client table before construction-speed bonuses, alliance help, events, or server-side overrides. Costs use the English client names for resource types 1–3: Food, Metal, and Oil. The Base rows have no `specialCost`; the separate table `reward` field is intentionally not reported as a cost.
+Times are seconds from the client table before construction-speed bonuses, alliance help, events, or server-side overrides. The planner can apply the client VIP curve, Quick Construction I–IV research, an additional speed percentage, and a user-supplied free-finish threshold. The client identifies survivor benefit `20006` as “Free Building Speedup Time +”; it extends the point at which a build can be finished free rather than adding Building Speed. Costs use the English client names for resource types 1–3: Food, Metal, and Oil. The Base rows have no `specialCost`; the separate table `reward` field is intentionally not reported as a cost.
 
 The generated sheet caption still mentions “L35,” but the live Base definition has `maxLv = 30` and the client contains no Base upgrade rows above level 30.
 
@@ -86,6 +86,7 @@ The relevant bundles are bytewise XOR-obfuscated with `0x10`. After UnityFS extr
 | `Building.lua` | `0eb19f215674df0a721e8af4b6e38b27` | `626e8c94253acbc3d62e35a48995c1672224ae41ef77b16d2ef82a94e73ae9a8` |
 | `BuildingLevel.lua` | `fe3de944af769d3aed3c085028a01388` | `c011f412e2d8b3de100df0c4dd7605718950b30729adee240a9746a2f42208d9` |
 | `BuildingUpgrade.lua` | `867eafd983c72fabb00169f6995b94ed` | `ec2855a231be5bc764f831c13abf44fc4814f6c04f53a040e2448856b95668ba` |
+| `VipPrivilege.lua` | `557146594caa9ac60a1eb7fa8b53ee1f` | `99bfc9ed88d0f3ffaa14807c8302f4b947d4a3b64ed4b6444ae3ec920971383c` |
 | `lang_building` | `5c86b0882980ee813ddddd26a83b5bcb` | `a2d6dc3657aaf825a5a163b0fac769bad78d212e1ffcd41ebda3d64291f0bc82` |
 
 Only derived facts and the generator are checked in—no APK, bundle, native library, raw localization file, or decrypted client table is included.

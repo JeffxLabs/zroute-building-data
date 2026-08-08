@@ -20,6 +20,7 @@ SOURCES = {
     "CollegeTech": ("ca0eae5e4286e93f999b6e8907b47848", "eb0e37e4607d3a7b14affa02c1ce6b1b2901c9e9197fcdf9d72e2912ac5d72dd"),
     "CollegeTechLevel": ("97dd856dc66a18e377f248ccbe94279d", "49b8322d773f80039bf671f2ea8bfeb8c6c30ad293e32644644e3d99defbe922"),
     "CollegeTechType": ("dfff5d9d7248a7e30dabfe4216e3d53d", "ecdc96ec072311f52e1453e3ab43e3831c083a393138e51c1efc8cac67abdbfa"),
+    "VipPrivilege": ("557146594caa9ac60a1eb7fa8b53ee1f", "99bfc9ed88d0f3ffaa14807c8302f4b947d4a3b64ed4b6444ae3ec920971383c"),
     "ResourceInfo": ("c5d9304dab5e8c3e4453db1b3893a33a", "fc2f809074501b16e4f1398d057fdd14537e87cbd54c7b778806975a80838510"),
     "ResourceSearch": ("8246abd36bcf6cc0676c32ca8ebc0bd8", "3a8e0d4dda967e644d7e33aba6bf30ca96c8ecc2868c4d5c621bf631ae88148c"),
     "Item": ("e8dc564c60c6da1a81c81e37f6d4f280", "f468c2851ed4df7b47805865623587ef408251b4f3a7a6096203934945abe1eb"),
@@ -271,7 +272,22 @@ def build_progression(tables, names, benefit_names):
             "power_factor": number(row["powerFactor"]),
             "classification": number(row["classify"]),
         })
-    return {"buildings": building_records, "research_types": list(tech_types.values()), "research": tech_records, "benefits": benefits}
+    vip_speed = tables["VipPrivilege"][8]
+    return {
+        "buildings": building_records,
+        "research_types": list(tech_types.values()),
+        "research": tech_records,
+        "benefits": benefits,
+        "construction_modifiers": {
+            "vip_building_speed_percent_by_level": [0] + [number(vip_speed[f"vip{level}"]) or 0 for level in range(1, 19)],
+            "research_building_speed_benefit_type": 20005,
+            "free_building_speedup_time_benefit_type": 20006,
+            "planner_interpretation": {
+                "building_speed_stacking": "additive",
+                "time_formula": "max(0, ceil(base_time_seconds / (1 + total_building_speed_percent / 100) - free_finish_seconds))",
+            },
+        },
+    }
 
 
 def build_resources(tables, names, building_names):
@@ -537,6 +553,7 @@ def build(source_dir, out_dir):
         "optimizer_joins": [
             "building level -> prerequisite conditions + time + costs",
             "research level -> prerequisite conditions + time + costs + benefits",
+            "VIP level -> building speed percent",
             "producer building level -> base output per hour",
             "hero -> level curve + star curve + skill groups + training-center gate",
             "equipment base -> manufacturing + strengthening + promotion",
@@ -565,6 +582,7 @@ def check(out_dir):
     equipment = json.loads((out_dir / "equipment.json").read_text(encoding="utf-8"))
     manifest = json.loads((out_dir / "model-manifest.json").read_text(encoding="utf-8"))
     assert len(progression["buildings"]) == 99 and len(progression["research"]) == 328 and len(progression["benefits"]) == 359
+    assert progression["construction_modifiers"]["vip_building_speed_percent_by_level"] == [0, 0, 0, 10, 10, 20, 20, 30, 30, 40, 40, 50, 50, 50, 50, 50, 50, 50, 50]
     assert len(resources["world_resource_nodes"]) == 190 and len(resources["world_search_categories"]) == 20
     assert len(resources["producer_buildings"]) == 6 and len(resources["speedups"]) == 40
     assert len(heroes["playable_heroes"]) == 32 and len(heroes["star_curve"]) == 26 and len(heroes["exclusive_gear"]) == 3

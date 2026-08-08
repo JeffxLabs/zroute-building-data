@@ -46,6 +46,11 @@
       "plaintext_sha256": "ecdc96ec072311f52e1453e3ab43e3831c083a393138e51c1efc8cac67abdbfa",
       "rows": 15
     },
+    "VipPrivilege": {
+      "bundle_guid": "557146594caa9ac60a1eb7fa8b53ee1f",
+      "plaintext_sha256": "99bfc9ed88d0f3ffaa14807c8302f4b947d4a3b64ed4b6444ae3ec920971383c",
+      "rows": 18
+    },
     "ResourceInfo": {
       "bundle_guid": "c5d9304dab5e8c3e4453db1b3893a33a",
       "plaintext_sha256": "fc2f809074501b16e4f1398d057fdd14537e87cbd54c7b778806975a80838510",
@@ -170,6 +175,7 @@
   "optimizer_joins": [
     "building level -> prerequisite conditions + time + costs",
     "research level -> prerequisite conditions + time + costs + benefits",
+    "VIP level -> building speed percent",
     "producer building level -> base output per hour",
     "hero -> level curve + star curve + skill groups + training-center gate",
     "equipment base -> manufacturing + strengthening + promotion",

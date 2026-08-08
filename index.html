@@ -36,7 +36,7 @@
       font: 16px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    button, select { font: inherit }
+    button, select, input { font: inherit }
     button { color: inherit }
     a { color: var(--cyan) }
     .shell { width: min(1480px, calc(100% - 36px)); margin: auto }
@@ -53,7 +53,7 @@
 
     .planner { display: grid; grid-template-columns: minmax(280px, 370px) 1fr; gap: 22px; align-items: start; padding-bottom: 80px }
     .panel { border: 1px solid var(--line); border-radius: 22px; background: var(--panel); box-shadow: var(--shadow); backdrop-filter: blur(16px) }
-    .controls { position: sticky; top: 18px; overflow: hidden }
+    .controls { position: sticky; top: 18px; max-height: calc(100vh - 36px); overflow-y: auto }
     .controls-inner { padding: 23px }
     .controls h2, .results h2 { margin: 0; font-size: 1.15rem }
     .hint { margin: 5px 0 20px; color: var(--muted); font-size: .88rem }
@@ -63,26 +63,40 @@
     .field { display: grid; gap: 7px; margin-top: 15px }
     .field label { display: flex; justify-content: space-between; gap: 16px; color: #c9d5e7; font-size: .88rem; font-weight: 650 }
     .field small { color: var(--muted); font-weight: 500 }
-    select { width: 100%; border: 1px solid #304b6c; border-radius: 11px; padding: 10px 38px 10px 12px; background: #0b1829; color: var(--text) }
-    select:focus, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px }
-    .advanced { display: none; margin-top: 20px; padding-top: 5px; border-top: 1px solid var(--line) }
-    .advanced.visible { display: block }
+    select, input[type="number"] { width: 100%; border: 1px solid #304b6c; border-radius: 11px; padding: 10px 12px; background: #0b1829; color: var(--text) }
+    select { padding-right: 38px }
+    select:focus, input:focus, button:focus-visible, summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px }
+    .settings { margin-top: 20px; padding-top: 17px; border-top: 1px solid var(--line) }
+    .settings summary { cursor: pointer; color: #d7e2f1; font-size: .9rem; font-weight: 750 }
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px }
+    .settings-grid .wide { grid-column: 1 / -1 }
+    .speed-total { margin: 15px 0 0; color: var(--green); font-size: .82rem; font-weight: 750 }
+    .research-inputs { display: grid; grid-template-columns: 1fr 82px; gap: 8px 10px; align-items: center }
+    .research-inputs label { color: #b9c8dc; font-size: .8rem }
+    .research-inputs select { padding: 7px 28px 7px 9px; font-size: .84rem }
+    .building-settings { margin-top: 17px; padding-top: 15px; border-top: 1px solid var(--line) }
+    .building-settings summary { cursor: pointer; color: #d7e2f1; font-size: .9rem; font-weight: 750 }
     .building-inputs { display: grid; grid-template-columns: 1fr 82px; gap: 10px 12px; align-items: center }
     .building-inputs label { color: #b9c8dc; font-size: .84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
     .building-inputs select { padding: 7px 28px 7px 9px; font-size: .86rem }
     .advanced-note { color: var(--muted); font-size: .78rem; margin: 12px 0 0 }
+    .config-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px }
+    .config-actions button { border: 1px solid #315071; border-radius: 10px; padding: 9px; background: #11243a; cursor: pointer }
+    .config-actions button:hover { background: #17304a }
+    .config-status { min-height: 1.2em; margin: 7px 0 0; color: var(--muted); font-size: .75rem }
 
     .results { min-width: 0 }
     .result-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin: 2px 2px 17px }
     .route-label { color: var(--muted); font-size: .88rem }
     .route-title { margin-top: 2px; font-size: clamp(1.55rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -.035em }
     .version { color: var(--muted); font-size: .76rem; text-align: right }
-    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px }
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px }
     .metric { min-height: 130px; padding: 18px; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(145deg, rgba(20, 39, 64, .95), rgba(12, 26, 45, .95)) }
     .metric::before { content: ""; display: block; width: 30px; height: 3px; margin-bottom: 20px; border-radius: 3px; background: var(--green) }
     .metric:nth-child(2)::before { background: var(--cyan) }
     .metric:nth-child(3)::before { background: var(--amber) }
     .metric:nth-child(4)::before { background: var(--red) }
+    .metric:nth-child(5)::before { background: #c68cff }
     .metric-label { color: var(--muted); font-size: .73rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase }
     .metric-value { margin-top: 5px; font-size: clamp(1.15rem, 2vw, 1.62rem); font-weight: 800; line-height: 1.15 }
     .metric-note { margin-top: 8px; color: var(--muted); font-size: .78rem }
@@ -120,7 +134,7 @@
 
     @media (max-width: 1050px) {
       .planner { grid-template-columns: 1fr }
-      .controls { position: static }
+      .controls { position: static; max-height: none; overflow: visible }
       .metrics { grid-template-columns: 1fr 1fr }
       .work-grid { grid-template-columns: 1fr 1fr }
     }
@@ -158,7 +172,7 @@
       <aside class="panel controls" aria-label="Planner inputs">
         <div class="controls-inner">
           <h2>Your progression</h2>
-          <p class="hint">Use Base-only for a quick estimate or enter every current building level.</p>
+          <p class="hint">Start with inferred levels, then tune queues, speed bonuses, or any building.</p>
           <div class="mode" role="group" aria-label="Input detail">
             <button id="quick-mode" aria-pressed="true">Base only</button>
             <button id="advanced-mode" aria-pressed="false">Building levels</button>
@@ -171,11 +185,30 @@
             <label for="target-base">Target Base level</label>
             <select id="target-base"></select>
           </div>
-          <div id="advanced" class="advanced">
-            <p class="hint">Levels above your target are allowed and count as already complete.</p>
+          <details class="settings" open>
+            <summary>Builders &amp; speed bonuses</summary>
+            <div class="settings-grid">
+              <div class="field"><label for="builder-slots">Builder slots</label><select id="builder-slots"><option selected>1</option><option>2</option><option>3</option><option>4</option></select></div>
+              <div class="field"><label for="vip-level">VIP level</label><select id="vip-level"></select></div>
+              <div class="field wide"><label>Quick Construction research</label><div id="research-inputs" class="research-inputs"></div></div>
+              <div class="field"><label for="free-minutes">Free-finish time <small>minutes</small></label><input id="free-minutes" type="number" min="0" step="1" value="0"></div>
+              <div class="field"><label for="other-speed">Other speed <small>%</small></label><input id="other-speed" type="number" min="0" step="0.1" value="0"></div>
+            </div>
+            <p id="speed-total" class="speed-total"></p>
+            <p class="advanced-note">VIP and research add Building Speed. Survivors add free-finish time instead; enter the total shown in game. Alliance help and temporary buffs can go under Other speed.</p>
+          </details>
+          <details id="building-settings" class="building-settings">
+            <summary id="building-summary">Override inferred building levels</summary>
+            <p id="building-hint" class="hint">Auto follows the minimum route implied by your current Base. Override any exception.</p>
             <div id="building-inputs" class="building-inputs"></div>
             <p class="advanced-note">Any-of training gates choose the center needing the least remaining builder work.</p>
+          </details>
+          <div class="config-actions">
+            <button id="export-config" type="button">Export JSON</button>
+            <button id="import-config" type="button">Import JSON</button>
+            <input id="config-file" type="file" accept="application/json,.json" hidden>
           </div>
+          <p id="config-status" class="config-status" aria-live="polite"></p>
         </div>
       </aside>
 
@@ -185,17 +218,18 @@
           <div id="error" class="error"></div>
           <header class="result-head">
             <div><div class="route-label">Remaining route</div><div id="route-title" class="route-title"></div></div>
-            <div class="version">Client v1.30.07<br>Unmodified base values</div>
+            <div class="version">Client v1.30.07<br><span id="modifier-summary"></span></div>
           </header>
           <div class="metrics">
-            <article class="metric"><div class="metric-label">Direct Base time</div><div id="base-time" class="metric-value"></div><div class="metric-note">Prerequisite buildings can use other slots</div></article>
+            <article class="metric"><div class="metric-label">Estimated elapsed</div><div id="elapsed-time" class="metric-value"></div><div class="metric-note">Prerequisite-aware builder schedule</div></article>
+            <article class="metric"><div class="metric-label">Adjusted Base work</div><div id="base-time" class="metric-value"></div><div class="metric-note">Speed and free-finish applied per upgrade</div></article>
             <article class="metric"><div class="metric-label">Food required</div><div id="food" class="metric-value"></div><div class="metric-note">Base + all missing prerequisites</div></article>
             <article class="metric"><div class="metric-label">Metal required</div><div id="metal" class="metric-value"></div><div class="metric-note">Base + all missing prerequisites</div></article>
             <article class="metric"><div class="metric-label">Oil required</div><div id="oil" class="metric-value"></div><div class="metric-note">Base + all missing prerequisites</div></article>
           </div>
 
           <section class="panel section">
-            <div class="section-head"><div><h3>Parallel building workloads</h3><div class="section-note">Each card is a separate queue workload; elapsed time depends on prerequisite order and slots.</div></div><div id="action-count" class="section-note"></div></div>
+            <div class="section-head"><div><h3>Building workloads</h3><div class="section-note">Adjusted time by building; the elapsed estimate respects prerequisite order and selected slots.</div></div><div id="action-count" class="section-note"></div></div>
             <div id="work-grid" class="work-grid"></div>
           </section>
 
@@ -214,13 +248,14 @@
   </main>
 
   <footer class="shell">
-    <p>Times and costs are static Android-client values before construction-speed bonuses, alliance help, events, or server overrides. Actual elapsed time depends on construction slots and scheduling. The planner does not upload or store account state.</p>
+    <p>Costs are static Android-client values. Times apply the selected additive Building Speed and free-finish threshold; the schedule is an estimate and cannot predict server overrides or alliance-help timing. Configuration files stay on your device—the planner does not upload or store account state.</p>
   </footer>
 
   <script>
     "use strict";
 
     const BUILDING_IDS = [1002, 1004, 1006, 1007, 1010, 1020, 5006, 5013, 5031, 5044, 5045, 5046];
+    const RESEARCH_IDS = [1001, 1008, 1015, 1022];
     const RESOURCE = {1: "food", 2: "metal", 3: "oil"};
     const SHORT = {
       "Alpha Research Division": "Alpha Research",
@@ -231,7 +266,8 @@
       "Engineering Department": "Engineering"
     };
     const $ = id => document.getElementById(id);
-    let buildings, levels, initialState, advanced = false;
+    let buildings, levels, initialState, research, vipSpeed, advanced = false;
+    let quickOverrides = {}, manualLevels = {};
 
     function options(max, selected = 0) {
       return Array.from({length: max + 1}, (_, level) => `<option value="${level}"${level === selected ? " selected" : ""}>${level}</option>`).join("");
@@ -257,10 +293,14 @@
       while ((state[buildingId] || 0) < target) {
         const level = (state[buildingId] || 0) + 1;
         const row = levels[buildingId][level];
+        const requirements = [];
         if (!row) throw new Error(`Missing ${buildings[buildingId].name} level ${level}`);
         for (const condition of row.prerequisites) {
           if (condition.kind === "building_level") {
-            for (const dependency of condition.building_ids) actions.push(...ensure(dependency, condition.minimum_level, state, [...stack, buildingId]));
+            for (const dependency of condition.building_ids) {
+              actions.push(...ensure(dependency, condition.minimum_level, state, [...stack, buildingId]));
+              requirements.push([dependency, condition.minimum_level]);
+            }
           } else if (condition.kind === "any_building_in_list_level") {
             const choices = condition.building_ids.flatMap(dependency => {
               const trial = {...state};
@@ -273,6 +313,7 @@
             if (!choices.length) throw new Error("No feasible training-center route");
             Object.assign(state, choices[0].state);
             actions.push(...choices[0].actions);
+            requirements.push([choices[0].dependency, condition.minimum_level]);
           } else {
             throw new Error(`Unsupported condition ${condition.id}`);
           }
@@ -280,7 +321,7 @@
         const previous = state[buildingId] || 0;
         if (previous !== level - 1) throw new Error(`Non-sequential ${buildings[buildingId].name} route`);
         state[buildingId] = level;
-        actions.push({building_id: buildingId, building_name: buildings[buildingId].name, from_level: previous, ...row});
+        actions.push({building_id: buildingId, building_name: buildings[buildingId].name, from_level: previous, requirements, ...row});
       }
       return actions;
     }
@@ -292,8 +333,9 @@
     }
 
     function currentState() {
-      if (!advanced) return inferredState(Number($("current-base").value));
-      return Object.fromEntries(Object.keys(buildings).map(id => [id, id === "1001" ? Number($("current-base").value) : initialState[id] || 0]).concat(BUILDING_IDS.map(id => [String(id), Number($(`building-${id}`).value)])));
+      const base = Number($("current-base").value);
+      if (!advanced) return Object.assign(inferredState(base), quickOverrides, {1001: base});
+      return Object.fromEntries(Object.keys(buildings).map(id => [id, id === "1001" ? base : manualLevels[id] ?? initialState[id] ?? 0]));
     }
 
     function plan(state, target) {
@@ -310,7 +352,11 @@
     function selfCheck() {
       const result = plan({...initialState}, 30);
       const total = summarize(result.actions);
-      if (result.actions.length !== 220 || total.seconds !== 110094695 || total.food !== 13352203480 || total.metal !== 12992121750 || total.oil !== 4500620760) {
+      const unchanged = {speedPercent: 0, freeSeconds: 0};
+      if (result.actions.length !== 220 || total.seconds !== 110094695 || total.food !== 13352203480 || total.metal !== 12992121750 || total.oil !== 4500620760
+          || schedule(result.actions, 1, unchanged).seconds !== total.seconds
+          || schedule(result.actions, 4, unchanged).seconds > total.seconds
+          || adjustedTime({base_time_seconds: 100}, {speedPercent: 100, freeSeconds: 10}) !== 40) {
         throw new Error("Planner self-check failed for client v1.30.07");
       }
     }
@@ -332,7 +378,52 @@
       const node = document.createElement("span"); node.textContent = value; return node.innerHTML;
     }
 
-    function groupWork(actions) {
+    function researchSpeed(tech, level) {
+      if (!level) return 0;
+      return Number(((tech.levels.find(row => row.level === level)?.benefits.find(benefit => benefit.type === 20005)?.value || 0) * 100).toFixed(3));
+    }
+
+    function modifiers() {
+      const vipLevel = Number($("vip-level").value);
+      const researchPercent = research.reduce((sum, tech) => sum + researchSpeed(tech, Number($(`research-${tech.id}`).value)), 0);
+      const other = readNumber("other-speed", 0, 1000, "Other speed");
+      return {
+        speedPercent: vipSpeed[vipLevel] + researchPercent + other,
+        freeSeconds: readNumber("free-minutes", 0, 100000, "Free-finish time") * 60,
+        vipLevel,
+        researchPercent,
+        other
+      };
+    }
+
+    function adjustedTime(action, modifier) {
+      return Math.max(0, Math.ceil((action.base_time_seconds || 0) / (1 + modifier.speedPercent / 100) - modifier.freeSeconds));
+    }
+
+    function adjustedTotal(actions, modifier) {
+      return actions.reduce((sum, action) => sum + adjustedTime(action, modifier), 0);
+    }
+
+    function schedule(actions, slotCount, modifier) {
+      // ponytail: deterministic greedy list schedule; use an exact optimizer if alternate queue order materially matters.
+      const slots = Array(slotCount).fill(0);
+      const completion = new Map();
+      for (const action of actions) {
+        const dependencyKeys = [[action.building_id, action.from_level], ...(action.requirements || [])];
+        const ready = Math.max(0, ...dependencyKeys.map(([id, level]) => completion.get(`${id}:${level}`) || 0));
+        let slot = 0, start = Math.max(slots[0], ready);
+        for (let index = 1; index < slots.length; index++) {
+          const candidate = Math.max(slots[index], ready);
+          if (candidate < start) [slot, start] = [index, candidate];
+        }
+        const finish = start + adjustedTime(action, modifier);
+        slots[slot] = finish;
+        completion.set(`${action.building_id}:${action.level}`, finish);
+      }
+      return {seconds: Math.max(0, ...slots)};
+    }
+
+    function groupWork(actions, modifier) {
       const grouped = new Map();
       for (const action of actions.filter(action => action.building_id !== 1001)) {
         if (!grouped.has(action.building_id)) grouped.set(action.building_id, []);
@@ -343,7 +434,8 @@
         name: SHORT[group[0].building_name] || group[0].building_name,
         from: group[0].from_level,
         to: group.at(-1).level,
-        ...summarize(group)
+        ...summarize(group),
+        adjustedSeconds: adjustedTotal(group, modifier)
       }));
     }
 
@@ -353,31 +445,37 @@
         const target = Number($("target-base").value);
         const result = plan({...state}, target);
         const total = summarize(result.actions);
-        const base = summarize(result.actions.filter(action => action.building_id === 1001));
-        const work = groupWork(result.actions);
+        const modifier = modifiers();
+        const baseActions = result.actions.filter(action => action.building_id === 1001);
+        const work = groupWork(result.actions, modifier);
+        const slots = Number($("builder-slots").value);
+        const elapsed = schedule(result.actions, slots, modifier);
         $("error").style.display = "none";
         $("route-title").textContent = `Base ${result.current} → ${result.target}`;
-        $("base-time").textContent = time(base.seconds);
+        $("elapsed-time").textContent = time(elapsed.seconds);
+        $("base-time").textContent = time(adjustedTotal(baseActions, modifier));
         $("food").textContent = compact(total.food);
         $("metal").textContent = compact(total.metal);
         $("oil").textContent = compact(total.oil);
+        $("speed-total").textContent = `Total Building Speed +${number(Number(modifier.speedPercent.toFixed(3)))}% · free finish ${time(modifier.freeSeconds)}`;
+        $("modifier-summary").textContent = `${slots} builder slot${slots === 1 ? "" : "s"} · +${number(Number(modifier.speedPercent.toFixed(3)))}% speed`;
         $("action-count").textContent = `${result.actions.length} upgrades remaining`;
         $("work-grid").innerHTML = work.length ? work.map(item => `
           <article class="work-card">
             <div class="work-name">${escape(item.name)}</div>
             <div class="work-level">Lv ${item.from} → ${item.to}</div>
-            <div class="work-time">${time(item.seconds)}</div>
+            <div class="work-time">${time(item.adjustedSeconds)}</div>
             <div class="work-resources">F ${compact(item.food)} · M ${compact(item.metal)} · O ${compact(item.oil)}</div>
           </article>`).join("") : `<div class="empty">No prerequisite building work remains for this target.</div>`;
         $("route-rows").innerHTML = result.stages.length ? result.stages.map(stage => {
           const stageTotal = summarize(stage.actions);
-          const direct = summarize(stage.actions.filter(action => action.building_id === 1001));
-          const tasks = groupWork(stage.actions);
+          const direct = adjustedTotal(stage.actions.filter(action => action.building_id === 1001), modifier);
+          const tasks = groupWork(stage.actions, modifier);
           return `<tr>
             <td><span class="level-pill">${stage.level}</span></td>
-            <td><b>${time(direct.seconds)}</b></td>
+            <td><b>${time(direct)}</b></td>
             <td class="resource-stack"><span>F ${number(stageTotal.food)}</span><span>M ${number(stageTotal.metal)}</span><span>O ${number(stageTotal.oil)}</span></td>
-            <td>${tasks.length ? tasks.map(task => `<span class="task">${escape(task.name)} ${task.from}→${task.to} · <b>${time(task.seconds)}</b></span>`).join("") : "<span class=\"section-note\">None</span>"}</td>
+            <td>${tasks.length ? tasks.map(task => `<span class="task">${escape(task.name)} ${task.from}→${task.to} · <b>${time(task.adjustedSeconds)}</b></span>`).join("") : "<span class=\"section-note\">None</span>"}</td>
           </tr>`;
         }).join("") : `<tr><td colspan="4"><div class="empty">Target already reached. Raise the target to see remaining work.</div></td></tr>`;
       } catch (error) {
@@ -386,17 +484,111 @@
       }
     }
 
+    function readNumber(id, minimum, maximum, label) {
+      const value = Number($(id).value);
+      if (!Number.isFinite(value) || value < minimum || value > maximum) throw new Error(`${label} must be between ${minimum} and ${maximum}`);
+      return value;
+    }
+
+    function renderBuildingInputs() {
+      const inferred = inferredState(Number($("current-base").value));
+      $("building-summary").textContent = advanced ? "Current building levels" : "Override inferred building levels";
+      $("building-hint").textContent = advanced
+        ? "Levels above your target are allowed and count as already complete."
+        : "Auto follows the minimum route implied by your current Base. Override any exception.";
+      $("building-settings").open = advanced || $("building-settings").open;
+      $("building-inputs").innerHTML = BUILDING_IDS.map(id => {
+        const selected = advanced ? manualLevels[id] ?? inferred[id] ?? 0 : quickOverrides[id] ?? -1;
+        const auto = advanced ? "" : `<option value=""${selected === -1 ? " selected" : ""}>Auto · ${inferred[id] || 0}</option>`;
+        return `<label for="building-${id}" title="${escape(buildings[id].name)}">${escape(SHORT[buildings[id].name] || buildings[id].name)}</label><select id="building-${id}">${auto}${options(buildings[id].max_level, selected)}</select>`;
+      }).join("");
+    }
+
     function setMode(useAdvanced) {
+      if (useAdvanced && !advanced) {
+        const state = currentState();
+        manualLevels = Object.fromEntries(BUILDING_IDS.map(id => [id, state[id] || 0]));
+      } else if (!useAdvanced && advanced) {
+        const inferred = inferredState(Number($("current-base").value));
+        quickOverrides = Object.fromEntries(BUILDING_IDS.flatMap(id => manualLevels[id] === (inferred[id] || 0) ? [] : [[id, manualLevels[id]]]));
+      }
       advanced = useAdvanced;
       $("quick-mode").setAttribute("aria-pressed", String(!advanced));
       $("advanced-mode").setAttribute("aria-pressed", String(advanced));
-      $("advanced").classList.toggle("visible", advanced);
       $("mode-hint").textContent = advanced ? "manual state" : "infer prerequisites";
-      if (advanced) {
-        const state = inferredState(Number($("current-base").value));
-        for (const id of BUILDING_IDS) $(`building-${id}`).value = state[id] || 0;
-      }
+      renderBuildingInputs();
       render();
+    }
+
+    function config() {
+      const state = currentState();
+      return {
+        schema: "zroute-base-planner",
+        version: 1,
+        clientVersion: "1.30.07",
+        mode: advanced ? "building-levels" : "base-only",
+        currentBase: Number($("current-base").value),
+        targetBase: Number($("target-base").value),
+        builderSlots: Number($("builder-slots").value),
+        vipLevel: Number($("vip-level").value),
+        researchLevels: Object.fromEntries(research.map(tech => [tech.id, Number($(`research-${tech.id}`).value)])),
+        freeFinishMinutes: Number($("free-minutes").value),
+        otherBuildingSpeedPercent: Number($("other-speed").value),
+        buildingLevels: Object.fromEntries(BUILDING_IDS.map(id => [id, state[id] || 0])),
+        buildingOverrides: advanced ? {} : {...quickOverrides}
+      };
+    }
+
+    function validInteger(value, minimum, maximum, label) {
+      if (!Number.isInteger(value) || value < minimum || value > maximum) throw new Error(`${label} must be an integer from ${minimum} to ${maximum}`);
+      return value;
+    }
+
+    function applyConfig(value) {
+      if (!value || value.schema !== "zroute-base-planner" || value.version !== 1) throw new Error("Not a supported Z Route planner configuration");
+      if (!["base-only", "building-levels"].includes(value.mode)) throw new Error("Configuration mode is not supported");
+      const currentBase = validInteger(value.currentBase, 0, 30, "Current Base");
+      const targetBase = validInteger(value.targetBase, currentBase, 30, "Target Base");
+      const slots = validInteger(value.builderSlots, 1, 4, "Builder slots");
+      const vip = validInteger(value.vipLevel, 0, 18, "VIP level");
+      const researchLevels = value.researchLevels || {};
+      for (const tech of research) validInteger(researchLevels[tech.id] ?? 0, 0, tech.max_level, tech.name);
+      const sourceLevels = value.mode === "building-levels" ? value.buildingLevels : value.buildingOverrides || {};
+      if (!sourceLevels || typeof sourceLevels !== "object" || Array.isArray(sourceLevels)) throw new Error("Building levels must be an object");
+      for (const [id, level] of Object.entries(sourceLevels)) {
+        if (!BUILDING_IDS.includes(Number(id))) throw new Error(`Unknown building ID ${id}`);
+        validInteger(level, 0, buildings[id].max_level, buildings[id].name);
+      }
+      const free = Number(value.freeFinishMinutes ?? 0);
+      const other = Number(value.otherBuildingSpeedPercent ?? 0);
+      if (!Number.isFinite(free) || free < 0 || free > 100000) throw new Error("Free-finish time must be between 0 and 100000 minutes");
+      if (!Number.isFinite(other) || other < 0 || other > 1000) throw new Error("Other speed must be between 0 and 1000%");
+
+      $("current-base").value = currentBase;
+      $("target-base").value = targetBase;
+      $("builder-slots").value = slots;
+      $("vip-level").value = vip;
+      $("free-minutes").value = free;
+      $("other-speed").value = other;
+      for (const tech of research) $(`research-${tech.id}`).value = researchLevels[tech.id] ?? 0;
+      advanced = value.mode === "building-levels";
+      if (advanced) manualLevels = Object.fromEntries(BUILDING_IDS.map(id => [id, value.buildingLevels?.[id] ?? inferredState(currentBase)[id] ?? 0]));
+      else quickOverrides = Object.fromEntries(Object.entries(sourceLevels).map(([id, level]) => [Number(id), level]));
+      $("quick-mode").setAttribute("aria-pressed", String(!advanced));
+      $("advanced-mode").setAttribute("aria-pressed", String(advanced));
+      $("mode-hint").textContent = advanced ? "manual state" : "infer prerequisites";
+      renderBuildingInputs();
+      render();
+    }
+
+    function exportConfig() {
+      const blob = new Blob([JSON.stringify(config(), null, 2) + "\n"], {type: "application/json"});
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `zroute-base-${$("current-base").value}-to-${$("target-base").value}.json`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+      $("config-status").textContent = "Configuration exported.";
     }
 
     async function init() {
@@ -408,20 +600,47 @@
         buildings = Object.fromEntries(progression.buildings.map(building => [building.id, building]));
         levels = Object.fromEntries(progression.buildings.map(building => [building.id, Object.fromEntries(building.levels.map(level => [level.level, level]))]));
         initialState = Object.fromEntries(progression.buildings.map(building => [building.id, building.initial_level || 0]));
+        research = RESEARCH_IDS.map(id => progression.research.find(tech => tech.id === id));
+        vipSpeed = progression.construction_modifiers?.vip_building_speed_percent_by_level;
+        if (research.some(tech => !tech) || vipSpeed?.length !== 19) throw new Error("Construction modifier data is incomplete");
         selfCheck();
         $("current-base").innerHTML = options(30, 0);
         $("target-base").innerHTML = options(30, 30);
-        $("building-inputs").innerHTML = BUILDING_IDS.map(id => `<label for="building-${id}" title="${escape(buildings[id].name)}">${escape(SHORT[buildings[id].name] || buildings[id].name)}</label><select id="building-${id}">${options(buildings[id].max_level, initialState[id] || 0)}</select>`).join("");
+        $("vip-level").innerHTML = vipSpeed.map((speed, level) => `<option value="${level}">VIP ${level} · +${speed}%</option>`).join("");
+        $("research-inputs").innerHTML = research.map(tech => `<label for="research-${tech.id}">${escape(tech.name)}</label><select id="research-${tech.id}">${Array.from({length: tech.max_level + 1}, (_, level) => `<option value="${level}">Lv ${level} · ${researchSpeed(tech, level)}%</option>`).join("")}</select>`).join("");
+        manualLevels = Object.fromEntries(BUILDING_IDS.map(id => [id, initialState[id] || 0]));
+        renderBuildingInputs();
         $("quick-mode").addEventListener("click", () => setMode(false));
         $("advanced-mode").addEventListener("click", () => setMode(true));
         $("current-base").addEventListener("change", () => {
           const current = Number($("current-base").value);
           if (Number($("target-base").value) < current) $("target-base").value = current;
+          renderBuildingInputs();
           render();
         });
         $("target-base").addEventListener("change", render);
         $("building-inputs").addEventListener("change", event => {
+          const id = Number(event.target.id.replace("building-", ""));
+          if (advanced) manualLevels[id] = Number(event.target.value);
+          else if (event.target.value === "") delete quickOverrides[id];
+          else quickOverrides[id] = Number(event.target.value);
           render();
+        });
+        for (const id of ["builder-slots", "vip-level", "research-inputs", "free-minutes", "other-speed"]) $(id).addEventListener("input", render);
+        $("export-config").addEventListener("click", exportConfig);
+        $("import-config").addEventListener("click", () => $("config-file").click());
+        $("config-file").addEventListener("change", async event => {
+          try {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 100000) throw new Error("Configuration file is too large");
+            applyConfig(JSON.parse(await file.text()));
+            $("config-status").textContent = "Configuration imported.";
+          } catch (error) {
+            $("config-status").textContent = `Import failed: ${error.message}`;
+          } finally {
+            event.target.value = "";
+          }
         });
         $("loading").hidden = true;
         $("result-content").hidden = false;

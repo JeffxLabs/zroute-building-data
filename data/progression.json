@@ -154493,5 +154493,34 @@
       "power_factor": null,
       "classification": 0
     }
-  ]
+  ],
+  "construction_modifiers": {
+    "vip_building_speed_percent_by_level": [
+      0,
+      0,
+      0,
+      10,
+      10,
+      20,
+      20,
+      30,
+      30,
+      40,
+      40,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "research_building_speed_benefit_type": 20005,
+    "free_building_speedup_time_benefit_type": 20006,
+    "planner_interpretation": {
+      "building_speed_stacking": "additive",
+      "time_formula": "max(0, ceil(base_time_seconds / (1 + total_building_speed_percent / 100) - free_finish_seconds))"
+    }
+  }
 }
