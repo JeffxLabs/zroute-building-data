@@ -1,0 +1,405 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="2140" viewBox="0 0 2400 2140" role="img" aria-labelledby="title description">
+<title id="title">Z Route Base leveling requirements, levels 1 through 30</title>
+<desc id="description">A three-column guide listing exact base construction time, Food, Metal, Oil, and building prerequisites for every Base level.</desc>
+<style>
+  .title { font: 800 52px Inter,Segoe UI,sans-serif; fill: #f5f7ff }
+  .subtitle { font: 400 23px Inter,Segoe UI,sans-serif; fill: #9aa9c3 }
+  .card-label { font: 700 17px Inter,Segoe UI,sans-serif; fill: #8ea0bd; letter-spacing: 2px }
+  .card-value { font: 800 31px Inter,Segoe UI,sans-serif; fill: #f5f7ff }
+  .card-note { font: 400 18px Inter,Segoe UI,sans-serif; fill: #aab7cc }
+  .band { font: 800 27px Inter,Segoe UI,sans-serif; fill: #f5f7ff }
+  .column { font: 700 15px Inter,Segoe UI,sans-serif; fill: #7789a7; letter-spacing: 1.4px }
+  .level { font: 800 24px Inter,Segoe UI,sans-serif; fill: #f5f7ff }
+  .time { font: 700 19px Inter,Segoe UI,sans-serif; fill: #dce5f5 }
+  .resource { font: 600 16px Inter,Segoe UI,sans-serif; fill: #aebbd0 }
+  .body { font: 500 18px Inter,Segoe UI,sans-serif; fill: #d6deec }
+  .none { font: italic 500 18px Inter,Segoe UI,sans-serif; fill: #7183a1 }
+  .total-label { font: 700 15px Inter,Segoe UI,sans-serif; fill: #8798b5; letter-spacing: 1.2px }
+  .total { font: 700 18px Inter,Segoe UI,sans-serif; fill: #dce5f5 }
+  .footer { font: 400 17px Inter,Segoe UI,sans-serif; fill: #8798b5 }
+</style>
+<rect width="2400" height="2140" fill="#08111f"/>
+<circle cx="2200" cy="-80" r="430" fill="#162a47" opacity=".45"/>
+<circle cx="80" cy="2140" r="360" fill="#10243d" opacity=".5"/>
+<text x="45" y="72" class="title">Z ROUTE  /  BASE LEVELING GUIDE</text>
+<text x="47" y="112" class="subtitle">Requirements and unmodified construction time for every Base level</text>
+<rect x="45" y="150" width="750" height="142" rx="18" fill="#101d31" stroke="#213553"/>
+<text x="73" y="185" class="card-label">TOTAL BASE TIME</text>
+<text x="73" y="232" class="card-value">395d 10h 43m 48s</text>
+<text x="73" y="266" class="card-note">Levels 1–30, sequential</text>
+<rect x="825" y="150" width="750" height="142" rx="18" fill="#101d31" stroke="#213553"/>
+<text x="853" y="185" class="card-label">TOTAL CORE RESOURCES</text>
+<text x="853" y="232" class="card-value">5.018B Food  ·  5.018B Metal</text>
+<text x="853" y="266" class="card-note">1.632B Oil</text>
+<rect x="1605" y="150" width="750" height="142" rx="18" fill="#101d31" stroke="#213553"/>
+<text x="1633" y="185" class="card-label">DATA SCOPE</text>
+<text x="1633" y="232" class="card-value">Client v1.30.07</text>
+<text x="1633" y="266" class="card-note">Before speed bonuses, help, events, or overrides</text>
+<rect x="45" y="350" width="750" height="1615" rx="20" fill="#0d192b" stroke="#213553"/>
+<rect x="45" y="350" width="750" height="6" rx="3" fill="#5ee6a8"/>
+<text x="70" y="394" class="band">BASE LEVELS 1–10</text>
+<text x="70" y="420" class="column">LEVEL</text>
+<text x="163" y="420" class="column">TIME + RESOURCES</text>
+<text x="415" y="420" class="column">REQUIREMENTS</text>
+<g id="level-1"><rect x="57" y="438" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="57" y="438" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="481" class="level">01</text>
+<text x="163" y="473" class="time">2s</text>
+<rect x="163" y="486" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="486" width="19.3" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="518" class="resource">F 90  ·  M 90</text>
+<text x="163" y="543" class="resource">O 0</text>
+<text x="415" y="476" class="none">None</text>
+</g>
+<g id="level-2"><rect x="57" y="572" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="57" y="572" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="615" class="level">02</text>
+<text x="163" y="607" class="time">2s</text>
+<rect x="163" y="620" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="620" width="19.3" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="652" class="resource">F 90  ·  M 90</text>
+<text x="163" y="677" class="resource">O 0</text>
+<text x="415" y="610" class="body">Drill Ground Lv 1 + Squad 1 Lv 1 +</text>
+<text x="415" y="634" class="body">Defense Line Lv 1</text>
+</g>
+<g id="level-3"><rect x="57" y="706" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="57" y="706" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="749" class="level">03</text>
+<text x="163" y="741" class="time">47s</text>
+<rect x="163" y="754" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="754" width="52.9" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="786" class="resource">F 490  ·  M 490</text>
+<text x="163" y="811" class="resource">O 0</text>
+<text x="415" y="744" class="body">Defense Line Lv 2</text>
+</g>
+<g id="level-4"><rect x="57" y="840" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="57" y="840" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="883" class="level">04</text>
+<text x="163" y="875" class="time">1m 57s</text>
+<rect x="163" y="888" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="888" width="64.8" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="920" class="resource">F 2,970  ·  M 2,970</text>
+<text x="163" y="945" class="resource">O 0</text>
+<text x="415" y="878" class="body">Soldier Training Camp Lv 3 + Drill</text>
+<text x="415" y="902" class="body">Ground Lv 3</text>
+</g>
+<g id="level-5"><rect x="57" y="974" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="57" y="974" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="1017" class="level">05</text>
+<text x="163" y="1009" class="time">11m 42s</text>
+<rect x="163" y="1022" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="1022" width="88.6" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="1054" class="resource">F 24,970  ·  M 24,970</text>
+<text x="163" y="1079" class="resource">O 0</text>
+<text x="415" y="1012" class="body">Defense Line Lv 4 + Soldier Training</text>
+<text x="415" y="1036" class="body">Camp Lv 4</text>
+</g>
+<g id="level-6"><rect x="57" y="1108" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="57" y="1108" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="1151" class="level">06</text>
+<text x="163" y="1143" class="time">35m 6s</text>
+<rect x="163" y="1156" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="1156" width="103.3" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="1188" class="resource">F 89,240  ·  M 89,240</text>
+<text x="163" y="1213" class="resource">O 0</text>
+<text x="415" y="1146" class="body">Defense Line Lv 5 + Drill Ground Lv 5</text>
+</g>
+<g id="level-7"><rect x="57" y="1242" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="57" y="1242" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="1285" class="level">07</text>
+<text x="163" y="1277" class="time">1h 33m 36s</text>
+<rect x="163" y="1290" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="1290" width="116.4" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="1322" class="resource">F 249,620  ·  M 249,620</text>
+<text x="163" y="1347" class="resource">O 0</text>
+<text x="415" y="1280" class="body">Any training center Lv 6 (Warrior /</text>
+<text x="415" y="1304" class="body">Assault / Tactical) + Defense Line Lv 6</text>
+</g>
+<g id="level-8"><rect x="57" y="1376" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="57" y="1376" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="1419" class="level">08</text>
+<text x="163" y="1411" class="time">3h 7m 12s</text>
+<rect x="163" y="1424" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="1424" width="125.7" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="1456" class="resource">F 398,960  ·  M 398,960</text>
+<text x="163" y="1481" class="resource">O 0</text>
+<text x="415" y="1414" class="body">Alpha Research Division Lv 7 + Alliance</text>
+<text x="415" y="1438" class="body">Center Lv 7</text>
+</g>
+<g id="level-9"><rect x="57" y="1510" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="57" y="1510" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="1553" class="level">09</text>
+<text x="163" y="1545" class="time">4h 22m 5s</text>
+<rect x="163" y="1558" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="1558" width="130.2" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="1590" class="resource">F 598,500  ·  M 598,500</text>
+<text x="163" y="1615" class="resource">O 199,500</text>
+<text x="415" y="1548" class="body">Alpha Research Division Lv 8 + Any</text>
+<text x="415" y="1572" class="body">training center Lv 8 (Warrior / Assault</text>
+<text x="415" y="1596" class="body">/ Tactical)</text>
+</g>
+<g id="level-10"><rect x="57" y="1644" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="57" y="1644" width="5" height="124" rx="2" fill="#5ee6a8" opacity=".8"/>
+<text x="82" y="1687" class="level">10</text>
+<text x="163" y="1679" class="time">5h 40m 43s</text>
+<rect x="163" y="1692" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="163" y="1692" width="133.7" height="6" rx="3" fill="#5ee6a8"/>
+<text x="163" y="1724" class="resource">F 747,970  ·  M 747,970</text>
+<text x="163" y="1749" class="resource">O 239,350</text>
+<text x="415" y="1682" class="body">Alpha Research Division Lv 9 + Hospital</text>
+<text x="415" y="1706" class="body">Lv 9</text>
+</g>
+<text x="70" y="1808" class="total-label">BAND TOTAL</text>
+<text x="70" y="1840" class="total">15h 33m 12s</text>
+<text x="260" y="1813" class="total">F 2.113M  ·  M 2.113M</text>
+<text x="260" y="1845" class="total">O 438.85K</text>
+<rect x="825" y="350" width="750" height="1615" rx="20" fill="#0d192b" stroke="#213553"/>
+<rect x="825" y="350" width="750" height="6" rx="3" fill="#ffc857"/>
+<text x="850" y="394" class="band">BASE LEVELS 11–20</text>
+<text x="850" y="420" class="column">LEVEL</text>
+<text x="943" y="420" class="column">TIME + RESOURCES</text>
+<text x="1195" y="420" class="column">REQUIREMENTS</text>
+<g id="level-11"><rect x="837" y="438" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="837" y="438" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="481" class="level">11</text>
+<text x="943" y="473" class="time">7h 22m 55s</text>
+<rect x="943" y="486" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="486" width="137.3" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="518" class="resource">F 1,883,660  ·  M 1,883,660</text>
+<text x="943" y="543" class="resource">O 594,840</text>
+<text x="1195" y="476" class="body">Alpha Research Division Lv 10 + Defense</text>
+<text x="1195" y="500" class="body">Line Lv 10</text>
+</g>
+<g id="level-12"><rect x="837" y="572" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="837" y="572" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="615" class="level">12</text>
+<text x="943" y="607" class="time">9h 35m 48s</text>
+<rect x="943" y="620" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="620" width="140.8" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="652" class="resource">F 3,176,000  ·  M 3,176,000</text>
+<text x="943" y="677" class="resource">O 992,500</text>
+<text x="1195" y="610" class="body">Alpha Research Division Lv 11 + Soldier</text>
+<text x="1195" y="634" class="body">Training Camp Lv 11</text>
+</g>
+<g id="level-13"><rect x="837" y="706" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="837" y="706" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="749" class="level">13</text>
+<text x="943" y="741" class="time">12h 28m 32s</text>
+<rect x="943" y="754" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="754" width="144.3" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="786" class="resource">F 3,482,500  ·  M 3,482,500</text>
+<text x="943" y="811" class="resource">O 1,094,500</text>
+<text x="1195" y="744" class="body">Alpha Research Division Lv 12 + Any</text>
+<text x="1195" y="768" class="body">training center Lv 12 (Warrior /</text>
+<text x="1195" y="792" class="body">Assault / Tactical)</text>
+</g>
+<g id="level-14"><rect x="837" y="840" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="837" y="840" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="883" class="level">14</text>
+<text x="943" y="875" class="time">16h 13m 6s</text>
+<rect x="943" y="888" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="888" width="147.8" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="920" class="resource">F 4,860,310  ·  M 4,860,310</text>
+<text x="943" y="945" class="resource">O 1,587,040</text>
+<text x="1195" y="878" class="body">Alpha Research Division Lv 13 + Drill</text>
+<text x="1195" y="902" class="body">Ground Lv 13</text>
+</g>
+<g id="level-15"><rect x="837" y="974" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="837" y="974" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="1017" class="level">15</text>
+<text x="943" y="1009" class="time">22h 42m 20s</text>
+<rect x="943" y="1022" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="1022" width="152.3" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="1054" class="resource">F 6,797,280  ·  M 6,797,280</text>
+<text x="943" y="1079" class="resource">O 2,199,120</text>
+<text x="1195" y="1012" class="body">Alpha Research Division Lv 14 + Defense</text>
+<text x="1195" y="1036" class="body">Line Lv 14</text>
+</g>
+<g id="level-16"><rect x="837" y="1108" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="837" y="1108" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="1151" class="level">16</text>
+<text x="943" y="1143" class="time">1d 7h 47m 15s</text>
+<rect x="943" y="1156" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="1156" width="156.8" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="1188" class="resource">F 11,881,200  ·  M 11,881,200</text>
+<text x="943" y="1213" class="resource">O 3,861,390</text>
+<text x="1195" y="1146" class="body">Alpha Research Division Lv 15 +</text>
+<text x="1195" y="1170" class="body">Alliance Center Lv 15</text>
+</g>
+<g id="level-17"><rect x="837" y="1242" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="837" y="1242" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="1285" class="level">17</text>
+<text x="943" y="1277" class="time">1d 20h 30m 9s</text>
+<rect x="943" y="1290" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="1290" width="161.3" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="1322" class="resource">F 15,926,400  ·  M 15,926,400</text>
+<text x="943" y="1347" class="resource">O 5,076,540</text>
+<text x="1195" y="1280" class="body">Alpha Research Division Lv 16 + Any</text>
+<text x="1195" y="1304" class="body">training center Lv 16 (Warrior /</text>
+<text x="1195" y="1328" class="body">Assault / Tactical)</text>
+</g>
+<g id="level-18"><rect x="837" y="1376" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="837" y="1376" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="1419" class="level">18</text>
+<text x="943" y="1411" class="time">2d 14h 18m 13s</text>
+<rect x="943" y="1424" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="1424" width="165.8" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="1456" class="resource">F 27,764,800  ·  M 27,764,800</text>
+<text x="943" y="1481" class="resource">O 8,825,240</text>
+<text x="1195" y="1414" class="body">Alpha Research Division Lv 17 +</text>
+<text x="1195" y="1438" class="body">Hospital Lv 17</text>
+</g>
+<g id="level-19"><rect x="837" y="1510" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="837" y="1510" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="1553" class="level">19</text>
+<text x="943" y="1545" class="time">3d 15h 13m 29s</text>
+<rect x="943" y="1558" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="1558" width="170.4" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="1590" class="resource">F 32,755,800  ·  M 32,755,800</text>
+<text x="943" y="1615" class="resource">O 10,918,600</text>
+<text x="1195" y="1548" class="body">Alpha Research Division Lv 18 + Defense</text>
+<text x="1195" y="1572" class="body">Line Lv 18</text>
+</g>
+<g id="level-20"><rect x="837" y="1644" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="837" y="1644" width="5" height="124" rx="2" fill="#ffc857" opacity=".8"/>
+<text x="862" y="1687" class="level">20</text>
+<text x="943" y="1679" class="time">5d 2h 6m 53s</text>
+<rect x="943" y="1692" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="943" y="1692" width="174.9" height="6" rx="3" fill="#ffc857"/>
+<text x="943" y="1724" class="resource">F 59,556,000  ·  M 59,556,000</text>
+<text x="943" y="1749" class="resource">O 18,859,400</text>
+<text x="1195" y="1682" class="body">Alpha Research Division Lv 19 + Soldier</text>
+<text x="1195" y="1706" class="body">Training Camp Lv 19</text>
+</g>
+<text x="850" y="1808" class="total-label">BAND TOTAL</text>
+<text x="850" y="1840" class="total">17d 8h 18m 40s</text>
+<text x="1040" y="1813" class="total">F 168.084M  ·  M 168.084M</text>
+<text x="1040" y="1845" class="total">O 54.009M</text>
+<rect x="1605" y="350" width="750" height="1615" rx="20" fill="#0d192b" stroke="#213553"/>
+<rect x="1605" y="350" width="750" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1630" y="394" class="band">BASE LEVELS 21–30</text>
+<text x="1630" y="420" class="column">LEVEL</text>
+<text x="1723" y="420" class="column">TIME + RESOURCES</text>
+<text x="1975" y="420" class="column">REQUIREMENTS</text>
+<g id="level-21"><rect x="1617" y="438" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="1617" y="438" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="481" class="level">21</text>
+<text x="1723" y="473" class="time">6d 14h 44m 57s</text>
+<rect x="1723" y="486" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="486" width="178.4" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="518" class="resource">F 83,748,000  ·  M 83,748,000</text>
+<text x="1723" y="543" class="resource">O 26,919,000</text>
+<text x="1975" y="476" class="body">Alpha Research Division Lv 20 + Any</text>
+<text x="1975" y="500" class="body">training center Lv 20 (Warrior /</text>
+<text x="1975" y="524" class="body">Assault / Tactical)</text>
+</g>
+<g id="level-22"><rect x="1617" y="572" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="1617" y="572" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="615" class="level">22</text>
+<text x="1723" y="607" class="time">8d 14h 22m 26s</text>
+<rect x="1723" y="620" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="620" width="181.9" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="652" class="resource">F 109,296,000  ·  M 109,296,000</text>
+<text x="1723" y="677" class="resource">O 34,776,000</text>
+<text x="1975" y="610" class="body">Alpha Research Division Lv 21 + Drill</text>
+<text x="1975" y="634" class="body">Ground Lv 21</text>
+</g>
+<g id="level-23"><rect x="1617" y="706" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="1617" y="706" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="749" class="level">23</text>
+<text x="1723" y="741" class="time">11d 4h 17m 9s</text>
+<rect x="1723" y="754" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="754" width="185.4" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="786" class="resource">F 138,852,000  ·  M 138,852,000</text>
+<text x="1723" y="811" class="resource">O 43,639,200</text>
+<text x="1975" y="744" class="body">Alpha Research Division Lv 22 + Defense</text>
+<text x="1975" y="768" class="body">Line Lv 22</text>
+</g>
+<g id="level-24"><rect x="1617" y="840" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="1617" y="840" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="883" class="level">24</text>
+<text x="1723" y="875" class="time">15d 15h 36m 1s</text>
+<rect x="1723" y="888" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="888" width="189.9" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="920" class="resource">F 169,201,000  ·  M 169,201,000</text>
+<text x="1723" y="945" class="resource">O 53,746,200</text>
+<text x="1975" y="878" class="body">Alpha Research Division Lv 23 +</text>
+<text x="1975" y="902" class="body">Alliance Center Lv 23</text>
+</g>
+<g id="level-25"><rect x="1617" y="974" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="1617" y="974" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="1017" class="level">25</text>
+<text x="1723" y="1009" class="time">21d 21h 50m 25s</text>
+<rect x="1723" y="1022" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="1022" width="194.4" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="1054" class="resource">F 287,419,000  ·  M 287,419,000</text>
+<text x="1723" y="1079" class="resource">O 92,172,300</text>
+<text x="1975" y="1012" class="body">Alpha Research Division Lv 24 + Any</text>
+<text x="1975" y="1036" class="body">training center Lv 24 (Warrior /</text>
+<text x="1975" y="1060" class="body">Assault / Tactical)</text>
+</g>
+<g id="level-26"><rect x="1617" y="1108" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="1617" y="1108" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="1151" class="level">26</text>
+<text x="1723" y="1143" class="time">30d 16h 10m 35s</text>
+<rect x="1723" y="1156" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="1156" width="198.9" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="1188" class="resource">F 397,120,000  ·  M 397,120,000</text>
+<text x="1723" y="1213" class="resource">O 129,064,000</text>
+<text x="1975" y="1146" class="body">Alpha Research Division Lv 25 +</text>
+<text x="1975" y="1170" class="body">Hospital Lv 25</text>
+</g>
+<g id="level-27"><rect x="1617" y="1242" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="1617" y="1242" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="1285" class="level">27</text>
+<text x="1723" y="1277" class="time">42d 22h 38m 49s</text>
+<rect x="1723" y="1290" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="1290" width="203.5" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="1322" class="resource">F 528,463,000  ·  M 528,463,000</text>
+<text x="1723" y="1347" class="resource">O 169,507,000</text>
+<text x="1975" y="1280" class="body">Alpha Research Division Lv 26 + Defense</text>
+<text x="1975" y="1304" class="body">Line Lv 26</text>
+</g>
+<g id="level-28"><rect x="1617" y="1376" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="1617" y="1376" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="1419" class="level">28</text>
+<text x="1723" y="1411" class="time">60d 2h 54m 20s</text>
+<rect x="1723" y="1424" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="1424" width="208.0" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="1456" class="resource">F 736,004,000  ·  M 736,004,000</text>
+<text x="1723" y="1481" class="resource">O 238,704,000</text>
+<text x="1975" y="1414" class="body">Alpha Research Division Lv 27 + Soldier</text>
+<text x="1975" y="1438" class="body">Training Camp Lv 27</text>
+</g>
+<g id="level-29"><rect x="1617" y="1510" width="726" height="124" rx="12" fill="#111f34"/>
+<rect x="1617" y="1510" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="1553" class="level">29</text>
+<text x="1723" y="1545" class="time">78d 3h 46m 37s</text>
+<rect x="1723" y="1558" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="1558" width="211.5" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="1590" class="resource">F 998,300,000  ·  M 998,300,000</text>
+<text x="1723" y="1615" class="resource">O 329,439,000</text>
+<text x="1975" y="1548" class="body">Alpha Research Division Lv 28 + Any</text>
+<text x="1975" y="1572" class="body">training center Lv 28 (Warrior /</text>
+<text x="1975" y="1596" class="body">Assault / Tactical)</text>
+</g>
+<g id="level-30"><rect x="1617" y="1644" width="726" height="124" rx="12" fill="#0f1c2f"/>
+<rect x="1617" y="1644" width="5" height="124" rx="2" fill="#ff6b6b" opacity=".8"/>
+<text x="1642" y="1687" class="level">30</text>
+<text x="1723" y="1679" class="time">101d 14h 30m 37s</text>
+<rect x="1723" y="1692" width="215" height="6" rx="3" fill="#263a57"/>
+<rect x="1723" y="1692" width="215.0" height="6" rx="3" fill="#ff6b6b"/>
+<text x="1723" y="1724" class="resource">F 1,399,300,000  ·  M 1,399,300,000</text>
+<text x="1723" y="1749" class="resource">O 459,770,000</text>
+<text x="1975" y="1682" class="body">Alpha Research Division Lv 29 + Drill</text>
+<text x="1975" y="1706" class="body">Ground Lv 29</text>
+</g>
+<text x="1630" y="1808" class="total-label">BAND TOTAL</text>
+<text x="1630" y="1840" class="total">377d 10h 51m 56s</text>
+<text x="1820" y="1813" class="total">F 4.848B  ·  M 4.848B</text>
+<text x="1820" y="1845" class="total">O 1.578B</text>
+<text x="45" y="2025" class="card-label">HOW TO READ</text>
+<text x="45" y="2059" class="footer">Each row is the target Base level. All listed requirements must be met; “Any training center” means one of Warrior, Assault, or Tactical.</text>
+<text x="45" y="2090" class="footer">Times and costs are client base values. Total time: 395d 10h 43m 48s. Data source: com.zroute.global · catalog V202608062022.</text>
+<text x="2355" y="2090" class="footer" text-anchor="end">zroute-building-data</text>
+</svg>
