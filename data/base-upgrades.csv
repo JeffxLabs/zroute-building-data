@@ -1,0 +1,31 @@
+target_level,base_time_seconds,base_time_human,food,metal,oil,prerequisites
+1,2,2s,90,90,0,
+2,2,2s,90,90,0,Drill Ground Lv. 1 AND Squad 1 Lv. 1 AND Defense Line Lv. 1
+3,47,47s,490,490,0,Defense Line Lv. 2
+4,117,1m 57s,2970,2970,0,Soldier Training Camp Lv. 3 AND Drill Ground Lv. 3
+5,702,11m 42s,24970,24970,0,Defense Line Lv. 4 AND Soldier Training Camp Lv. 4
+6,2106,35m 6s,89240,89240,0,Defense Line Lv. 5 AND Drill Ground Lv. 5
+7,5616,1h 33m 36s,249620,249620,0,Any one of Warrior Training Center / Assault Training Center / Tactical Training Center Lv. 6 AND Defense Line Lv. 6
+8,11232,3h 7m 12s,398960,398960,0,Alpha Research Division Lv. 7 AND Alliance Center Lv. 7
+9,15725,4h 22m 5s,598500,598500,199500,Alpha Research Division Lv. 8 AND Any one of Warrior Training Center / Assault Training Center / Tactical Training Center Lv. 8
+10,20443,5h 40m 43s,747970,747970,239350,Alpha Research Division Lv. 9 AND Hospital Lv. 9
+11,26575,7h 22m 55s,1883660,1883660,594840,Alpha Research Division Lv. 10 AND Defense Line Lv. 10
+12,34548,9h 35m 48s,3176000,3176000,992500,Alpha Research Division Lv. 11 AND Soldier Training Camp Lv. 11
+13,44912,12h 28m 32s,3482500,3482500,1094500,Alpha Research Division Lv. 12 AND Any one of Warrior Training Center / Assault Training Center / Tactical Training Center Lv. 12
+14,58386,16h 13m 6s,4860310,4860310,1587040,Alpha Research Division Lv. 13 AND Drill Ground Lv. 13
+15,81740,22h 42m 20s,6797280,6797280,2199120,Alpha Research Division Lv. 14 AND Defense Line Lv. 14
+16,114435,1d 7h 47m 15s,11881200,11881200,3861390,Alpha Research Division Lv. 15 AND Alliance Center Lv. 15
+17,160209,1d 20h 30m 9s,15926400,15926400,5076540,Alpha Research Division Lv. 16 AND Any one of Warrior Training Center / Assault Training Center / Tactical Training Center Lv. 16
+18,224293,2d 14h 18m 13s,27764800,27764800,8825240,Alpha Research Division Lv. 17 AND Hospital Lv. 17
+19,314009,3d 15h 13m 29s,32755800,32755800,10918600,Alpha Research Division Lv. 18 AND Defense Line Lv. 18
+20,439613,5d 2h 6m 53s,59556000,59556000,18859400,Alpha Research Division Lv. 19 AND Soldier Training Camp Lv. 19
+21,571497,6d 14h 44m 57s,83748000,83748000,26919000,Alpha Research Division Lv. 20 AND Any one of Warrior Training Center / Assault Training Center / Tactical Training Center Lv. 20
+22,742946,8d 14h 22m 26s,109296000,109296000,34776000,Alpha Research Division Lv. 21 AND Drill Ground Lv. 21
+23,965829,11d 4h 17m 9s,138852000,138852000,43639200,Alpha Research Division Lv. 22 AND Defense Line Lv. 22
+24,1352161,15d 15h 36m 1s,169201000,169201000,53746200,Alpha Research Division Lv. 23 AND Alliance Center Lv. 23
+25,1893025,21d 21h 50m 25s,287419000,287419000,92172300,Alpha Research Division Lv. 24 AND Any one of Warrior Training Center / Assault Training Center / Tactical Training Center Lv. 24
+26,2650235,30d 16h 10m 35s,397120000,397120000,129064000,Alpha Research Division Lv. 25 AND Hospital Lv. 25
+27,3710329,42d 22h 38m 49s,528463000,528463000,169507000,Alpha Research Division Lv. 26 AND Defense Line Lv. 26
+28,5194460,60d 2h 54m 20s,736004000,736004000,238704000,Alpha Research Division Lv. 27 AND Soldier Training Camp Lv. 27
+29,6752797,78d 3h 46m 37s,998300000,998300000,329439000,Alpha Research Division Lv. 28 AND Any one of Warrior Training Center / Assault Training Center / Tactical Training Center Lv. 28
+30,8778637,101d 14h 30m 37s,1399300000,1399300000,459770000,Alpha Research Division Lv. 29 AND Drill Ground Lv. 29

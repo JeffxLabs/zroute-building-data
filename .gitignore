@@ -1,0 +1,10 @@
+*.apk
+*.apks
+*.bundle
+*.lua
+*.xapk
+*.zip
+.venv/
+__pycache__/
+artifacts/
+lang_building

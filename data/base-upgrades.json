@@ -1,0 +1,1079 @@
+{
+  "source": {
+    "package": "com.zroute.global",
+    "app_version": "1.30.07",
+    "catalog_version": "V202608062022",
+    "client_build_time": "2026-08-06 20:26:03",
+    "table_plaintext_sha256": {
+      "Building.lua": "626e8c94253acbc3d62e35a48995c1672224ae41ef77b16d2ef82a94e73ae9a8",
+      "BuildingLevel.lua": "c011f412e2d8b3de100df0c4dd7605718950b30729adee240a9746a2f42208d9",
+      "BuildingUpgrade.lua": "ec2855a231be5bc764f831c13abf44fc4814f6c04f53a040e2448856b95668ba"
+    },
+    "localization_plaintext_sha256": "a2d6dc3657aaf825a5a163b0fac769bad78d212e1ffcd41ebda3d64291f0bc82"
+  },
+  "building": {
+    "id": 1001,
+    "name": "Base",
+    "max_level": 30
+  },
+  "resource_types": {
+    "1": "Food",
+    "2": "Metal",
+    "3": "Oil"
+  },
+  "upgrades": [
+    {
+      "target_level": 1,
+      "base_time_seconds": 2,
+      "base_time_human": "2s",
+      "costs": {
+        "food": 90,
+        "metal": 90,
+        "oil": 0
+      },
+      "prerequisites": []
+    },
+    {
+      "target_level": 2,
+      "base_time_seconds": 2,
+      "base_time_human": "2s",
+      "costs": {
+        "food": 90,
+        "metal": 90,
+        "oil": 0
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 5006,
+              "name": "Drill Ground"
+            }
+          ],
+          "minimum_level": 1
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 5013,
+              "name": "Squad 1"
+            }
+          ],
+          "minimum_level": 1
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 1
+        }
+      ]
+    },
+    {
+      "target_level": 3,
+      "base_time_seconds": 47,
+      "base_time_human": "47s",
+      "costs": {
+        "food": 490,
+        "metal": 490,
+        "oil": 0
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 2
+        }
+      ]
+    },
+    {
+      "target_level": 4,
+      "base_time_seconds": 117,
+      "base_time_human": "1m 57s",
+      "costs": {
+        "food": 2970,
+        "metal": 2970,
+        "oil": 0
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1020,
+              "name": "Soldier Training Camp"
+            }
+          ],
+          "minimum_level": 3
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 5006,
+              "name": "Drill Ground"
+            }
+          ],
+          "minimum_level": 3
+        }
+      ]
+    },
+    {
+      "target_level": 5,
+      "base_time_seconds": 702,
+      "base_time_human": "11m 42s",
+      "costs": {
+        "food": 24970,
+        "metal": 24970,
+        "oil": 0
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 4
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1020,
+              "name": "Soldier Training Camp"
+            }
+          ],
+          "minimum_level": 4
+        }
+      ]
+    },
+    {
+      "target_level": 6,
+      "base_time_seconds": 2106,
+      "base_time_human": "35m 6s",
+      "costs": {
+        "food": 89240,
+        "metal": 89240,
+        "oil": 0
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 5
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 5006,
+              "name": "Drill Ground"
+            }
+          ],
+          "minimum_level": 5
+        }
+      ]
+    },
+    {
+      "target_level": 7,
+      "base_time_seconds": 5616,
+      "base_time_human": "1h 33m 36s",
+      "costs": {
+        "food": 249620,
+        "metal": 249620,
+        "oil": 0
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20105,
+          "match": "any",
+          "buildings": [
+            {
+              "id": 5044,
+              "name": "Warrior Training Center"
+            },
+            {
+              "id": 5045,
+              "name": "Assault Training Center"
+            },
+            {
+              "id": 5046,
+              "name": "Tactical Training Center"
+            }
+          ],
+          "minimum_level": 6
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 6
+        }
+      ]
+    },
+    {
+      "target_level": 8,
+      "base_time_seconds": 11232,
+      "base_time_human": "3h 7m 12s",
+      "costs": {
+        "food": 398960,
+        "metal": 398960,
+        "oil": 0
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 7
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1010,
+              "name": "Alliance Center"
+            }
+          ],
+          "minimum_level": 7
+        }
+      ]
+    },
+    {
+      "target_level": 9,
+      "base_time_seconds": 15725,
+      "base_time_human": "4h 22m 5s",
+      "costs": {
+        "food": 598500,
+        "metal": 598500,
+        "oil": 199500
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 8
+        },
+        {
+          "condition_id": 20105,
+          "match": "any",
+          "buildings": [
+            {
+              "id": 5044,
+              "name": "Warrior Training Center"
+            },
+            {
+              "id": 5045,
+              "name": "Assault Training Center"
+            },
+            {
+              "id": 5046,
+              "name": "Tactical Training Center"
+            }
+          ],
+          "minimum_level": 8
+        }
+      ]
+    },
+    {
+      "target_level": 10,
+      "base_time_seconds": 20443,
+      "base_time_human": "5h 40m 43s",
+      "costs": {
+        "food": 747970,
+        "metal": 747970,
+        "oil": 239350
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 9
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1004,
+              "name": "Hospital"
+            }
+          ],
+          "minimum_level": 9
+        }
+      ]
+    },
+    {
+      "target_level": 11,
+      "base_time_seconds": 26575,
+      "base_time_human": "7h 22m 55s",
+      "costs": {
+        "food": 1883660,
+        "metal": 1883660,
+        "oil": 594840
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 10
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 10
+        }
+      ]
+    },
+    {
+      "target_level": 12,
+      "base_time_seconds": 34548,
+      "base_time_human": "9h 35m 48s",
+      "costs": {
+        "food": 3176000,
+        "metal": 3176000,
+        "oil": 992500
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 11
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1020,
+              "name": "Soldier Training Camp"
+            }
+          ],
+          "minimum_level": 11
+        }
+      ]
+    },
+    {
+      "target_level": 13,
+      "base_time_seconds": 44912,
+      "base_time_human": "12h 28m 32s",
+      "costs": {
+        "food": 3482500,
+        "metal": 3482500,
+        "oil": 1094500
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 12
+        },
+        {
+          "condition_id": 20105,
+          "match": "any",
+          "buildings": [
+            {
+              "id": 5044,
+              "name": "Warrior Training Center"
+            },
+            {
+              "id": 5045,
+              "name": "Assault Training Center"
+            },
+            {
+              "id": 5046,
+              "name": "Tactical Training Center"
+            }
+          ],
+          "minimum_level": 12
+        }
+      ]
+    },
+    {
+      "target_level": 14,
+      "base_time_seconds": 58386,
+      "base_time_human": "16h 13m 6s",
+      "costs": {
+        "food": 4860310,
+        "metal": 4860310,
+        "oil": 1587040
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 13
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 5006,
+              "name": "Drill Ground"
+            }
+          ],
+          "minimum_level": 13
+        }
+      ]
+    },
+    {
+      "target_level": 15,
+      "base_time_seconds": 81740,
+      "base_time_human": "22h 42m 20s",
+      "costs": {
+        "food": 6797280,
+        "metal": 6797280,
+        "oil": 2199120
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 14
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 14
+        }
+      ]
+    },
+    {
+      "target_level": 16,
+      "base_time_seconds": 114435,
+      "base_time_human": "1d 7h 47m 15s",
+      "costs": {
+        "food": 11881200,
+        "metal": 11881200,
+        "oil": 3861390
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 15
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1010,
+              "name": "Alliance Center"
+            }
+          ],
+          "minimum_level": 15
+        }
+      ]
+    },
+    {
+      "target_level": 17,
+      "base_time_seconds": 160209,
+      "base_time_human": "1d 20h 30m 9s",
+      "costs": {
+        "food": 15926400,
+        "metal": 15926400,
+        "oil": 5076540
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 16
+        },
+        {
+          "condition_id": 20105,
+          "match": "any",
+          "buildings": [
+            {
+              "id": 5044,
+              "name": "Warrior Training Center"
+            },
+            {
+              "id": 5045,
+              "name": "Assault Training Center"
+            },
+            {
+              "id": 5046,
+              "name": "Tactical Training Center"
+            }
+          ],
+          "minimum_level": 16
+        }
+      ]
+    },
+    {
+      "target_level": 18,
+      "base_time_seconds": 224293,
+      "base_time_human": "2d 14h 18m 13s",
+      "costs": {
+        "food": 27764800,
+        "metal": 27764800,
+        "oil": 8825240
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 17
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1004,
+              "name": "Hospital"
+            }
+          ],
+          "minimum_level": 17
+        }
+      ]
+    },
+    {
+      "target_level": 19,
+      "base_time_seconds": 314009,
+      "base_time_human": "3d 15h 13m 29s",
+      "costs": {
+        "food": 32755800,
+        "metal": 32755800,
+        "oil": 10918600
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 18
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 18
+        }
+      ]
+    },
+    {
+      "target_level": 20,
+      "base_time_seconds": 439613,
+      "base_time_human": "5d 2h 6m 53s",
+      "costs": {
+        "food": 59556000,
+        "metal": 59556000,
+        "oil": 18859400
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 19
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1020,
+              "name": "Soldier Training Camp"
+            }
+          ],
+          "minimum_level": 19
+        }
+      ]
+    },
+    {
+      "target_level": 21,
+      "base_time_seconds": 571497,
+      "base_time_human": "6d 14h 44m 57s",
+      "costs": {
+        "food": 83748000,
+        "metal": 83748000,
+        "oil": 26919000
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 20
+        },
+        {
+          "condition_id": 20105,
+          "match": "any",
+          "buildings": [
+            {
+              "id": 5044,
+              "name": "Warrior Training Center"
+            },
+            {
+              "id": 5045,
+              "name": "Assault Training Center"
+            },
+            {
+              "id": 5046,
+              "name": "Tactical Training Center"
+            }
+          ],
+          "minimum_level": 20
+        }
+      ]
+    },
+    {
+      "target_level": 22,
+      "base_time_seconds": 742946,
+      "base_time_human": "8d 14h 22m 26s",
+      "costs": {
+        "food": 109296000,
+        "metal": 109296000,
+        "oil": 34776000
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 21
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 5006,
+              "name": "Drill Ground"
+            }
+          ],
+          "minimum_level": 21
+        }
+      ]
+    },
+    {
+      "target_level": 23,
+      "base_time_seconds": 965829,
+      "base_time_human": "11d 4h 17m 9s",
+      "costs": {
+        "food": 138852000,
+        "metal": 138852000,
+        "oil": 43639200
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 22
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 22
+        }
+      ]
+    },
+    {
+      "target_level": 24,
+      "base_time_seconds": 1352161,
+      "base_time_human": "15d 15h 36m 1s",
+      "costs": {
+        "food": 169201000,
+        "metal": 169201000,
+        "oil": 53746200
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 23
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1010,
+              "name": "Alliance Center"
+            }
+          ],
+          "minimum_level": 23
+        }
+      ]
+    },
+    {
+      "target_level": 25,
+      "base_time_seconds": 1893025,
+      "base_time_human": "21d 21h 50m 25s",
+      "costs": {
+        "food": 287419000,
+        "metal": 287419000,
+        "oil": 92172300
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 24
+        },
+        {
+          "condition_id": 20105,
+          "match": "any",
+          "buildings": [
+            {
+              "id": 5044,
+              "name": "Warrior Training Center"
+            },
+            {
+              "id": 5045,
+              "name": "Assault Training Center"
+            },
+            {
+              "id": 5046,
+              "name": "Tactical Training Center"
+            }
+          ],
+          "minimum_level": 24
+        }
+      ]
+    },
+    {
+      "target_level": 26,
+      "base_time_seconds": 2650235,
+      "base_time_human": "30d 16h 10m 35s",
+      "costs": {
+        "food": 397120000,
+        "metal": 397120000,
+        "oil": 129064000
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 25
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1004,
+              "name": "Hospital"
+            }
+          ],
+          "minimum_level": 25
+        }
+      ]
+    },
+    {
+      "target_level": 27,
+      "base_time_seconds": 3710329,
+      "base_time_human": "42d 22h 38m 49s",
+      "costs": {
+        "food": 528463000,
+        "metal": 528463000,
+        "oil": 169507000
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 26
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1002,
+              "name": "Defense Line"
+            }
+          ],
+          "minimum_level": 26
+        }
+      ]
+    },
+    {
+      "target_level": 28,
+      "base_time_seconds": 5194460,
+      "base_time_human": "60d 2h 54m 20s",
+      "costs": {
+        "food": 736004000,
+        "metal": 736004000,
+        "oil": 238704000
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 27
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1020,
+              "name": "Soldier Training Camp"
+            }
+          ],
+          "minimum_level": 27
+        }
+      ]
+    },
+    {
+      "target_level": 29,
+      "base_time_seconds": 6752797,
+      "base_time_human": "78d 3h 46m 37s",
+      "costs": {
+        "food": 998300000,
+        "metal": 998300000,
+        "oil": 329439000
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 28
+        },
+        {
+          "condition_id": 20105,
+          "match": "any",
+          "buildings": [
+            {
+              "id": 5044,
+              "name": "Warrior Training Center"
+            },
+            {
+              "id": 5045,
+              "name": "Assault Training Center"
+            },
+            {
+              "id": 5046,
+              "name": "Tactical Training Center"
+            }
+          ],
+          "minimum_level": 28
+        }
+      ]
+    },
+    {
+      "target_level": 30,
+      "base_time_seconds": 8778637,
+      "base_time_human": "101d 14h 30m 37s",
+      "costs": {
+        "food": 1399300000,
+        "metal": 1399300000,
+        "oil": 459770000
+      },
+      "prerequisites": [
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 1007,
+              "name": "Alpha Research Division"
+            }
+          ],
+          "minimum_level": 29
+        },
+        {
+          "condition_id": 20103,
+          "match": "all",
+          "buildings": [
+            {
+              "id": 5006,
+              "name": "Drill Ground"
+            }
+          ],
+          "minimum_level": 29
+        }
+      ]
+    }
+  ]
+}
