@@ -2,7 +2,7 @@
 
 This repository turns static progression facts from Android client version `1.30.07` into machine-readable JSON for route planning and leveling analysis. It covers buildings, research, resource generation and gathering nodes, speedups, playable heroes, hero progression, and equipment. The original Base level 1–30 CSV remains available for spreadsheet use.
 
-Use the interactive [Z Route Base Planner](https://jfryton.github.io/zroute-building-data/) to select only your current Base level or enter every relevant building level and calculate the remaining route.
+Use the interactive [Z Route Base Planner](https://jeffxlabs.github.io/zroute-building-data/) to select only your current Base level or enter every relevant building level and calculate the remaining route.
 
 ## Data
 
