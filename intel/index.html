@@ -3,180 +3,59 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Sortable BloodWing alliance player intel for Z Route.">
+  <meta name="description" content="Z Route server-vs-server alliance intelligence.">
   <link rel="icon" href="data:,">
-  <title>[BIW] BloodWing Alliance Intel</title>
-  <style>
-    :root { color-scheme: dark; --bg:#071512; --panel:#10201c; --panel-2:#152923; --line:#3b4939; --text:#f4eedc; --muted:#aca891; --gold:#e6c47b; --green:#75ca8b; --cyan:#70bdc5 }
-    * { box-sizing:border-box }
-    html { overflow-x:hidden }
-    body { margin:0; min-width:320px; background:radial-gradient(circle at 80% -10%,#244036 0,transparent 34rem),linear-gradient(135deg,rgba(230,196,123,.035) 25%,transparent 25%) 0 0/18px 18px,var(--bg); color:var(--text); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif }
-    main { width:min(1100px,calc(100% - 32px)); margin:auto; padding:32px 0 72px }
-    .masthead { display:grid; grid-template-columns:auto 1fr auto; gap:20px; align-items:center; margin-bottom:18px; padding:22px; border:1px solid #665d3d; border-radius:18px; background:linear-gradient(120deg,rgba(39,58,47,.98),rgba(12,29,25,.96)); box-shadow:0 20px 60px rgba(0,0,0,.24) }
-    .insignia { display:grid; width:82px; height:82px; place-items:center; border:1px solid #8e7848; border-radius:14px 14px 28px 28px; background:linear-gradient(145deg,#7e2923,#401916); color:#f2d699; font-size:1.25rem; font-weight:900; letter-spacing:.12em; box-shadow:inset 0 0 0 4px rgba(0,0,0,.18) }
-    .eyebrow { color:var(--gold); font-size:.72rem; font-weight:850; letter-spacing:.18em; text-transform:uppercase }
-    h1 { margin:5px 0 3px; font-size:clamp(2rem,5vw,3.6rem); line-height:1; letter-spacing:-.045em }
-    h1 span { color:var(--gold) }
-    .intro { margin:0; color:var(--muted) }
-    .identity { display:grid; grid-template-columns:repeat(2,minmax(110px,1fr)); gap:12px 22px; margin:0 }
-    .identity div { min-width:0 }
-    .identity dt { color:var(--muted); font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase }
-    .identity dd { margin:2px 0 0; font-weight:800; overflow-wrap:anywhere }
-    .metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px }
-    .metric,.panel { border:1px solid var(--line); border-radius:16px; background:rgba(16,32,28,.95) }
-    .metric { position:relative; overflow:hidden; padding:17px }
-    .metric::after { content:""; position:absolute; inset:auto 0 0; height:3px; background:var(--gold) }
-    .metric:nth-child(2)::after { background:var(--green) }
-    .metric:nth-child(3)::after { background:var(--cyan) }
-    .metric:nth-child(4)::after { background:#a88bca }
-    .label { color:var(--muted); font-size:.7rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase }
-    .value { margin-top:4px; font-size:1.55rem; font-weight:800 }
-    .panel { overflow:hidden }
-    .controls { display:grid; grid-template-columns:minmax(180px,1fr) 140px 140px auto; gap:10px; padding:16px; border-bottom:1px solid var(--line) }
-    input,select,button { min-width:0; min-height:44px; border:1px solid #4d5e4c; border-radius:10px; background:#0b1916; color:var(--text); font:inherit }
-    input,select { width:100%; padding:9px 11px }
-    button { padding:9px 14px; cursor:pointer }
-    button:hover { border-color:var(--gold) }
-    input:focus,select:focus,button:focus-visible { outline:2px solid var(--cyan); outline-offset:2px }
-    .table-wrap { overflow-y:auto; max-height:70vh }
-    table { width:100%; border-collapse:collapse }
-    th { position:sticky; top:0; z-index:1; padding:0; background:#0b1916; text-align:left }
-    th button { width:100%; border:0; border-radius:0; background:transparent; color:var(--muted); font-size:.7rem; font-weight:800; letter-spacing:.1em; text-align:left; text-transform:uppercase }
-    th button::after { content:" ↕" }
-    th[aria-sort="ascending"] button::after { content:" ↑"; color:var(--green) }
-    th[aria-sort="descending"] button::after { content:" ↓"; color:var(--green) }
-    td { padding:12px 14px; border-top:1px solid #263c35 }
-    tbody tr:hover { background:rgba(230,196,123,.04) }
-    td:nth-child(3),td:nth-child(4) { font-variant-numeric:tabular-nums }
-    .rank span { display:inline-grid; min-width:38px; padding:4px 7px; place-items:center; border:1px solid currentColor; border-radius:7px 7px 11px 11px; font-size:.78rem; font-weight:900 }
-    .rank-r5 { color:#e1bd54 }.rank-r4 { color:#bd8ce0 }.rank-r3 { color:#6faedc }.rank-r2 { color:#db9a43 }.rank-r1 { color:#d46b5f }
-    .power { color:var(--gold); font-weight:800 }
-    .status { margin:0; padding:11px 16px; border-top:1px solid var(--line); color:var(--muted); font-size:.82rem }
-    .empty { padding:36px; color:var(--muted); text-align:center }
-    @media (max-width:800px) { .masthead{grid-template-columns:auto 1fr}.identity{grid-column:1/-1;grid-template-columns:repeat(4,1fr)} }
-    @media (max-width:700px) {
-      main { width:min(100% - 20px,1100px); padding:10px 0 48px }
-      .masthead { grid-template-columns:62px 1fr; gap:14px; padding:16px }
-      .insignia { width:62px; height:66px; font-size:.95rem }
-      h1 { font-size:clamp(1.75rem,9vw,2.5rem) }
-      .intro { font-size:.88rem }
-      .identity { grid-template-columns:1fr 1fr; gap:10px 14px; padding-top:4px; border-top:1px solid var(--line) }
-      .metrics { grid-template-columns:1fr 1fr; gap:8px }
-      .metric { padding:14px }.value { font-size:1.3rem }
-      .controls { grid-template-columns:1fr 1fr; gap:8px; padding:12px }
-      .controls input { grid-column:1/-1 }.controls button { grid-column:1/-1 }
-      .table-wrap { max-height:none; overflow:visible; padding:10px }
-      table,tbody { display:block; width:100% }
-      thead { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
-      tbody { display:grid; gap:8px }
-      tbody tr { display:grid; min-width:0; grid-template-columns:auto minmax(0,1fr) auto; grid-template-areas:"rank name power" "rank level power"; gap:1px 10px; align-items:center; padding:11px 12px; border:1px solid #334a42; border-left:3px solid var(--rank-color,#53665d); border-radius:12px; background:var(--panel-2) }
-      tbody tr.rank-r5 { --rank-color:#e1bd54 } tbody tr.rank-r4 { --rank-color:#bd8ce0 } tbody tr.rank-r3 { --rank-color:#6faedc } tbody tr.rank-r2 { --rank-color:#db9a43 } tbody tr.rank-r1 { --rank-color:#d46b5f }
-      td { min-width:0; padding:0; border:0 }
-      td:nth-child(1) { grid-area:rank } td:nth-child(2) { grid-area:name; overflow-wrap:anywhere; font-weight:750 } td:nth-child(3) { grid-area:level; color:var(--muted); font-size:.82rem } td:nth-child(4) { grid-area:power; text-align:right }
-      .empty { display:block; padding:28px; text-align:center }
-      .status { padding:11px 12px }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <title>Z Route Alliance Intel</title>
 </head>
 <body>
-  <main>
-    <header class="masthead">
-      <div class="insignia" aria-hidden="true">BIW</div>
-      <div>
-        <div class="eyebrow">Alliance intel report</div>
-        <h1><span>[BIW]</span> BloodWing</h1>
-        <p class="intro">Search, filter, and sort the current player roster.</p>
-      </div>
-      <dl class="identity">
-        <div><dt>Leader</dt><dd>МатьСерверов~</dd></div>
-        <div><dt>Language</dt><dd>Russian</dd></div>
-        <div><dt>Members</dt><dd>100 / 100</dd></div>
-        <div><dt>Highest level</dt><dd>Lv. 26</dd></div>
-        <div><dt>Scouted</dt><dd>Aug 9, 2026 · 2:05 p.m. ET</dd></div>
-        <div><dt>Server time</dt><dd>Aug 9, 2026 · 4:05 p.m.</dd></div>
-      </dl>
-    </header>
+  <header class="shell site-head">
+    <a class="brand" href="./">Z ROUTE INTEL</a>
+    <nav class="nav" aria-label="Intel navigation">
+      <a href="./" aria-current="page">Alliances</a>
+      <a href="compare/">Compare servers</a>
+    </nav>
+  </header>
 
-    <section class="metrics" aria-label="Roster metrics">
-      <article class="metric"><div class="label">Total power</div><div id="total-power" class="value"></div></article>
-      <article class="metric"><div class="label">Average power</div><div id="average-power" class="value"></div></article>
-      <article class="metric"><div class="label">Median power</div><div id="median-power" class="value"></div></article>
-      <article class="metric"><div class="label">Average level</div><div id="average-level" class="value"></div></article>
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow">Server-vs-server intelligence</div>
+      <h1>Choose an alliance.<br><span>Know the matchup.</span></h1>
+      <p class="lede">Browse the two supplied rosters or compare home server #117 against opponent server #116 across power, levels, depth, ranks, and head-to-head lineup strength.</p>
+      <div class="actions"><a class="button primary" href="compare/">Open server comparison</a></div>
     </section>
 
-    <section class="panel" aria-label="Player roster">
-      <div class="controls">
-        <input id="search" type="search" placeholder="Search player name…" aria-label="Search player name">
-        <select id="rank-filter" aria-label="Filter by rank">
-          <option value="">All ranks</option><option>R5</option><option>R4</option><option>R3</option><option>R2</option><option>R1</option>
-        </select>
-        <select id="sort-by" aria-label="Sort players by">
-          <option value="power">Sort: Power</option><option value="level">Sort: Level</option><option value="rank">Sort: Rank</option><option value="name">Sort: Name</option>
-        </select>
-        <button id="direction" type="button" aria-label="Reverse sort order">Descending ↓</button>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th><button type="button" data-sort="rank">Rank</button></th>
-            <th><button type="button" data-sort="name">Name</button></th>
-            <th><button type="button" data-sort="level">Level</button></th>
-            <th aria-sort="descending"><button type="button" data-sort="power">Power</button></th>
-          </tr></thead>
-          <tbody id="players"></tbody>
-        </table>
-      </div>
-      <p id="status" class="status" aria-live="polite"></p>
+    <section>
+      <div class="section-head"><div><div class="eyebrow">Available dossiers</div><h2>Alliance rosters</h2></div><div class="note">196 players across two alliances</div></div>
+      <div id="alliances" class="alliance-grid"></div>
+    </section>
+
+    <section class="panel section">
+      <div class="section-head"><div><div class="eyebrow">Current read</div><h2>At a glance</h2></div><a class="button" href="compare/">Deep analysis →</a></div>
+      <div id="overview" class="insights"></div>
+      <p class="note">Roster powers are mostly rounded to 0.1M, so totals and derived comparisons are estimates. This is a roster-strength comparison, not a battle-outcome prediction.</p>
     </section>
   </main>
 
+  <script src="data.js"></script>
   <script>
-    const players = [
-      ["R5","МатьСерверов~",20,12.4],
-      ["R4","-Ragnar-",23,26.7],["R4","Egoistelux",21,17.8],["R4","Lordsnoy6",20,15.8],["R4","-Sunshine-",17,9.1],["R4","Депутат",22,26.6],
-      ["R3","qviler13",26,22.9],["R3","Колчакъ",20,13.9],["R3","Виталик124",20,12.6],["R3","EHOT22",20,12.0],["R3","2Rist96",20,10.2],["R3","1Dark~King1",19,10.3],["R3","Yana163",19,8.0],["R3","AlexKiller",18,10.3],["R3","Легендарный",18,11.2],["R3","☯Harmony☯",21,16.2],["R3","Влад26",20,14.7],["R3","ViKki",20,9.5],["R3","Hooch",21,14.8],["R3","🤌Белочка🤌",19,11.8],["R3","САХАРОК161",20,13.2],["R3","денчик26",18,7.5],["R3","КрасныйТелепузик",21,20.7],["R3","Crazy-KrakeN",21,22.4],["R3","DenSibir",20,15.1],["R3","Lady~Vengeance",20,15.8],["R3","Egoistkalux",18,10.0],["R3","Мэмфис",18,12.6],["R3","MooN",20,17.1],["R3","V0van",24,22.6],["R3","TopOneSNG",18,6.1],["R3","харашо",17,9.2],["R3","Семь",20,14.9],["R3","Пилигрим",20,11.0],["R3","GROZZ",20,11.5],["R3","Kellt",21,17.9],["R3","Кот-Капоне🤝",18,6.8],["R3","JIaMnoBa-H9IIIKa",21,22.8],["R3","MONTER",19,11.9],["R3","Пулька-Шпулька",19,8.6],["R3","opexu",18,6.6],["R3","-PRETORIAN-",20,13.1],["R3","Artesska",18,8.4],["R3","Ruslan4ik228",18,12.8],["R3","alex6419",17,9.6],
-      ["R2","♔ØŁ乇G♔",18,8.1],["R2","Bastian",18,5.3],["R2","Tirr",16,7.5],["R2","Шиш1986",15,8.3],["R2","MYROMEC",17,5.5],["R2","Egoist61",19,5.2],["R2","MonsterEnergy031",18,8.7],["R2","путятя",18,6.3],["R2","blikmax",19,9.2],["R2","АНАТОЛИЙ44",17,7.8],["R2","PIWTIPIWPIW",17,8.4],["R2","МакаЧленс",17,7.7],["R2","Kristinkka",15,4.9],["R2","кофеιη",16,4.3],["R2","Ömer16",18,8.1],["R2","NSA26",17,5.6],["R2","VezdexoD",17,10.4],["R2","Ромарио1987",18,7.3],["R2","•SunRay•",18,8.4],["R2","Alexbro",18,6.2],["R2","DIZELL",18,8.0],["R2","Umbrella",17,5.4],["R2","9миля",16,6.7],["R2","incitanem",20,12.1],["R2","тремар",18,10.4],["R2","Dobruy",20,10.8],["R2","Дминко",15,7.7],["R2","22ОТБМП55Бр",15,5.1],["R2","♔ARHØNT♔",17,5.8],["R2","Кэкусик",17,10.4],["R2","Колумб-Псков",19,6.2],["R2","says",18,6.5],
-      ["R1","drKsen",21,15.2],["R1","VIsion",18,11.0],["R1","гнутый",18,6.3],["R1","MaríaAmarilla",17,8.6],["R1","горемуж",16,7.1],["R1","Tre3d3",15,7.4],["R1","dyhbvdfg",15,7.4],["R1","Noname669",17,7.3],["R1","meoook",15,4.6],["R1","татарин23408",19,10.0],["R1","ToKio",18,6.1],["R1","DrKiss",16,6.5],["R1","Karatel777",10,2.6],["R1","V1rtyoZ",20,15.1],["R1","Fenrir1488",17,9.9],["R1","SoriuGared",15,7.3],["R1","kbpf77",16,4.4],["R1","черныйкот",16,7.7],["R1","Ruha°",16,5.4],["R1","Evgenk0",15,6.0],["R1","Bizon33",17,5.9],["R1","Шершавый",17,9.0],["R1","Kulik72",17,8.0]
-    ].map(([rank,name,level,power]) => ({rank,name,level,power}));
-
-    const $ = id => document.getElementById(id);
-    const powers = players.map(player => player.power).sort((a,b) => a-b);
-    const average = values => values.reduce((sum,value) => sum + value,0) / values.length;
-    const median = values => (values[(values.length - 1) >> 1] + values[values.length >> 1]) / 2;
-    const power = value => `${value.toLocaleString(undefined,{maximumFractionDigits:2})}M`;
-    let sort = "power", descending = true;
-
-    if (players.length !== 100 || average(powers) !== 10.321 || median(powers) !== 8.85) throw new Error("Intel data self-check failed");
-    $("total-power").textContent = power(powers.reduce((sum,value) => sum + value,0));
-    $("average-power").textContent = power(average(powers));
-    $("median-power").textContent = power(median(powers));
-    $("average-level").textContent = average(players.map(player => player.level)).toFixed(1);
-
-    function render() {
-      const query = $("search").value.trim().toLocaleLowerCase();
-      const rank = $("rank-filter").value;
-      const visible = players.filter(player => (!rank || player.rank === rank) && (!query || player.name.toLocaleLowerCase().includes(query)));
-      const direction = descending ? -1 : 1;
-      visible.sort((a,b) => direction * (sort === "name" ? a.name.localeCompare(b.name) : sort === "rank" ? Number(a.rank.slice(1)) - Number(b.rank.slice(1)) : a[sort] - b[sort]) || a.name.localeCompare(b.name));
-      $("players").innerHTML = visible.length ? visible.map(player => `<tr class="rank-${player.rank.toLowerCase()}"><td class="rank rank-${player.rank.toLowerCase()}"><span>${player.rank}</span></td><td></td><td>Lv. ${player.level}</td><td class="power">${power(player.power)}</td></tr>`).join("") : `<tr><td class="empty" colspan="4">No players match.</td></tr>`;
-      visible.forEach((player,index) => $("players").rows[index].cells[1].textContent = player.name);
-      $("status").textContent = `Showing ${visible.length} of ${players.length} players · ${sort[0].toUpperCase() + sort.slice(1)} ${descending ? "high to low" : "low to high"}`;
-      document.querySelectorAll("th").forEach(th => th.removeAttribute("aria-sort"));
-      document.querySelector(`[data-sort="${sort}"]`).parentElement.setAttribute("aria-sort",descending ? "descending" : "ascending");
-      $("sort-by").value = sort;
-      $("direction").textContent = descending ? "Descending ↓" : "Ascending ↑";
-    }
-
-    document.querySelectorAll("[data-sort]").forEach(button => button.addEventListener("click",() => {
-      if (sort === button.dataset.sort) descending = !descending;
-      else { sort = button.dataset.sort; descending = sort !== "name"; }
-      render();
-    }));
-    $("sort-by").addEventListener("change",event => { sort = event.target.value; descending = sort !== "name"; render(); });
-    $("direction").addEventListener("click",() => { descending = !descending; render(); });
-    $("search").addEventListener("input",render);
-    $("rank-filter").addEventListener("change",render);
-    render();
+    (() => {
+    const {alliances, stats, formatPower} = Intel;
+    const rosterUrl = alliance => `alliance/?id=${alliance.id}`;
+    const cards = [alliances.p1mp, alliances.biw];
+    document.getElementById("alliances").innerHTML = cards.map(alliance => {
+      const metric = stats(alliance.players);
+      return `<article class="alliance-card ${alliance.id === "p1mp" ? "home" : "opponent"}">
+        <div class="alliance-top"><div class="insignia ${alliance.id === "p1mp" ? "home" : ""}">${alliance.tag}</div><div><div class="eyebrow">${alliance.relation}</div><h2><span>[${alliance.tag}]</span> ${alliance.name}</h2><div class="server">Server #${alliance.server} · Leader ${alliance.leader}</div></div></div>
+        <div class="quick-stats"><div><div class="label">Roster</div><div class="value">${metric.count}</div></div><div><div class="label">Total power</div><div class="value">${formatPower(metric.total)}</div></div><div><div class="label">Average</div><div class="value">${formatPower(metric.average)}</div></div></div>
+        <a class="button" href="${rosterUrl(alliance)}">Open ${alliance.tag} dossier →</a>
+      </article>`;
+    }).join("");
+    const home = stats(alliances.p1mp.players), opponent = stats(alliances.biw.players);
+    document.getElementById("overview").innerHTML = `
+      <article class="insight"><strong>P1MP leads estimated total power</strong>${formatPower(home.total - opponent.total)} more across ${home.count} listed players, a ${((home.total / opponent.total - 1) * 100).toFixed(1)}% edge.</article>
+      <article class="insight"><strong>BIW owns the level ceiling</strong>BIW reaches Lv. ${opponent.maxLevel}; P1MP tops out at Lv. ${home.maxLevel} but carries the stronger median power.</article>`;
+    })();
   </script>
 </body>
 </html>

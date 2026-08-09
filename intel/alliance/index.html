@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Sortable Z Route alliance player roster.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../styles.css">
+  <title>Alliance Intel</title>
+</head>
+<body>
+  <header class="shell site-head">
+    <a class="brand" href="../">Z ROUTE INTEL</a>
+    <nav class="nav" aria-label="Intel navigation">
+      <a href="../">Alliances</a>
+      <a href="../compare/">Compare servers</a>
+    </nav>
+  </header>
+  <main class="shell">
+    <header class="masthead">
+      <div id="insignia" class="insignia" aria-hidden="true"></div>
+      <div><div class="eyebrow">Alliance intel report</div><h1 id="alliance-name"></h1><p id="precision" class="lede"></p></div>
+      <dl class="identity">
+        <div><dt>Server</dt><dd id="server"></dd></div><div><dt>Leader</dt><dd id="leader"></dd></div>
+        <div><dt>Language</dt><dd id="language"></dd></div><div><dt>Listed members</dt><dd id="members"></dd></div>
+        <div><dt>Scouted</dt><dd id="scouted"></dd></div><div><dt>Server time</dt><dd id="server-time"></dd></div>
+      </dl>
+    </header>
+
+    <section class="metrics" aria-label="Roster metrics">
+      <article class="metric"><div class="label">Total power</div><div id="total-power" class="value"></div></article>
+      <article class="metric"><div class="label">Average power</div><div id="average-power" class="value"></div></article>
+      <article class="metric"><div class="label">Median power</div><div id="median-power" class="value"></div></article>
+      <article class="metric"><div class="label">Average level</div><div id="average-level" class="value"></div></article>
+    </section>
+
+    <section class="panel roster" aria-label="Player roster">
+      <div class="controls">
+        <input id="search" type="search" placeholder="Search player name…" aria-label="Search player name">
+        <select id="rank-filter" aria-label="Filter by rank"><option value="">All ranks</option><option>R5</option><option>R4</option><option>R3</option><option>R2</option><option>R1</option></select>
+        <select id="sort-by" aria-label="Sort players by"><option value="power">Sort: Power</option><option value="level">Sort: Level</option><option value="rank">Sort: Rank</option><option value="name">Sort: Name</option></select>
+        <button id="direction" type="button" aria-label="Reverse sort order">Descending ↓</button>
+      </div>
+      <div class="table-wrap"><table><thead><tr>
+        <th><button type="button" data-sort="rank">Rank</button></th><th><button type="button" data-sort="name">Name</button></th><th><button type="button" data-sort="level">Level</button></th><th aria-sort="descending"><button type="button" data-sort="power">Power</button></th>
+      </tr></thead><tbody id="players"></tbody></table></div>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="../data.js"></script>
+  <script src="roster.js"></script>
+</body>
+</html>

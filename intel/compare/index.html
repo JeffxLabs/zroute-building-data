@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Interactive Z Route server-vs-server alliance comparison.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../styles.css">
+  <title>P1MP vs BIW Server Comparison</title>
+</head>
+<body>
+  <header class="shell site-head">
+    <a class="brand" href="../">Z ROUTE INTEL</a>
+    <nav class="nav" aria-label="Intel navigation">
+      <a href="../">Alliances</a>
+      <a href="./" aria-current="page">Compare servers</a>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <header class="compare-head">
+      <div><div class="eyebrow">Server-vs-server matchup</div><h1><span>#117</span> vs #116</h1><p class="lede">P1MP JU1CE is the home roster. BIW BloodWing is the opponent roster. Adjust depth and the power threshold to test different matchup slices.</p></div>
+      <div class="compare-controls panel section">
+        <div><label class="label" for="lineup-depth">Lineup depth</label><select id="lineup-depth"><option>5</option><option>10</option><option selected>20</option><option>30</option><option>50</option><option>96</option></select></div>
+        <div class="range-field"><label for="power-threshold"><span>Power threshold</span><strong id="threshold-label">10M+</strong></label><input id="power-threshold" type="range" min="0" max="25" step="1" value="10"></div>
+      </div>
+    </header>
+
+    <section class="versus" aria-label="Alliances compared">
+      <article class="side home"><div class="side-name"><div><div class="eyebrow">Home · Server #117</div><h2><span>[P1MP]</span> JU1CE</h2></div><div class="insignia home">P1MP</div></div><div id="home-summary" class="quick-stats"></div></article>
+      <div class="delta">VS</div>
+      <article class="side opponent"><div class="side-name"><div><div class="eyebrow">Opponent · Server #116</div><h2><span>[BIW]</span> BloodWing</h2></div><div class="insignia">BIW</div></div><div id="opponent-summary" class="quick-stats"></div></article>
+    </section>
+
+    <section class="panel section">
+      <div class="section-head"><div><div class="eyebrow">Comparison board</div><h2 id="assessment-title">Roster strength</h2></div><div id="assessment-note" class="note"></div></div>
+      <div id="comparison-metrics" class="comparison-metrics"></div>
+    </section>
+
+    <section class="panel section">
+      <div class="section-head"><div><div class="eyebrow">What the roster says</div><h2>Assessment</h2></div><div class="note">Evidence, not a battle forecast</div></div>
+      <div id="insights" class="insights"></div>
+    </section>
+
+    <section class="panel section">
+      <div class="section-head"><div><div class="eyebrow">Rank structure</div><h2>Power by rank</h2></div><div class="note">Estimated sum of listed member power</div></div>
+      <div id="rank-bars" class="bar-list"></div>
+    </section>
+
+    <section class="panel section">
+      <div class="section-head"><div><div class="eyebrow">Head-to-head depth</div><h2 id="lineup-title">Top 20 lineup</h2></div><div class="note">Same roster position compared by power</div></div>
+      <div class="table-wrap"><table class="matchup-table"><thead><tr><th><span>#</span></th><th><span>P1MP player</span></th><th><span>Power</span></th><th><span>BIW player</span></th><th><span>Power</span></th><th><span>Edge</span></th></tr></thead><tbody id="matchups"></tbody></table></div>
+    </section>
+
+    <p class="note">Caveat: almost all powers were supplied rounded to 0.1M. The comparison excludes unlisted members and cannot account for troops, heroes, equipment, research, activity, attendance, or event buffs.</p>
+  </main>
+  <script src="../data.js"></script>
+  <script src="compare.js"></script>
+</body>
+</html>
