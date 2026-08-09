@@ -87,8 +87,6 @@
     .config-actions button { border: 1px solid #315071; border-radius: 10px; padding: 9px; background: #11243a; cursor: pointer }
     .config-actions button:hover { background: #17304a }
     .config-status { min-height: 1.2em; margin: 7px 0 0; color: var(--muted); font-size: .75rem }
-    .check-field { display: flex; align-items: center; gap: 9px; margin-top: 16px; color: #c9d5e7; font-size: .86rem; font-weight: 650 }
-    .check-field input { width: 18px; height: 18px; accent-color: var(--green) }
     .value-inputs { display: grid; grid-template-columns: 1fr 92px; gap: 9px 12px; align-items: center }
     .value-inputs label { color: #b9c8dc; font-size: .82rem }
     .value-inputs input { padding: 7px 9px; font-size: .84rem }
@@ -277,7 +275,7 @@
       <aside class="panel controls" aria-label="ROI calculator inputs">
         <div class="controls-inner">
           <h2>Investment assumptions</h2>
-          <p class="hint">Payback uses only the extra output gained by upgrading.</p>
+          <p class="hint">Payback uses only the extra output gained by upgrading. Production continues at the last completed level during construction.</p>
           <div class="field"><label for="roi-producer">Producer</label><select id="roi-producer"></select></div>
           <div class="settings-grid">
             <div class="field"><label for="roi-current">Current level</label><select id="roi-current"></select></div>
@@ -287,7 +285,6 @@
             <div class="field"><label for="roi-production">Production bonus <small>%</small></label><input id="roi-production" type="number" min="0" max="10000" step="0.1" value="0"></div>
             <div class="field"><label for="roi-utilization">Collection uptime <small>%</small></label><input id="roi-utilization" type="number" min="0.1" max="100" step="0.1" value="100"></div>
           </div>
-          <label class="check-field"><input id="roi-downtime" type="checkbox"> Count production lost while upgrading</label>
           <details class="settings" open>
             <summary>Relative resource values</summary>
             <p class="advanced-note">Value of one unit in a common comparison unit. Defaults treat Food, Metal, and Oil equally; set the produced resource to reflect how valuable it is to you.</p>
@@ -305,10 +302,11 @@
             <div id="roi-gate" class="version"></div>
           </header>
           <div class="metrics">
-            <article class="metric"><div class="metric-label">Payback runtime</div><div id="roi-payback" class="metric-value"></div><div class="metric-note">After construction completes</div></article>
-            <article class="metric"><div class="metric-label">Total to break even</div><div id="roi-total-time" class="metric-value"></div><div class="metric-note">Construction + production runtime</div></article>
+            <article class="metric"><div class="metric-label">Runtime after target</div><div id="roi-payback" class="metric-value"></div><div class="metric-note">Additional time after all upgrades finish</div></article>
+            <article class="metric"><div class="metric-label">Total to break even</div><div id="roi-total-time" class="metric-value"></div><div class="metric-note">From starting the first upgrade</div></article>
             <article class="metric"><div class="metric-label">Added output</div><div id="roi-output" class="metric-value"></div><div id="roi-output-note" class="metric-note"></div></article>
-            <article class="metric"><div class="metric-label">Investment value</div><div id="roi-investment" class="metric-value"></div><div class="metric-note">Weighted costs + optional downtime</div></article>
+            <article class="metric"><div class="metric-label">Direct upgrade costs</div><div id="roi-costs" class="metric-value resource-stack"></div><div class="metric-note">Selected producer levels only</div></article>
+            <article class="metric"><div class="metric-label">Investment value</div><div id="roi-investment" class="metric-value"></div><div class="metric-note">Direct costs after relative weighting</div></article>
             <article class="metric"><div class="metric-label">Profit after 30 days</div><div id="roi-profit" class="metric-value profit"></div><div class="metric-note">Weighted net value from construction start</div></article>
           </div>
 
@@ -324,7 +322,7 @@
 
           <section class="panel section">
             <h3>How this is calculated</h3>
-            <p class="section-note">Investment value = weighted upgrade costs + optional production lost during construction. Payback runtime = investment value ÷ weighted marginal output per hour. Profit starts after construction and becomes positive at the displayed total break-even time. Multi-level routes assume back-to-back upgrades with no production between them. Base prerequisite costs are excluded because they benefit the whole account, not only this producer.</p>
+            <p class="section-note">The building keeps producing at its last completed level while the next upgrade builds. Break-even credits that intermediate output above your starting level and compares it with the selected upgrades' direct Food, Metal, and Oil costs. Relative values convert unlike inputs and output into one comparison unit. Base prerequisite costs are excluded because they benefit the whole account, not only this producer.</p>
           </section>
         </div>
       </section>
@@ -442,9 +440,9 @@
           || schedule(result.actions, 1, unchanged).seconds !== total.seconds
           || schedule(result.actions, 4, unchanged).seconds > total.seconds
           || adjustedTime({base_time_seconds: 100}, {speedPercent: 100, freeSeconds: 10}) !== 40
-          || Math.round(roiFor({costValue: 1000, previousOutput: 100, output: 200, buildSeconds: 3600}, {outputValue: 1, productionFactor: 1, utilization: 1, downtime: true}).paybackHours) !== 11
-          || roiProfit({costValue: 1000, previousOutput: 100, output: 200, buildSeconds: 3600}, {outputValue: 1, productionFactor: 1, utilization: 1, downtime: true}, 12) !== 0
-          || roiPlanProfit([{costValue: 0, previousOutput: 100, output: 200, buildSeconds: 3600}, {costValue: 0, previousOutput: 200, output: 300, buildSeconds: 3600}], {outputValue: 1, productionFactor: 1, utilization: 1, downtime: true}, 3) !== -100) {
+          || roiFor({costValue: 1000, previousOutput: 100, output: 200, buildSeconds: 3600}, {outputValue: 1, productionFactor: 1, utilization: 1}).totalHours !== 11
+          || roiPlanBreakEven([{costValue: 50, previousOutput: 100, output: 200, buildSeconds: 3600}, {costValue: 100, previousOutput: 200, output: 300, buildSeconds: 3600}], {outputValue: 1, productionFactor: 1, utilization: 1}) !== 2.25
+          || roiPlanProfit([{costValue: 50, previousOutput: 100, output: 200, buildSeconds: 3600}, {costValue: 100, previousOutput: 200, output: 300, buildSeconds: 3600}], {outputValue: 1, productionFactor: 1, utilization: 1}, 3) !== 150) {
         throw new Error("Planner self-check failed for client v1.30.07");
       }
     }
@@ -493,35 +491,41 @@
     }
 
     function roiFor(upgrade, assumptions) {
-      const effectivePrevious = upgrade.previousOutput * assumptions.productionFactor * assumptions.utilization;
       const addedPerHour = (upgrade.output - upgrade.previousOutput) * assumptions.productionFactor * assumptions.utilization;
-      const downtimeValue = assumptions.downtime ? effectivePrevious * assumptions.outputValue * upgrade.buildSeconds / 3600 : 0;
-      const investmentValue = upgrade.costValue + downtimeValue;
+      const investmentValue = upgrade.costValue;
       const paybackHours = investmentValue / (addedPerHour * assumptions.outputValue);
       const totalHours = upgrade.buildSeconds / 3600 + paybackHours;
-      return {addedPerHour, downtimeValue, investmentValue, paybackHours, totalHours};
+      return {addedPerHour, investmentValue, paybackHours, totalHours};
     }
 
-    function roiProfit(upgrade, assumptions, horizonHours) {
-      const buildHours = Math.min(upgrade.buildSeconds / 3600, horizonHours);
-      const operatingHours = Math.max(0, horizonHours - buildHours);
-      const previous = upgrade.previousOutput * assumptions.productionFactor * assumptions.utilization;
-      const added = (upgrade.output - upgrade.previousOutput) * assumptions.productionFactor * assumptions.utilization;
-      const lost = assumptions.downtime ? previous * buildHours : 0;
-      return (added * operatingHours - lost) * assumptions.outputValue - upgrade.costValue;
+    function roiPlanBenefit(upgrades, assumptions, horizonHours) {
+      const startOutput = upgrades[0].previousOutput;
+      let elapsed = 0, output = 0;
+      for (const item of upgrades) {
+        const hours = Math.max(0, Math.min(item.buildSeconds / 3600, horizonHours - elapsed));
+        output += (item.previousOutput - startOutput) * assumptions.productionFactor * assumptions.utilization * hours;
+        elapsed += item.buildSeconds / 3600;
+      }
+      output += (upgrades.at(-1).output - startOutput) * assumptions.productionFactor * assumptions.utilization * Math.max(0, horizonHours - elapsed);
+      return output * assumptions.outputValue;
     }
 
     function roiPlanProfit(upgrades, assumptions, horizonHours) {
-      const buildHours = upgrades.reduce((sum, item) => sum + item.buildSeconds / 3600, 0);
-      const operatingHours = Math.max(0, horizonHours - buildHours);
-      const added = (upgrades.at(-1).output - upgrades[0].previousOutput) * assumptions.productionFactor * assumptions.utilization;
-      let elapsed = 0, lost = 0;
-      if (assumptions.downtime) for (const item of upgrades) {
-        const hours = Math.max(0, Math.min(item.buildSeconds / 3600, horizonHours - elapsed));
-        lost += item.previousOutput * assumptions.productionFactor * assumptions.utilization * hours;
+      return roiPlanBenefit(upgrades, assumptions, horizonHours) - upgrades.reduce((sum, item) => sum + item.costValue, 0);
+    }
+
+    function roiPlanBreakEven(upgrades, assumptions) {
+      const startOutput = upgrades[0].previousOutput;
+      let elapsed = 0, remaining = upgrades.reduce((sum, item) => sum + item.costValue, 0);
+      for (const item of upgrades) {
+        const hours = item.buildSeconds / 3600;
+        const rate = (item.previousOutput - startOutput) * assumptions.productionFactor * assumptions.utilization * assumptions.outputValue;
+        if (rate && remaining <= rate * hours) return elapsed + remaining / rate;
+        remaining -= rate * hours;
         elapsed += hours;
       }
-      return (added * operatingHours - lost) * assumptions.outputValue - upgrades.reduce((sum, item) => sum + item.costValue, 0);
+      const rate = (upgrades.at(-1).output - startOutput) * assumptions.productionFactor * assumptions.utilization * assumptions.outputValue;
+      return elapsed + Math.max(0, remaining) / rate;
     }
 
     function schedule(actions, slotCount, modifier) {
@@ -740,7 +744,6 @@
         freeSeconds: readNumber("roi-free", 0, 100000, "Free-finish time") * 60,
         productionFactor: 1 + readNumber("roi-production", 0, 10000, "Production bonus") / 100,
         utilization: readNumber("roi-utilization", 0.1, 100, "Collection uptime") / 100,
-        downtime: $("roi-downtime").checked,
         values,
         outputValue: values[producer.output_type]
       };
@@ -780,10 +783,10 @@
         const buildSeconds = upgrades.reduce((sum, item) => sum + item.buildSeconds, 0);
         const costValue = upgrades.reduce((sum, item) => sum + item.costValue, 0);
         const addedPerHour = (endOutput - startOutput) * assumptions.productionFactor * assumptions.utilization;
-        const investmentValue = costValue + upgrades.reduce((sum, item) => sum + item.downtimeValue, 0);
-        const paybackHours = investmentValue / (addedPerHour * assumptions.outputValue);
-        const cumulative = {addedPerHour, investmentValue, paybackHours, totalHours: buildSeconds / 3600 + paybackHours};
+        const totalHours = roiPlanBreakEven(upgrades, assumptions);
+        const cumulative = {addedPerHour, investmentValue: costValue, paybackHours: Math.max(0, totalHours - buildSeconds / 3600), totalHours};
         const profit30 = roiPlanProfit(upgrades, assumptions, 720);
+        const directCosts = [1, 2, 3].map(type => ({type, count: upgrades.reduce((sum, item) => sum + (item.costs.find(cost => cost.type === type)?.count || 0), 0)}));
         const gate = Math.max(0, ...upgrades.map(item => item.gate));
         $("roi-error").style.display = "none";
         $("roi-title").textContent = `${producer.building_name} ${current} → ${target}`;
@@ -792,11 +795,12 @@
         $("roi-total-time").textContent = durationHours(cumulative.totalHours);
         $("roi-output").textContent = `+${compact(Math.round(cumulative.addedPerHour))}/h`;
         $("roi-output-note").textContent = `${producer.output_name}: ${compact(startOutput)} → ${compact(endOutput)} base per hour`;
+        $("roi-costs").innerHTML = directCosts.filter(cost => cost.count).map(cost => `<span>${escape(ROI_RESOURCE_NAMES[cost.type])} ${compact(cost.count)}</span>`).join("") || "Free";
         $("roi-investment").textContent = compact(Math.round(cumulative.investmentValue));
         $("roi-profit").textContent = number(Math.round(profit30));
         $("roi-profit").classList.toggle("negative", profit30 < 0);
         $("roi-rows").innerHTML = upgrades.map(item => {
-          const profit = roiProfit(item, assumptions, 720);
+          const profit = roiPlanProfit([item], assumptions, 720);
           return `<tr><td><span class="level-pill">${item.level}</span></td><td class="nowrap">${time(item.buildSeconds)}</td><td class="nowrap">+${number(Math.round(item.addedPerHour))} ${escape(producer.output_name)}/h</td><td>${formatCosts(item.costs)}</td><td class="nowrap">${durationHours(item.paybackHours)}</td><td class="nowrap"><b>${durationHours(item.totalHours)}</b></td><td class="profit${profit < 0 ? " negative" : ""} nowrap">${number(Math.round(profit))}</td></tr>`;
         }).join("") || `<tr><td colspan="7"><div class="empty">Select a higher target level.</div></td></tr>`;
       } catch (error) {

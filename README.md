@@ -4,7 +4,7 @@ This repository turns static progression facts from Android client version `1.30
 
 Use the interactive [Z Route Progression Planner](https://jeffxlabs.github.io/zroute-building-data/) to calculate a Base route or compare the payback time and 30-day profit of every resource-producer upgrade.
 
-Producer ROI uses marginal hourly output, construction time, optional production downtime, and user-defined relative values for unlike resources. Base gates are shown but their costs are excluded because they benefit the whole account.
+Producer ROI compares the selected producer levels' direct Food, Metal, and Oil costs with marginal hourly output, construction time, and user-defined relative values for unlike resources. A producer continues at its last completed level while the next upgrade builds. Base gates are shown but their costs are excluded because they benefit the whole account.
 
 ## Data
 
