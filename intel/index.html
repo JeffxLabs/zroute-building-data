@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Sortable Z Route alliance player intel.">
+  <link rel="icon" href="data:,">
+  <title>Z Route Intel</title>
+  <style>
+    :root { color-scheme: dark; --bg:#07101d; --panel:#0f1d31; --line:#243c5d; --text:#f4f7fc; --muted:#95a8c4; --green:#5ee6a8; --cyan:#5bcaf2 }
+    * { box-sizing:border-box }
+    body { margin:0; min-width:320px; background:radial-gradient(circle at 90% 0, #173457 0, transparent 34rem),var(--bg); color:var(--text); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif }
+    main { width:min(1100px,calc(100% - 32px)); margin:auto; padding:48px 0 72px }
+    .eyebrow { color:var(--green); font-size:.75rem; font-weight:800; letter-spacing:.18em; text-transform:uppercase }
+    h1 { margin:8px 0 10px; font-size:clamp(2.5rem,7vw,5rem); line-height:1; letter-spacing:-.05em }
+    .intro { margin:0 0 32px; color:var(--muted) }
+    .metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px }
+    .metric,.panel { border:1px solid var(--line); border-radius:16px; background:rgba(15,29,49,.94) }
+    .metric { padding:17px }
+    .label { color:var(--muted); font-size:.7rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase }
+    .value { margin-top:4px; font-size:1.55rem; font-weight:800 }
+    .panel { overflow:hidden }
+    .controls { display:grid; grid-template-columns:minmax(180px,1fr) 160px auto; gap:10px; padding:16px; border-bottom:1px solid var(--line) }
+    input,select,button { min-height:44px; border:1px solid #304b6c; border-radius:10px; background:#0b1829; color:var(--text); font:inherit }
+    input,select { width:100%; padding:9px 11px }
+    button { padding:9px 14px; cursor:pointer }
+    button:hover { border-color:var(--cyan) }
+    input:focus,select:focus,button:focus-visible { outline:2px solid var(--cyan); outline-offset:2px }
+    .table-wrap { overflow:auto; max-height:70vh }
+    table { width:100%; border-collapse:collapse; min-width:630px }
+    th { position:sticky; top:0; z-index:1; padding:0; background:#0a1728; text-align:left }
+    th button { width:100%; border:0; border-radius:0; background:transparent; color:var(--muted); font-size:.7rem; font-weight:800; letter-spacing:.1em; text-align:left; text-transform:uppercase }
+    th button::after { content:" ↕" }
+    th[aria-sort="ascending"] button::after { content:" ↑"; color:var(--green) }
+    th[aria-sort="descending"] button::after { content:" ↓"; color:var(--green) }
+    td { padding:12px 14px; border-top:1px solid #1d344f }
+    tbody tr:hover { background:rgba(91,202,242,.05) }
+    td:nth-child(3),td:nth-child(4) { font-variant-numeric:tabular-nums }
+    .rank { color:var(--cyan); font-weight:800 }
+    .power { color:var(--green); font-weight:750 }
+    .status { margin:0; padding:11px 16px; border-top:1px solid var(--line); color:var(--muted); font-size:.82rem }
+    .empty { padding:36px; color:var(--muted); text-align:center }
+    @media (max-width:700px) { main{width:min(100% - 20px,1100px);padding-top:28px}.metrics{grid-template-columns:1fr 1fr}.controls{grid-template-columns:1fr 110px}.controls button{grid-column:1/-1}.table-wrap{max-height:none} }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Alliance intelligence</div>
+    <h1>Player intel</h1>
+    <p class="intro">Search the roster, filter by rank, or sort any column.</p>
+
+    <section class="metrics" aria-label="Roster metrics">
+      <article class="metric"><div class="label">Players</div><div id="player-count" class="value"></div></article>
+      <article class="metric"><div class="label">Average power</div><div id="average-power" class="value"></div></article>
+      <article class="metric"><div class="label">Median power</div><div id="median-power" class="value"></div></article>
+      <article class="metric"><div class="label">Average level</div><div id="average-level" class="value"></div></article>
+    </section>
+
+    <section class="panel" aria-label="Player roster">
+      <div class="controls">
+        <input id="search" type="search" placeholder="Search player name…" aria-label="Search player name">
+        <select id="rank-filter" aria-label="Filter by rank">
+          <option value="">All ranks</option><option>R5</option><option>R4</option><option>R3</option><option>R2</option><option>R1</option>
+        </select>
+        <button id="direction" type="button" aria-label="Reverse sort order">Descending ↓</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th><button type="button" data-sort="rank">Rank</button></th>
+            <th><button type="button" data-sort="name">Name</button></th>
+            <th><button type="button" data-sort="level">Level</button></th>
+            <th aria-sort="descending"><button type="button" data-sort="power">Power</button></th>
+          </tr></thead>
+          <tbody id="players"></tbody>
+        </table>
+      </div>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script>
+    const players = [
+      ["R5","МатьСерверов~",20,12.4],
+      ["R4","-Ragnar-",23,26.7],["R4","Egoistelux",21,17.8],["R4","Lordsnoy6",20,15.8],["R4","-Sunshine-",17,9.1],["R4","Депутат",22,26.6],
+      ["R3","qviler13",26,22.9],["R3","Колчакъ",20,13.9],["R3","Виталик124",20,12.6],["R3","EHOT22",20,12.0],["R3","2Rist96",20,10.2],["R3","1Dark~King1",19,10.3],["R3","Yana163",19,8.0],["R3","AlexKiller",18,10.3],["R3","Легендарный",18,11.2],["R3","☯Harmony☯",21,16.2],["R3","Влад26",20,14.7],["R3","ViKki",20,9.5],["R3","Hooch",21,14.8],["R3","🤌Белочка🤌",19,11.8],["R3","САХАРОК161",20,13.2],["R3","денчик26",18,7.5],["R3","КрасныйТелепузик",21,20.7],["R3","Crazy-KrakeN",21,22.4],["R3","DenSibir",20,15.1],["R3","Lady~Vengeance",20,15.8],["R3","Egoistkalux",18,10.0],["R3","Мэмфис",18,12.6],["R3","MooN",20,17.1],["R3","V0van",24,22.6],["R3","TopOneSNG",18,6.1],["R3","харашо",17,9.2],["R3","Семь",20,14.9],["R3","Пилигрим",20,11.0],["R3","GROZZ",20,11.5],["R3","Kellt",21,17.9],["R3","Кот-Капоне🤝",18,6.8],["R3","JIaMnoBa-H9IIIKa",21,22.8],["R3","MONTER",19,11.9],["R3","Пулька-Шпулька",19,8.6],["R3","opexu",18,6.6],["R3","-PRETORIAN-",20,13.1],["R3","Artesska",18,8.4],["R3","Ruslan4ik228",18,12.8],["R3","alex6419",17,9.6],
+      ["R2","♔ØŁ乇G♔",18,8.1],["R2","Bastian",18,5.3],["R2","Tirr",16,7.5],["R2","Шиш1986",15,8.3],["R2","MYROMEC",17,5.5],["R2","Egoist61",19,5.2],["R2","MonsterEnergy031",18,8.7],["R2","путятя",18,6.3],["R2","blikmax",19,9.2],["R2","АНАТОЛИЙ44",17,7.8],["R2","PIWTIPIWPIW",17,8.4],["R2","МакаЧленс",17,7.7],["R2","Kristinkka",15,4.9],["R2","кофеιη",16,4.3],["R2","Ömer16",18,8.1],["R2","NSA26",17,5.6],["R2","VezdexoD",17,10.4],["R2","Ромарио1987",18,7.3],["R2","•SunRay•",18,8.4],["R2","Alexbro",18,6.2],["R2","DIZELL",18,8.0],["R2","Umbrella",17,5.4],["R2","9миля",16,6.7],["R2","incitanem",20,12.1],["R2","тремар",18,10.4],["R2","Dobruy",20,10.8],["R2","Дминко",15,7.7],["R2","22ОТБМП55Бр",15,5.1],["R2","♔ARHØNT♔",17,5.8],["R2","Кэкусик",17,10.4],["R2","Колумб-Псков",19,6.2],["R2","says",18,6.5],
+      ["R1","drKsen",21,15.2],["R1","VIsion",18,11.0],["R1","гнутый",18,6.3],["R1","MaríaAmarilla",17,8.6],["R1","горемуж",16,7.1],["R1","Tre3d3",15,7.4],["R1","dyhbvdfg",15,7.4],["R1","Noname669",17,7.3],["R1","meoook",15,4.6],["R1","татарин23408",19,10.0],["R1","ToKio",18,6.1],["R1","DrKiss",16,6.5],["R1","Karatel777",10,2.6],["R1","V1rtyoZ",20,15.1],["R1","Fenrir1488",17,9.9],["R1","SoriuGared",15,7.3],["R1","kbpf77",16,4.4],["R1","черныйкот",16,7.7],["R1","Ruha°",16,5.4],["R1","Evgenk0",15,6.0],["R1","Bizon33",17,5.9],["R1","Шершавый",17,9.0],["R1","Kulik72",17,8.0]
+    ].map(([rank,name,level,power]) => ({rank,name,level,power}));
+
+    const $ = id => document.getElementById(id);
+    const powers = players.map(player => player.power).sort((a,b) => a-b);
+    const average = values => values.reduce((sum,value) => sum + value,0) / values.length;
+    const median = values => (values[(values.length - 1) >> 1] + values[values.length >> 1]) / 2;
+    const power = value => `${value.toLocaleString(undefined,{maximumFractionDigits:2})}M`;
+    let sort = "power", descending = true;
+
+    if (players.length !== 100 || average(powers) !== 10.321 || median(powers) !== 8.85) throw new Error("Intel data self-check failed");
+    $("player-count").textContent = players.length;
+    $("average-power").textContent = power(average(powers));
+    $("median-power").textContent = power(median(powers));
+    $("average-level").textContent = average(players.map(player => player.level)).toFixed(1);
+
+    function render() {
+      const query = $("search").value.trim().toLocaleLowerCase();
+      const rank = $("rank-filter").value;
+      const visible = players.filter(player => (!rank || player.rank === rank) && (!query || player.name.toLocaleLowerCase().includes(query)));
+      const direction = descending ? -1 : 1;
+      visible.sort((a,b) => direction * (sort === "name" ? a.name.localeCompare(b.name) : sort === "rank" ? Number(a.rank.slice(1)) - Number(b.rank.slice(1)) : a[sort] - b[sort]) || a.name.localeCompare(b.name));
+      $("players").innerHTML = visible.length ? visible.map(player => `<tr><td class="rank">${player.rank}</td><td></td><td>Lv. ${player.level}</td><td class="power">${power(player.power)}</td></tr>`).join("") : `<tr><td class="empty" colspan="4">No players match.</td></tr>`;
+      visible.forEach((player,index) => $("players").rows[index].cells[1].textContent = player.name);
+      $("status").textContent = `Showing ${visible.length} of ${players.length} players · ${sort[0].toUpperCase() + sort.slice(1)} ${descending ? "high to low" : "low to high"}`;
+      document.querySelectorAll("th").forEach(th => th.removeAttribute("aria-sort"));
+      document.querySelector(`[data-sort="${sort}"]`).parentElement.setAttribute("aria-sort",descending ? "descending" : "ascending");
+      $("direction").textContent = descending ? "Descending ↓" : "Ascending ↑";
+    }
+
+    document.querySelectorAll("[data-sort]").forEach(button => button.addEventListener("click",() => {
+      if (sort === button.dataset.sort) descending = !descending;
+      else { sort = button.dataset.sort; descending = sort !== "name"; }
+      render();
+    }));
+    $("direction").addEventListener("click",() => { descending = !descending; render(); });
+    $("search").addEventListener("input",render);
+    $("rank-filter").addEventListener("change",render);
+    render();
+  </script>
+</body>
+</html>
