@@ -92,6 +92,7 @@ td { padding: 12px 14px; border-top: 1px solid #263c35 }
 tbody tr:hover { background: rgba(230,196,123,.04) }
 td:nth-child(n+3) { font-variant-numeric: tabular-nums }
 .rank span { display: inline-grid; min-width: 38px; padding: 4px 7px; place-items: center; border: 1px solid currentColor; border-radius: 7px 7px 11px 11px; font-size: .78rem; font-weight: 900 }
+.standing { width: 72px; color: var(--muted); font-weight: 850; font-variant-numeric: tabular-nums }
 .rank-r5 { color: #e1bd54 }.rank-r4 { color: #bd8ce0 }.rank-r3 { color: #6faedc }.rank-r2 { color: #db9a43 }.rank-r1 { color: #d46b5f }
 .power { color: var(--gold); font-weight: 800 }
 .role { color: var(--muted); font-size: .78rem }
@@ -144,9 +145,9 @@ input[type="range"] { min-height: 0; height: 8px; padding: 0; accent-color: var(
   .controls { grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px }.controls input { grid-column: 1/-1 }.controls button { grid-column: 1/-1 }
   .table-wrap { max-height: none; overflow: visible; padding: 10px }
   .roster table, .roster tbody { display: block; width: 100% }.roster thead { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0 }.roster tbody { display: grid; gap: 8px }
-  .roster tbody tr { display: grid; min-width: 0; grid-template-columns: auto minmax(0,1fr) auto; grid-template-areas: "rank name power" "rank level power"; gap: 1px 10px; align-items: center; padding: 11px 12px; border: 1px solid #334a42; border-left: 3px solid var(--rank-color,#53665d); border-radius: 12px; background: var(--panel-2) }
+  .roster tbody tr { display: grid; min-width: 0; grid-template-columns: auto auto minmax(0,1fr) auto; grid-template-areas: "standing rank name power" "standing rank level power"; gap: 1px 10px; align-items: center; padding: 11px 12px; border: 1px solid #334a42; border-left: 3px solid var(--rank-color,#53665d); border-radius: 12px; background: var(--panel-2) }
   .roster tbody tr.rank-r5 { --rank-color:#e1bd54 }.roster tbody tr.rank-r4 { --rank-color:#bd8ce0 }.roster tbody tr.rank-r3 { --rank-color:#6faedc }.roster tbody tr.rank-r2 { --rank-color:#db9a43 }.roster tbody tr.rank-r1 { --rank-color:#d46b5f }
-  .roster td { min-width: 0; padding: 0; border: 0 }.roster td:nth-child(1) { grid-area: rank }.roster td:nth-child(2) { grid-area: name; overflow-wrap: anywhere; font-weight: 750 }.roster td:nth-child(3) { grid-area: level; color: var(--muted); font-size: .82rem }.roster td:nth-child(4) { grid-area: power; text-align: right }
+  .roster td { min-width: 0; padding: 0; border: 0 }.roster td:nth-child(1) { grid-area: standing; width: auto }.roster td:nth-child(2) { grid-area: rank }.roster td:nth-child(3) { grid-area: name; overflow-wrap: anywhere; font-weight: 750 }.roster td:nth-child(4) { grid-area: level; color: var(--muted); font-size: .82rem }.roster td:nth-child(5) { grid-area: power; text-align: right }
   .compare-head { display: block; padding-top: 18px }.compare-controls { grid-template-columns: 1fr; margin-top: 20px }
   .comparison-metrics { grid-template-columns: 1fr }
   .section { padding: 15px }.section-head { align-items: start; flex-direction: column }

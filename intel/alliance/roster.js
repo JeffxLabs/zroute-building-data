@@ -27,9 +27,19 @@ function render() {
   const query = $("search").value.trim().toLocaleLowerCase();
   const rank = $("rank-filter").value;
   const visible = Intel.sortedPlayers(alliance.players.filter(player => (!rank || player.rank === rank) && (!query || player.name.toLocaleLowerCase().includes(query))), sort, descending);
-  $("players").innerHTML = visible.length ? visible.map(player => `<tr class="rank-${player.rank.toLowerCase()}"><td class="rank rank-${player.rank.toLowerCase()}"><span>${player.rank}</span></td><td></td><td>Lv. ${player.level}</td><td class="power">${Intel.formatPower(player.power)}</td></tr>`).join("") : `<tr><td class="empty" colspan="4">No players match.</td></tr>`;
+  const ranked = sort === "power" || sort === "level";
+  const standings = new Map();
+  if (ranked) {
+    let previous, standing;
+    Intel.sortedPlayers(alliance.players, sort, true).forEach((player, index) => {
+      if (player[sort] !== previous) previous = player[sort], standing = index + 1;
+      standings.set(player, standing);
+    });
+  } else visible.forEach((player, index) => standings.set(player, index + 1));
+  $("standing-title").textContent = ranked ? `${sort[0].toUpperCase() + sort.slice(1)} #` : "View #";
+  $("players").innerHTML = visible.length ? visible.map(player => `<tr class="rank-${player.rank.toLowerCase()}"><td class="standing" title="${ranked ? `${sort} rank` : "view position"} ${standings.get(player)}">#${standings.get(player)}</td><td class="rank rank-${player.rank.toLowerCase()}"><span>${player.rank}</span></td><td></td><td>Lv. ${player.level}</td><td class="power">${Intel.formatPower(player.power)}</td></tr>`).join("") : `<tr><td class="empty" colspan="5">No players match.</td></tr>`;
   visible.forEach((player, index) => {
-    const cell = $("players").rows[index].cells[1];
+    const cell = $("players").rows[index].cells[2];
     cell.textContent = player.name;
     if (player.role) cell.insertAdjacentHTML("beforeend", ` <span class="role"></span>`), cell.lastElementChild.textContent = `· ${player.role}`;
   });
