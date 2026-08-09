@@ -27,6 +27,7 @@ function metricCard(label, homeValue, opponentValue, formatter = value => value)
 function render() {
   const depth = Number($("lineup-depth").value);
   const threshold = Number($("power-threshold").value);
+  const commonDepth = Math.min(home.players.length, opponent.players.length);
   const homeTop = top(home, depth), opponentTop = top(opponent, depth);
   const homeTopPower = Intel.sum(homeTop.map(player => player.power));
   const opponentTopPower = Intel.sum(opponentTop.map(player => player.power));
@@ -34,8 +35,9 @@ function render() {
   const thresholdText = threshold ? `${threshold}M+` : "All listed";
   const thresholdIntro = threshold ? `At ${threshold}M+` : "Across all listed players";
   $("threshold-label").textContent = threshold ? `${threshold}M+` : "All power";
-  $("lineup-title").textContent = `Top ${depth} lineup`;
-  $("assessment-title").textContent = homeStats.total > opponentStats.total ? "P1MP holds a narrow roster-power edge" : "BIW holds the roster-power edge";
+  $("lineup-title").textContent = depth === commonDepth ? `Full common lineup (${depth})` : `Top ${depth} lineup`;
+  $("lineup-note").textContent = depth === commonDepth ? `BIW's ${opponent.players.length - commonDepth} lowest listed players excluded` : "Same power-ranking position compared";
+  $("assessment-title").textContent = homeStats.total > opponentStats.total ? "P1MP leads listed roster power" : "BIW leads listed roster power";
   $("assessment-note").textContent = `P1MP ${formatDelta(homeStats.total - opponentStats.total)} overall`;
   $("comparison-metrics").innerHTML = [
     metricCard("Total power", homeStats.total, opponentStats.total, Intel.formatPower),
@@ -52,8 +54,8 @@ function render() {
   const thresholdCountDelta = countAt(home, threshold) - countAt(opponent, threshold);
   const lineupDelta = homeTopPower - opponentTopPower;
   $("insights").innerHTML = `
-    <article class="insight"><strong>Overall: slight P1MP edge</strong>P1MP lists ${opponentStats.count - homeStats.count} fewer players but about ${Intel.formatPower(homeStats.total - opponentStats.total)} more power (+${((homeStats.total / opponentStats.total - 1) * 100).toFixed(1)}%). Its median is ${Intel.formatPower(homeStats.median - opponentStats.median)} higher.</article>
-    <article class="insight"><strong>Lineup depth: ${lineupDelta >= 0 ? "P1MP" : "BIW"} at top ${depth}</strong>The selected lineup totals differ by ${Intel.formatPower(Math.abs(lineupDelta))}. P1MP wins ${homeTop.filter((player,index) => player.power > (opponentTop[index]?.power ?? 0)).length} of ${Math.min(homeTop.length,opponentTop.length)} same-position matchups.</article>
+    <article class="insight"><strong>Overall: P1MP leads listed power</strong>P1MP lists ${opponentStats.count - homeStats.count} fewer players but about ${Intel.formatPower(homeStats.total - opponentStats.total)} more power (+${((homeStats.total / opponentStats.total - 1) * 100).toFixed(1)}%). Its median is ${Intel.formatPower(homeStats.median - opponentStats.median)} higher.</article>
+    <article class="insight"><strong>Lineup depth: ${lineupDelta >= 0 ? "P1MP" : "BIW"} at top ${depth}</strong>The selected lineup totals differ by ${Intel.formatPower(Math.abs(lineupDelta))}. P1MP leads ${homeTop.filter((player,index) => player.power > (opponentTop[index]?.power ?? 0)).length} of ${Math.min(homeTop.length,opponentTop.length)} same power-ranking positions.</article>
     <article class="insight"><strong>Threshold: ${thresholdCountDelta >= 0 ? "P1MP" : "BIW"} has ${Math.abs(thresholdCountDelta)} more</strong>${thresholdIntro}, P1MP has ${countAt(home,threshold)} listed members and BIW has ${countAt(opponent,threshold)}. Change the threshold to test the middle or elite band.</article>
     <article class="insight"><strong>Different strengths at the ceiling</strong>P1MP's strongest member is ${homeStats.strongest.name} at ${Intel.formatPower(homeStats.strongest.power)}; BIW reaches the higher Base level ceiling at Lv. ${opponentStats.maxLevel} versus Lv. ${homeStats.maxLevel}.</article>`;
 

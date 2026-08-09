@@ -21,8 +21,8 @@
     <header class="compare-head">
       <div><div class="eyebrow">Server-vs-server matchup</div><h1><span>#117</span> vs #116</h1><p class="lede">P1MP JU1CE is the home roster. BIW BloodWing is the opponent roster. Adjust depth and the power threshold to test different matchup slices.</p></div>
       <div class="compare-controls panel section">
-        <div><label class="label" for="lineup-depth">Lineup depth</label><select id="lineup-depth"><option>5</option><option>10</option><option selected>20</option><option>30</option><option>50</option><option>98</option></select></div>
-        <div class="range-field"><label for="power-threshold"><span>Power threshold</span><strong id="threshold-label">10M+</strong></label><input id="power-threshold" type="range" min="0" max="25" step="1" value="10"></div>
+        <div><label class="label" for="lineup-depth">Lineup depth</label><select id="lineup-depth"><option>5</option><option>10</option><option selected>20</option><option>30</option><option>50</option><option value="98">Max common (98)</option></select></div>
+        <div class="range-field"><label for="power-threshold"><span>Power threshold</span><strong id="threshold-label">10M+</strong></label><input id="power-threshold" type="range" min="0" max="32" step="1" value="10"></div>
       </div>
     </header>
 
@@ -48,7 +48,7 @@
     </section>
 
     <section class="panel section">
-      <div class="section-head"><div><div class="eyebrow">Head-to-head depth</div><h2 id="lineup-title">Top 20 lineup</h2></div><div class="note">Same roster position compared by power</div></div>
+      <div class="section-head"><div><div class="eyebrow">Power-ranking depth</div><h2 id="lineup-title">Top 20 lineup</h2></div><div id="lineup-note" class="note">Same power-ranking position compared</div></div>
       <div class="table-wrap"><table class="matchup-table"><thead><tr><th><span>#</span></th><th><span>P1MP player</span></th><th><span>Power</span></th><th><span>BIW player</span></th><th><span>Power</span></th><th><span>Edge</span></th></tr></thead><tbody id="matchups"></tbody></table></div>
     </section>
 
