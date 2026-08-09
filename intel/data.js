@@ -18,7 +18,7 @@ const alliances = {
   },
   p1mp: {
     id: "p1mp", tag: "P1MP", name: "JU1CE", server: 117, relation: "Home alliance",
-    leader: "TheRequiem", language: "Not supplied", scouted: "Roster supplied Aug 9, 2026", serverTime: "Not supplied",
+    leader: "TheRequiem", language: "Not supplied", scouted: "Aug 9, 2026 · 6:24 p.m. ET", serverTime: "Aug 9, 2026 · 8:24 p.m.",
     precision: "TheRequiem is exact; other powers were supplied rounded to 0.1M.",
     players: makePlayers([
       ["R5","TheRequiem",23,24.212272],
