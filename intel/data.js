@@ -18,8 +18,8 @@ const alliances = {
   },
   p1mp: {
     id: "p1mp", tag: "P1MP", name: "JU1CE", server: 117, relation: "Home alliance",
-    leader: "TheRequiem", language: "Not supplied", scouted: "Aug 9, 2026 · 6:24 p.m. ET", serverTime: "Aug 9, 2026 · 8:24 p.m.",
-    precision: "TheRequiem and CallMeP1MPKamil are exact; other powers were supplied rounded to 0.1M.",
+    leader: "TheRequiem", language: "English", scouted: "Aug 9, 2026 · 6:24 p.m. ET", serverTime: "Aug 9, 2026 · 8:24 p.m.",
+    precision: "",
     players: makePlayers([
       ["R5","TheRequiem",24,24.746607],
       ["R4","Jeff",19,11.5,"Butler"],["R4","T83",18,8.4],["R4","Disorder762",23,26.0,"Warlord"],["R4","PettyPimp",20,16.9,"Goddess"],["R4","MacadamiaNut",19,10.2],["R4","CallMeP1MPKamil",21,22.086973],["R4","luckyy",20,17.3],

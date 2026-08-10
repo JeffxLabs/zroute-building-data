@@ -11,6 +11,7 @@ $("insignia").textContent = alliance.tag;
 if (id === "p1mp") $("insignia").classList.add("home");
 $("alliance-name").innerHTML = `<span>[${alliance.tag}]</span> ${alliance.name}`;
 $("precision").textContent = alliance.precision;
+$("precision").hidden = !alliance.precision;
 $("server").textContent = `#${alliance.server}`;
 $("leader").textContent = alliance.leader;
 $("language").textContent = alliance.language;
